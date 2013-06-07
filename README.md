@@ -1,0 +1,4 @@
+tableroids
+==========
+
+Tableroids educational game
