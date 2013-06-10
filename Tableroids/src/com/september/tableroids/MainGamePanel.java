@@ -4,6 +4,8 @@
 package com.september.tableroids;
 
 import java.io.IOException;
+import java.util.LinkedList;
+import java.util.List;
 
 import android.content.Context;
 import android.content.res.AssetManager;
@@ -11,12 +13,16 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Point;
 import android.util.Log;
+import android.view.Display;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.view.WindowManager;
 
-import com.september.tableroids.model.ElaineAnimated;
+import com.september.tableroids.model.Sprite;
+import com.september.tableroids.model.elements.Rocket;
 
 /**
  * @author impaler
@@ -27,14 +33,20 @@ public class MainGamePanel extends SurfaceView implements
 		SurfaceHolder.Callback {
 
 	private static final String TAG = MainGamePanel.class.getSimpleName();
+	//private static final int BASE_WIDTH = 960;
 	
 	private MainThread thread;
-	private ElaineAnimated elaine;
+	//private Sprite elaine;
+	private static List<Sprite> spriteInScene;
 
 	// the fps to be displayed
 	private String avgFps;
 	public void setAvgFps(String avgFps) {
 		this.avgFps = avgFps;
+	}
+	
+	public List<Sprite> getSprites() {
+		return spriteInScene;
 	}
 
 	public MainGamePanel(Context context) {
@@ -43,15 +55,39 @@ public class MainGamePanel extends SurfaceView implements
 		getHolder().addCallback(this);
 
 		// create Elaine and load bitmap
+		if(spriteInScene == null) {
+			spriteInScene = new LinkedList<Sprite>();
+		}
 		
 		AssetManager manager = getContext().getAssets();
 		
+		WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+		Display display = wm.getDefaultDisplay();
+		Point p = new Point();
+		//int scaleSize = display.getWidth()/BASE_WIDTH;
+		//final DisplayMetrics metrics = context.getResources().getDisplayMetrics();
+//		
+//		Options myOptions = new Options();
+//		myOptions .inScaled = false;
+//		myOptions .inScreenDensity = metrics.densityDpi;
+//		myOptions .inTargetDensity = metrics.densityDpi;
+
 		try {
-			elaine = new ElaineAnimated(
-					BitmapFactory.decodeStream(manager.open("ship_116x64.png"))
-					, 10, 50	// initial position
+			Rocket rocket = new Rocket(this,
+					BitmapFactory.decodeStream (manager.open("ship_116x64.png"))
+					, display.getWidth()/2, display.getHeight()-64-5	// initial position
 					, 116, 64	// width and height of sprite
-					, 15, 4);
+					, 15, 4,1,1);
+			
+			Sprite explosion = new Sprite(this,
+					BitmapFactory.decodeStream(manager.open("explosion.png"))
+					, 10, 150	// initial position
+					, 320, 320	// width and height of sprite
+					, 15, 5,5,1);
+			
+			spriteInScene.add(rocket);
+			spriteInScene.add(explosion);
+			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -96,15 +132,18 @@ public class MainGamePanel extends SurfaceView implements
 	
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
-		if (event.getAction() == MotionEvent.ACTION_DOWN) {
-			// handle touch
+		for(Sprite sprite: spriteInScene) {
+			sprite.onTouch(event);
 		}
 		return true;
 	}
 
 	public void render(Canvas canvas) {
 		canvas.drawColor(Color.BLACK);
-		elaine.draw(canvas);
+		for(Sprite sprite: spriteInScene) {
+			sprite.draw(canvas);
+		}
+		
 		// display fps
 		displayFps(canvas, avgFps);
 	}
@@ -115,7 +154,10 @@ public class MainGamePanel extends SurfaceView implements
 	 * engine's update method.
 	 */
 	public void update() {
-		elaine.update(System.currentTimeMillis());
+		for(Sprite sprite: spriteInScene) {
+			sprite.update(System.currentTimeMillis());
+		}
+		
 	}
 
 	private void displayFps(Canvas canvas, String fps) {
