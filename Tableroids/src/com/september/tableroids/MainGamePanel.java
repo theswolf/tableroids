@@ -133,7 +133,12 @@ public class MainGamePanel extends SurfaceView implements
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
 		for(Sprite sprite: spriteInScene) {
-			sprite.onTouch(event);
+			try {
+				sprite.onTouch(event);
+			}
+			catch (Throwable t) {
+				android.util.Log.d(TAG, t.getMessage());
+			}
 		}
 		return true;
 	}
