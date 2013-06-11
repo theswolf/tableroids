@@ -1,10 +1,12 @@
 package com.september.tableroids.model.elements;
 
+import java.io.IOException;
 import java.util.LinkedList;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.view.ActionMode;
 import android.view.MotionEvent;
 
 import com.september.tableroids.MainGamePanel;
@@ -29,7 +31,7 @@ public class Rocket extends Sprite {
 	
 	private int toX;
 	private boolean moving = false;
-	private final static int INCREASE_SPEED = 10;
+	private final static int INCREASE_SPEED = 5;
 	private static int INCREASE = 10;
 	private static boolean lastDirectionRight;
 	private static Direction direction;
@@ -53,13 +55,25 @@ public class Rocket extends Sprite {
 			shoot.setPixel(1, 0, Color.YELLOW);
 			shoot.setPixel(0, 1, Color.YELLOW);
 			shoot.setPixel(2, 1, Color.YELLOW);
-			shoot.setPixel(2, 2, Color.YELLOW);
+			shoot.setPixel(1, 2, Color.YELLOW);
 			//shoot.setPixel(1, 1, Color.RED);
 			
-			Shoot left = new Shoot(panel, shoot, getX()+5, getY(), 3, 3, 1, 1, 1, 1);
-			Shoot right = new Shoot(panel, shoot, getX()+getSpriteWidth() -5 , getY(), 3, 3, 1, 1, 1, 1);
-			panel.getSprites().add(left);
-			panel.getSprites().add(right);
+			Shoot left = new Shoot(panel, shoot, getX()+5, getY(), 3, 3, 10, 1, 1, 1);
+			Shoot right = new Shoot(panel, shoot, getX()+getSpriteWidth() -5 , getY(), 3, 3, 10, 1, 1, 1);
+			panel.getSpritesToAdd().add(left);
+			panel.getSpritesToAdd().add(right);
+			
+			for(Sprite collision:getCollision()) {
+				if(!(collision instanceof Shoot)) {
+					left.addCollision(collision);
+					right.addCollision(collision);
+				}
+				
+			}
+			
+			
+			this.addCollision(left);
+			this.addCollision(right);
 			
 		}
 		else {
@@ -71,7 +85,7 @@ public class Rocket extends Sprite {
 					INCREASE+=INCREASE_SPEED;
 				}
 				else {
-					INCREASE-=INCREASE_SPEED;
+					INCREASE = Math.max(INCREASE, INCREASE-INCREASE_SPEED);
 				}
 			}
 			direction = newDirection;
@@ -82,6 +96,19 @@ public class Rocket extends Sprite {
 	@Override
 	public void update(long gameTime) { 
 		if (gameTime > frameTicker + framePeriod) {
+			
+			try {
+				panel.addAsteroids(this);
+				
+				for(Sprite s: panel.getSprites()) {
+					if(s instanceof Asteroid && !getCollision().contains(s)) {
+						
+					}
+				}
+				
+			} catch (IOException e) {
+				android.util.Log.d(TAG, e.getMessage());
+			}
 			
 			if(moving) {
 				if(toX > getX()+(getSpriteWidth()/2)) {
@@ -100,6 +127,14 @@ public class Rocket extends Sprite {
 		}
 		
 		super.update(gameTime);
+	}
+	
+	@Override
+	public void onCollide(Sprite s) {
+		if(s instanceof Asteroid) {
+			s.boom(null);
+		}
+		boom(s);
 	}
 
 }

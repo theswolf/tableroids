@@ -37,5 +37,14 @@ public class Shoot extends Sprite {
 		
 		super.update(gameTime);
 	}
+	
+	@Override
+	public void onCollide(Sprite s) { 
+		if(!(s instanceof Shoot)) {
+			s.boom(null);
+			panel.getSpritesToRemove().add(this);
+		}
+		
+	}
 
 }
