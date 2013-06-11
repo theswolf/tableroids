@@ -48,7 +48,6 @@ SurfaceHolder.Callback {
 	private static List<Sprite> spriteToAdd;
 	private static List<Sprite> spriteToRemove;
 	private final static int MAX_ENEMIES = 3;
-	private static int astrocount = 0;
 	private int width,height;
 
 	// the fps to be displayed
@@ -92,6 +91,7 @@ SurfaceHolder.Callback {
 			return null;
 		}
 	}
+	
 
 	public MainGamePanel(Context context) {
 		super(context);
@@ -198,10 +198,17 @@ SurfaceHolder.Callback {
 		setFocusable(true);
 	}
 	
-	public int addAsteroids(Sprite collider) throws IOException {
+	public int addAsteroids(Sprite collider, int astrocount) throws IOException {
 		
 		if(astrocount < MAX_ENEMIES) {
+
+		for(Sprite s:getSprites()) {
+			if(s instanceof Asteroid) {
+				astrocount ++;
+				}
+			}
 		
+		if(astrocount < MAX_ENEMIES) { 
 			Bitmap asteroidBMP = BitmapFactory.decodeStream (getContext().getAssets().open("asteroids.png"));
 			Random random = new Random();
 			//for(int x = astrocount; x< MAX_ENEMIES; x++) {
@@ -224,8 +231,11 @@ SurfaceHolder.Callback {
 					}
 				}
 				astrocount++;
+		}
+		
+			
 			//}
-				return addAsteroids(collider);
+				return addAsteroids(collider,astrocount);
 		}
 		
 		return astrocount;
@@ -324,9 +334,8 @@ SurfaceHolder.Callback {
 	public void update() {
 		
 		for(Sprite toRemove: getSpritesToRemove()) {
-			if(toRemove instanceof Asteroid) {
-				astrocount--;
-			}
+//			if(toRemove instanceof Asteroid) {
+//			}
 			getSprites().remove(toRemove);
 		}
 		
