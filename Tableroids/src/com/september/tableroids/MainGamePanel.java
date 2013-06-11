@@ -116,9 +116,10 @@ SurfaceHolder.Callback {
 		//		myOptions .inTargetDensity = metrics.densityDpi;
 
 		try {
+			Bitmap scaled = Bitmap.createScaledBitmap(BitmapFactory.decodeStream(manager.open("farback.gif")), width, height, true);
 			
 			Sprite backGround = new Sprite(this,
-					BitmapFactory.decodeStream (manager.open("farback.gif")),
+					scaled,
 					0,0,
 					width,height,
 					1,1,1,1
