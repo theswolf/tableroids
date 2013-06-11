@@ -50,6 +50,8 @@ SurfaceHolder.Callback {
 	private final static int MAX_ENEMIES = 3;
 	private static int astrocount = 0;
 	private int width,height;
+	private int ratioW;
+	private int ratioH;
 
 	// the fps to be displayed
 	private String avgFps;
@@ -107,6 +109,10 @@ SurfaceHolder.Callback {
 		Point p = new Point();
 		height = display.getHeight();
 		width = display.getWidth();
+		
+		ratioH = height > 800 ? height / 800 : 1;
+		ratioW = width > 480 ? width / 480 : 1;
+		
 		//int scaleSize = display.getWidth()/BASE_WIDTH;
 		//final DisplayMetrics metrics = context.getResources().getDisplayMetrics();
 		//		
@@ -125,10 +131,15 @@ SurfaceHolder.Callback {
 					1,1,1,1
 					);
 			
+			
+			Bitmap rocketBitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeStream (manager.open("ship_116x64.png")), 116*ratioW, 
+					64*ratioH, true);
+
+			
 			Rocket rocket = new Rocket(this,
-					BitmapFactory.decodeStream (manager.open("ship_116x64.png"))
-					, width/2, height-64-5	// initial position
-					, 116, 64	// width and height of sprite
+					rocketBitmap
+					, width/2, height-(64*ratioH)-5	// initial position
+					,  116*ratioW, 64*ratioH	// width and height of sprite
 					, 10, 4,1,1);
 			
 //			Bitmap asteroidBMP = BitmapFactory.decodeStream (manager.open("asteroids.png"));
@@ -200,11 +211,16 @@ SurfaceHolder.Callback {
 	public int addAsteroids(Sprite collider) throws IOException {
 		
 		if(astrocount < MAX_ENEMIES) {
+			
+			Bitmap rocketBitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeStream (getContext().getAssets().open("asteroids.png")), 
+					124*ratioW, 
+					123*ratioH, true);
+
 		
-			Bitmap asteroidBMP = BitmapFactory.decodeStream (getContext().getAssets().open("asteroids.png"));
+			//Bitmap asteroidBMP = BitmapFactory.decodeStream (getContext().getAssets().open("asteroids.png"));
 			Random random = new Random();
 			//for(int x = astrocount; x< MAX_ENEMIES; x++) {
-				Asteroid astro1 = new Asteroid(this,asteroidBMP
+				Asteroid astro1 = new Asteroid(this,rocketBitmap
 						,random.nextInt(width),-50-random.nextInt(10)
 						,124,123
 						,5,4,4,1
