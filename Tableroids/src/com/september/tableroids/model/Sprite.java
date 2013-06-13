@@ -3,15 +3,17 @@
  */
 package com.september.tableroids.model;
 
-import java.util.Collection;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Random;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Rect;
+import android.util.SparseArray;
 import android.view.MotionEvent;
 
 import com.september.tableroids.MainGamePanel;
@@ -38,10 +40,13 @@ public class Sprite {
 
 	private int x;				// the X coordinate of the object (top left of the image)
 	private int y;				// the Y coordinate of the object (top left of the image)
-	private List<Sprite> collision;
+	private List<Integer> collision;
 	private boolean ruledByGarbage = true;
+	private boolean dirty = false;
+	private int id;
+	private Sprite collider;
 
-	public Sprite(MainGamePanel panel,Bitmap bitmap, int x, int y, int width, int height, int fps, int horizontalFrameCount,int verticalFrameCount, int scaleSize) {
+	public Sprite(MainGamePanel panel,Bitmap bitmap, int x, int y, int fps, int horizontalFrameCount,int verticalFrameCount, int scaleSize) {
 		this.panel = panel;
 		this.bitmap = bitmap;//scaleImage(bitmap, scaleSize);
 		this.x = x;
@@ -55,8 +60,13 @@ public class Sprite {
 		sourceRect = new Rect(0, 0, spriteWidth, spriteHeight);
 		framePeriod = 1000 / fps;
 		frameTicker = 0l;
+
+		id = (new Random()).nextInt();
 	}
 
+	public int getId() {
+		return id;
+	}
 
 	public Bitmap getBitmap() {
 		return bitmap;
@@ -64,21 +74,51 @@ public class Sprite {
 	public void setBitmap(Bitmap bitmap) {
 		this.bitmap = bitmap;
 	}
+	
+	
 
-	public List<Sprite> getCollision() {
+	public Sprite getCollider() {
+		return collider;
+	}
+
+	public void setCollider(Sprite collider) {
+		this.collider = collider;
+	}
+
+	public List<Integer> getCollision() {
 		if(collision == null) {
-			setCollision(Collections.synchronizedList(new LinkedList<Sprite>()));
+			setCollision(new LinkedList<Integer>());
 		}
 		return collision;
 	}
 
 
-	public void setCollision(List<Sprite> collision) {
+
+	public boolean isDirty() {
+		return dirty;
+	}
+
+
+	public void setDirty(boolean dirty) {
+		this.dirty = dirty;
+	}
+
+
+	public void setCollision(List<Integer> collision) {
 		this.collision = collision;
 	}
 
-	public void addCollision(Sprite sprite) {
-		getCollision().add(sprite);
+	public void addCollision(Integer spriteId) {
+		if(!getCollision().contains(spriteId)) {
+			getCollision().add(spriteId);
+			if(spriteId != getId()) {
+				Sprite ref = panel.getById(spriteId);
+				if(ref != null) {
+					panel.getById(spriteId).addCollision(getId());
+				}
+			}
+		}
+			
 	}
 
 
@@ -197,31 +237,44 @@ public class Sprite {
 		// where to draw the sprite
 		getCollision();
 
-		if(panel.getSprites().contains(this)) {
-			synchronized (collision) {
-				for(Sprite collider: getCollision()) {
-					if(collide(collider)) {
-						onCollide(collider);
-					}
+		for (Iterator<Integer> iterator = getCollision().iterator(); iterator.hasNext();) {
+			synchronized (panel.spriteInScene) {
+				Sprite collide = panel.getById(iterator.next());
+				if(collide == null) {
+					iterator.remove();
 				}
-
+				else if(collide(collide))
+				{
+					setCollider(collide);
+					onCollide();
+				}
 			}
 			
 
-
-			Rect destRect = new Rect(getX(), getY(), getX() + spriteWidth, getY() + spriteHeight);
-			canvas.drawBitmap(bitmap, sourceRect, destRect, null);
-			//		canvas.drawBitmap(bitmap, 20, 150, null);
-			//		Paint paint = new Paint();
-			//		paint.setARGB(50, 0, 255, 0);
-			//		canvas.drawRect(20 + (  (currentFrame%frameNr[0]) * destRect.width()), 150, 20 + (  (currentFrame%frameNr[0]) * destRect.width()) + destRect.width(), 150 + destRect.height(),  paint);
-
 		}
+
+
+		//				for(Integer colliderId: getCollision()) {
+		//					Sprite collide = panel.getSprites().get(colliderId);
+		//					if( collide != null && collide(collide))
+		//					{
+		//						onCollide(collide);
+		//					}
+		//					
+		//
+		//			}
+
+		Rect destRect = new Rect(getX(), getY(), getX() + spriteWidth, getY() + spriteHeight);
+		canvas.drawBitmap(bitmap, sourceRect, destRect, null);
+		//		canvas.drawBitmap(bitmap, 20, 150, null);
+		//		Paint paint = new Paint();
+		//		paint.setARGB(50, 0, 255, 0);
+		//		canvas.drawRect(20 + (  (currentFrame%frameNr[0]) * destRect.width()), 150, 20 + (  (currentFrame%frameNr[0]) * destRect.width()) + destRect.width(), 150 + destRect.height(),  paint);
 
 	}
 
 
-	protected void onCollide(Sprite collider) {
+	protected void onCollide() {
 
 	}
 
@@ -229,20 +282,19 @@ public class Sprite {
 
 	}
 
-	public void boom(Sprite collider) {
+	public void boom() {
 
-		panel.getSpritesToRemove().add(this);
-		if(collider != null ) {
-			panel.getSpritesToRemove().add(collider);
-		}
-		
+		setDirty(true);
+		//		if(collider != null ) {
+		//			collider.setDirty(true);
+		//		}
 
-		Boom boom = new Boom(panel,panel.getBitmap("explosion.png"),
+
+		Boom boom = new Boom(panel,panel.getBitmapResources().get(panel.EXPLOSION),
 				getX(),getY(),
-				320,320,
 				40,5,5,1);
 
-		panel.getSpritesToAdd().add(boom);
+		panel.getSprites().add( boom);
 
 	}
 
@@ -255,11 +307,18 @@ public class Sprite {
 		if(myRect.intersect(colliderRect)) {
 			for(int i = getX(); i < getX() + spriteWidth ; i++) {
 				for(int j = getY(); j < getY() + spriteHeight ; j++) {
-					if( (i - getX()) >= 0 && (j - getY()) >= 0 && bitmap.getPixel(i - getX(), j - getY() ) != Color.TRANSPARENT) {
-						Bitmap colliderBitmap = s.getBitmap();
-						if((i-s.getX()) >= 0 && (j-s.getY()) >= 0 && (i-s.getX()) < colliderBitmap.getWidth() && (j-s.getY()) < colliderBitmap.getHeight()) {
-							if(colliderBitmap.getPixel(i-s.getX(), j-s.getY()) != Color.TRANSPARENT) {
-								return true;
+					int x1 = i - getX();
+					int y1 = j-getY();
+					if(x1 >= 0 && y1>= 0 && x1<bitmap.getWidth() && y1 < bitmap.getHeight()) {
+						if(bitmap.getPixel(x1, y1) != Color.TRANSPARENT) {
+							Bitmap colliderBitmap = s.getBitmap();
+							int x2= i-s.getX();
+							int y2 = j-s.getY();
+
+							if(x2 >= 0 && y2>=0 && x2<colliderBitmap.getWidth() && y2 < colliderBitmap.getHeight()) {
+								if(colliderBitmap.getPixel(x2,y2) != Color.TRANSPARENT) {
+									return true;
+								}
 							}
 						}
 					}

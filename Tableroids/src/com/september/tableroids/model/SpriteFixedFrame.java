@@ -7,11 +7,13 @@ import com.september.tableroids.MainGamePanel;
 
 public class SpriteFixedFrame extends Sprite{
 
+
+
 	public SpriteFixedFrame(MainGamePanel panel, Bitmap bitmap, int x, int y,
-			int width, int height, int fps, int horizontalFrameCount,
-			int verticalFrameCount, int scaleSize) {
-		super(panel, bitmap, x, y, width, height, fps, horizontalFrameCount,
-				verticalFrameCount, scaleSize);
+			int fps, int horizontalFrameCount, int verticalFrameCount,
+			int scaleSize) {
+		super(panel, bitmap, x, y, fps, horizontalFrameCount, verticalFrameCount,
+				scaleSize);
 		// TODO Auto-generated constructor stub
 	}
 

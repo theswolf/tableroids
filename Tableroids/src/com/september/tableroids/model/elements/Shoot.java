@@ -8,16 +8,16 @@ import com.september.tableroids.model.Sprite;
 
 public class Shoot extends Sprite {
 	
+	public Shoot(MainGamePanel panel, Bitmap bitmap, int x, int y, int fps,
+			int horizontalFrameCount, int verticalFrameCount, int scaleSize) {
+		super(panel, bitmap, x, y, fps, horizontalFrameCount, verticalFrameCount,
+				scaleSize);
+		// TODO Auto-generated constructor stub
+	}
+
 	private static int toY = 0;
 
-	public Shoot(MainGamePanel panel, Bitmap bitmap, int x, int y, int width,
-			int height, int fps, int horizontalFrameCount,
-			int verticalFrameCount, int scaleSize) {
-		super(panel, bitmap, x, y, width, height, fps, horizontalFrameCount,
-				verticalFrameCount, scaleSize);
-		
-		
-	}
+
 	
 	@Override
 	public void draw(Canvas canvas) {
@@ -39,12 +39,8 @@ public class Shoot extends Sprite {
 	}
 	
 	@Override
-	public void onCollide(Sprite s) { 
-		if(!(s instanceof Shoot)) {
-			s.boom(null);
-			panel.getSpritesToRemove().add(this);
-		}
-		
+	public void onCollide() { 
+		setDirty(true);
 	}
 
 }

@@ -7,13 +7,15 @@ import com.september.tableroids.model.SpriteFixedFrame;
 
 public class Asteroid extends SpriteFixedFrame{
 
-	public Asteroid(MainGamePanel panel, Bitmap bitmap, int x, int y,
-			int width, int height, int fps, int horizontalFrameCount,
-			int verticalFrameCount, int scaleSize) {
-		super(panel, bitmap, x, y, width, height, fps, horizontalFrameCount,
-				verticalFrameCount, scaleSize);
-	}
+
 	
+	public Asteroid(MainGamePanel panel, Bitmap bitmap, int x, int y, int fps,
+			int horizontalFrameCount, int verticalFrameCount, int scaleSize) {
+		super(panel, bitmap, x, y, fps, horizontalFrameCount, verticalFrameCount,
+				scaleSize);
+		// TODO Auto-generated constructor stub
+	}
+
 	@Override
 	public void update(long gameTime) { 
 		if (gameTime > frameTicker + framePeriod) {
@@ -21,6 +23,11 @@ public class Asteroid extends SpriteFixedFrame{
 		}
 		
 		super.update(gameTime);
+	}
+	
+	@Override
+	public void onCollide() {
+		boom();
 	}
 
 
