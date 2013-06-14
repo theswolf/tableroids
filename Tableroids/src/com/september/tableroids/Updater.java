@@ -27,24 +27,25 @@ public class Updater {
 		return INSTANCE;
 	}
 	
-	public synchronized void addSprites(Sprite s) {
+	public void addSprites(Sprite s) {
 		getSprites().add(s);
 	}
 
-	private synchronized List<Sprite> getSprites() {
+	private List<Sprite> getSprites() {
 		if(addList == null) {
-			addList = Collections.synchronizedList(new LinkedList<Sprite>());
+			//addList = Collections.synchronizedList(new LinkedList<Sprite>());
+			addList = new LinkedList<Sprite>();
 		}
 		return addList;
 	}
 	
-	public synchronized List<Sprite> getMirrorOfSprites() {
+	public List<Sprite> getMirrorOfSprites() {
 		List<Sprite> b = new LinkedList<Sprite>();
 		b.addAll(getSprites());
 		return b;
 	}
 	
-	public synchronized void clear() {
+	public void clear() {
 		for (Iterator<Sprite> iterator = getSprites().iterator(); iterator.hasNext();) {
 			Sprite s = iterator.next();
 			if(s.isDirty()) {
@@ -66,7 +67,7 @@ public class Updater {
 //		this.resources = resources;
 //	}
 	
-	public synchronized Sprite getById(int id) {
+	public Sprite getById(int id) {
 			for(Sprite s: getMirrorOfSprites()) {
 				if(s.getId() == id) {
 					return s;
@@ -75,7 +76,7 @@ public class Updater {
 		return null;
 	}
 	
-	public synchronized Sprite getById(int id,List<Sprite> input) {
+	public Sprite getById(int id,List<Sprite> input) {
 		for(Sprite s: input) {
 			if(s.getId() == id) {
 				return s;
