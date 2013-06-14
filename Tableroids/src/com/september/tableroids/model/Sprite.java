@@ -17,6 +17,7 @@ import android.util.SparseArray;
 import android.view.MotionEvent;
 
 import com.september.tableroids.MainGamePanel;
+import com.september.tableroids.Updater;
 import com.september.tableroids.model.elements.Boom;
 
 /**
@@ -28,7 +29,7 @@ public class Sprite {
 	private static final String TAG = Sprite.class.getSimpleName();
 
 	private Bitmap bitmap;		// the animation sequence
-	protected MainGamePanel panel;
+	//protected MainGamePanel panel;
 	protected Rect sourceRect;	// the rectangle to be drawn from the animation bitmap
 	protected int[] frameNr;		// number of frames in animation
 	protected int currentFrame;	// the current frame
@@ -46,8 +47,8 @@ public class Sprite {
 	private int id;
 	private Sprite collider;
 
-	public Sprite(MainGamePanel panel,Bitmap bitmap, int x, int y, int fps, int horizontalFrameCount,int verticalFrameCount, int scaleSize) {
-		this.panel = panel;
+	public Sprite(Bitmap bitmap, int x, int y, int fps, int horizontalFrameCount,int verticalFrameCount, int scaleSize) {
+		//this.panel = panel;
 		this.bitmap = bitmap;//scaleImage(bitmap, scaleSize);
 		this.x = x;
 		this.y = y;
@@ -85,7 +86,7 @@ public class Sprite {
 		this.collider = collider;
 	}
 
-	public List<Integer> getCollision() {
+	public synchronized List<Integer> getCollision() {
 		if(collision == null) {
 			setCollision(new LinkedList<Integer>());
 		}
@@ -112,9 +113,9 @@ public class Sprite {
 		if(!getCollision().contains(spriteId)) {
 			getCollision().add(spriteId);
 			if(spriteId != getId()) {
-				Sprite ref = panel.getById(spriteId);
+				Sprite ref = Updater.getInstance().getById(spriteId);
 				if(ref != null) {
-					panel.getById(spriteId).addCollision(getId());
+					Updater.getInstance().getById(spriteId).addCollision(getId());
 				}
 			}
 		}
@@ -237,22 +238,18 @@ public class Sprite {
 		// where to draw the sprite
 		getCollision();
 
-		for (Iterator<Integer> iterator = getCollision().iterator(); iterator.hasNext();) {
-			synchronized (panel.spriteInScene) {
-				Sprite collide = panel.getById(iterator.next());
-				if(collide == null) {
-					iterator.remove();
-				}
-				else if(collide(collide))
-				{
-					setCollider(collide);
-					onCollide();
-				}
-			}
+//		for (Iterator<Integer> iterator = getCollision().iterator(); iterator.hasNext();) {
+//				Sprite collide = panel.getById(iterator.next());
+//				if(collide == null) {
+//					iterator.remove();
+//				}
+//				else if(collide(collide))
+//				{
+//					setCollider(collide);
+//					onCollide();
+//				}
+//			}
 			
-
-		}
-
 
 		//				for(Integer colliderId: getCollision()) {
 		//					Sprite collide = panel.getSprites().get(colliderId);
@@ -274,7 +271,7 @@ public class Sprite {
 	}
 
 
-	protected void onCollide() {
+	public void onCollide() {
 
 	}
 
@@ -290,15 +287,15 @@ public class Sprite {
 		//		}
 
 
-		Boom boom = new Boom(panel,panel.getBitmapResources().get(panel.EXPLOSION),
+		Boom boom = new Boom(Updater.getInstance().getResources().get(MainGamePanel.EXPLOSION),
 				getX(),getY(),
 				40,5,5,1);
 
-		panel.getSprites().add( boom);
+		Updater.getInstance().addSprites( boom);
 
 	}
 
-	protected boolean collide(Sprite s) {
+	public boolean collide(Sprite s) {
 		if (getX()<0 && s.getX()<0 && getY()<0 && s.getY()<0) return false;
 
 		Rect myRect = new Rect(getX(), getY(), getX() + spriteWidth, getY() + spriteHeight);

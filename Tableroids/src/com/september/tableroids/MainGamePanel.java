@@ -48,8 +48,8 @@ SurfaceHolder.Callback {
 
 	private MainThread thread;
 	//private Sprite elaine;
-	public List<Sprite> spriteInScene;
-	private static List<Sprite> spriteToAdd;
+	//private List<Sprite> spriteInScene;
+	//private static List<Sprite> spriteToAdd;
 	//private static List<Sprite> spriteToRemove;
 	private final static int MAX_ENEMIES = 3;
 
@@ -62,18 +62,18 @@ SurfaceHolder.Callback {
 	public final static int ASTEROID = 2;
 	public final static int SHOOT = 3;
 	public final static int EXPLOSION = 4;
-	private SparseArray<Bitmap> bitmapResources;
+	//private SparseArray<Bitmap> bitmapResources;
 
 	public void setAvgFps(String avgFps) {
 		this.avgFps = avgFps;
 	}
 
-	public SparseArray<Bitmap> getBitmapResources() {
-		if(bitmapResources == null) {
-			bitmapResources = new SparseArray<Bitmap>();
-		}
-		return bitmapResources;
-	}
+//	public SparseArray<Bitmap> getBitmapResources() {
+//		if(bitmapResources == null) {
+//			bitmapResources = new SparseArray<Bitmap>();
+//		}
+//		return bitmapResources;
+//	}
 	
 	public static int computeSquareSize (int screenWidth, int screenHeight, int gameWidth, int gameHeight)
 	{
@@ -91,17 +91,7 @@ SurfaceHolder.Callback {
 		return widthRatio > 0 ? widthRatio : 1;
 	}
 	
-	public Sprite getById(int id) {
-		synchronized (spriteInScene) {
-			for(Sprite s: getSprites()) {
-				if(s.getId() == id) {
-					return s;
-				}
-			}
-			return null;
-		}
-		
-	}
+	
 
 	public void loadResources() {
 		
@@ -172,19 +162,17 @@ SurfaceHolder.Callback {
 	}
 
 	public void setBitmapResources(int id,Bitmap resource) {
-		getBitmapResources().append(id, resource);
+		Updater.getInstance().getResources().append(id, resource);
 	}
 
-	public  List<Sprite> getSprites() {
-		if(spriteInScene == null) {
-			spriteInScene = Collections.synchronizedList(new LinkedList<Sprite>());
-			//spriteInScene = new SparseArray<Sprite>();
-		}
-		synchronized (spriteInScene) {
-			return spriteInScene;
-		}
-		
-	}
+//	public synchronized List<Sprite> getSprites() {
+//		if(spriteInScene == null) {
+//			spriteInScene = Collections.synchronizedList(new LinkedList<Sprite>());
+//			//spriteInScene = new SparseArray<Sprite>();
+//		}
+//			return spriteInScene;
+//		
+//	}
 
 //	public List<Sprite> getSpritesToAdd() {
 //		if(spriteToAdd == null) {
@@ -193,10 +181,10 @@ SurfaceHolder.Callback {
 //		return spriteToAdd;
 //	}
 
-	public void resetLists() {
-		spriteToAdd = null;
-		//spriteToRemove = null;
-	}
+//	public void resetLists() {
+//		spriteToAdd = null;
+//		//spriteToRemove = null;
+//	}
 
 //	public List<Sprite> getSpritesToRemove() {
 //		if(spriteToRemove == null) {
@@ -239,13 +227,12 @@ SurfaceHolder.Callback {
 
 		loadResources();
 
-		Sprite backGround = new Sprite(this,
-				getBitmapResources().get(BACKGROUND),
+		Sprite backGround = new Sprite(Updater.getInstance().getResources().get(BACKGROUND),
 				0,0,
 				1,1,1,1
 				);
 
-		Bitmap rocketBM = getBitmapResources().get(ROCKET);
+		Bitmap rocketBM = Updater.getInstance().getResources().get(ROCKET);
 		
 		Rocket rocket = new Rocket(this,
 				rocketBM
@@ -256,8 +243,8 @@ SurfaceHolder.Callback {
 
 //		getSprites().append(backGround.getId(), backGround);
 //		getSprites().append(rocket.getId(),rocket);
-		getSprites().add(backGround);
-		getSprites().add(rocket);
+		Updater.getInstance().addSprites(backGround);
+		Updater.getInstance().addSprites(rocket);
 		thread = new MainThread(getHolder(), this);
 
 		setFocusable(true);
@@ -281,19 +268,18 @@ SurfaceHolder.Callback {
 		int astrocount = 0;
 		
 		if(collider != null) {
-			for(int x = 0; x<getSprites().size(); x++) {
-				Sprite s = getSprites().get(x);
+			
+			for(Sprite s: Updater.getInstance().getMirrorOfSprites()) {
 				if(s instanceof Asteroid) {
 					astrocount ++;
 				}
-				
 			}
 			
 			for(int x = astrocount; x < MAX_ENEMIES ; x++) {
 				Random random = new Random();
 				//for(int x = astrocount; x< MAX_ENEMIES; x++) {
 				Asteroid astro1 = new Asteroid(this,
-						getBitmapResources().get(ASTEROID)
+						 Updater.getInstance().getResources().get(ASTEROID)
 						,random.nextInt(gameWidth),-50-random.nextInt(10)
 						//,random.nextInt(gameWidth),0
 						,5,4,4,1
@@ -302,18 +288,15 @@ SurfaceHolder.Callback {
 				astro1.setFixedFrame(random.nextInt(15));
 				astro1.setRuledByGarbage(false);
 				
-				getSprites().add(astro1);
+				Updater.getInstance().addSprites(astro1);
 				
 				collider.addCollision(astro1.getId());
 				
-				for(int y = 0; y < getSprites().size(); y++) {
-					Sprite s = getSprites().get(y);
+				for(Sprite s: Updater.getInstance().getMirrorOfSprites()) {
 					if(s instanceof Shoot) {
 						s.addCollision(astro1.getId());
 					}
-				}
-				
-				
+				}		
 				
 			}
 
@@ -355,10 +338,11 @@ SurfaceHolder.Callback {
 	@Override
 	public boolean onTouchEvent(final MotionEvent event) {
 		if(event.getAction() == MotionEvent.ACTION_DOWN) {
-				for(int x = 0; x < getSprites().size(); x++) {
-					Sprite s = getSprites().get(x);
-					s.onTouch(event);
-				}
+			
+			for(Sprite s:Updater.getInstance().getMirrorOfSprites()) {
+				s.onTouch(event);
+			}
+			
 		}
 		return true;
 	}
@@ -367,12 +351,33 @@ SurfaceHolder.Callback {
 		canvas.drawColor(Color.BLACK);
 		garbage(canvas);
 		
-		synchronized (spriteInScene) {
-			for(int x = 0; x < getSprites().size(); x++) {
-				Sprite s = getSprites().get(x);
-					s.draw(canvas);
+//			for(int x = 0; x < getSprites().size(); x++) {
+//				Sprite s = getSprites().get(x);
+//					s.draw(canvas);
+//				}
+		
+			List<Sprite> mirror1 = Updater.getInstance().getMirrorOfSprites();
+			List<Sprite> mirror2 = Updater.getInstance().getMirrorOfSprites();
+			
+			for(Sprite s: mirror1) {
+				
+				for (Iterator<Integer> iterator = s.getCollision().iterator(); iterator.hasNext();) {
+					
+					Sprite collide = Updater.getInstance().getById(iterator.next(),mirror2);
+					if(collide == null) {
+						iterator.remove();
+					}
+					else if(s.collide(collide))
+					{
+						s.setCollider(collide);
+						s.onCollide();
+					}
 				}
-		}
+				
+				
+				
+				s.draw(canvas);
+			}
 		
 		
 //		for (Iterator<Sprite> iterator = getSprites().iterator(); iterator.hasNext();) {
@@ -390,9 +395,7 @@ SurfaceHolder.Callback {
 	 */
 
 	private void garbage(Canvas canvas) {
-		
-		for(int x = 0; x < getSprites().size(); x++) {
-			Sprite sprite = getSprites().get(x);
+		for(Sprite sprite: Updater.getInstance().getMirrorOfSprites()) {
 			if((new Rect(0, 0, canvas.getWidth(), canvas.getHeight())).intersect(new Rect(sprite.getX(),sprite.getY(),sprite.getX()+sprite.getSpriteWidth(),sprite.getY()+sprite.getSpriteHeight()))) {
 				sprite.setRuledByGarbage(true);
 			}
@@ -408,45 +411,19 @@ SurfaceHolder.Callback {
 
 	private Rocket getRocket() {
 		
-		
-		
-		for(int x = 0; x < getSprites().size(); x++) {
-			Sprite s = getSprites().get(x);
+		for(Sprite s: Updater.getInstance().getMirrorOfSprites()) {
 			if(s instanceof Rocket) {
 				return (Rocket) s;
 			}
 		}
 		return null;
+		
 	}
 
 	public void update() {
-
-
-		//getSprites().removeAll(getSpritesToRemove());
-		
-		
-		
-		//getSprites().addAll(getSpritesToAdd());
 		
 		List<Integer> toRemove = new ArrayList<Integer>();
-	
-		
-		
-		
-		for (Iterator<Sprite> iterator = getSprites().iterator(); iterator.hasNext();) {
-			Sprite sprite = iterator.next();
-			if(sprite.isDirty()) {
-				iterator.remove();
-			}
-			
-		}
-
-//		for (Sprite sprite: getSprites()) {
-//			sprite.getCollision().removeAll(getSpritesToRemove());
-//		}
-
-
-		resetLists();
+		Updater.getInstance().clear();
 		
 		try {
 			addAsteroids(getRocket());
@@ -458,8 +435,7 @@ SurfaceHolder.Callback {
 		
 		long time = System.currentTimeMillis();
 		
-		for(int x = 0; x < getSprites().size(); x++) {
-			Sprite s = getSprites().get(x);
+		for(Sprite s: Updater.getInstance().getMirrorOfSprites()) {
 			s.update(time);
 		}
 

@@ -12,7 +12,7 @@ public class SpriteFixedFrame extends Sprite{
 	public SpriteFixedFrame(MainGamePanel panel, Bitmap bitmap, int x, int y,
 			int fps, int horizontalFrameCount, int verticalFrameCount,
 			int scaleSize) {
-		super(panel, bitmap, x, y, fps, horizontalFrameCount, verticalFrameCount,
+		super(bitmap, x, y, fps, horizontalFrameCount, verticalFrameCount,
 				scaleSize);
 		// TODO Auto-generated constructor stub
 	}
