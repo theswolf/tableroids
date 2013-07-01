@@ -179,7 +179,7 @@ public class MainThread extends Thread {
 			statusIntervalTimer = 0;
 			frameCountPerStatCycle = 0;
 //			Log.d(TAG, "Average FPS:" + df.format(averageFps));
-			gamePanel.setAvgFps(df.format(averageFps));
+			gamePanel.setAvgFps("FPS: " + df.format(averageFps));
 		}
 	}
 

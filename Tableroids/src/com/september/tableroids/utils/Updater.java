@@ -1,4 +1,4 @@
-package com.september.tableroids;
+package com.september.tableroids.utils;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -27,22 +27,16 @@ public class Updater {
 		return INSTANCE;
 	}
 	
-	public void addSprites(Sprite s) {
+	public void addSprite(Sprite s) {
 		getSprites().add(s);
 	}
 
-	private List<Sprite> getSprites() {
+	public List<Sprite> getSprites() {
 		if(addList == null) {
 			//addList = Collections.synchronizedList(new LinkedList<Sprite>());
 			addList = new LinkedList<Sprite>();
 		}
 		return addList;
-	}
-	
-	public List<Sprite> getMirrorOfSprites() {
-		List<Sprite> b = new LinkedList<Sprite>();
-		b.addAll(getSprites());
-		return b;
 	}
 	
 	public void clear() {
@@ -68,7 +62,7 @@ public class Updater {
 //	}
 	
 	public Sprite getById(int id) {
-			for(Sprite s: getMirrorOfSprites()) {
+			for(Sprite s: getSprites()) {
 				if(s.getId() == id) {
 					return s;
 				}
@@ -76,14 +70,14 @@ public class Updater {
 		return null;
 	}
 	
-	public Sprite getById(int id,List<Sprite> input) {
-		for(Sprite s: input) {
-			if(s.getId() == id) {
-				return s;
-			}
-		}
-	return null;
-}
+//	public Sprite getById(int id,List<Sprite> input) {
+//		for(Sprite s: input) {
+//			if(s.getId() == id) {
+//				return s;
+//			}
+//		}
+//	return null;
+//}
 	
 	
 	

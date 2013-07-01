@@ -10,8 +10,8 @@ import android.view.ActionMode;
 import android.view.MotionEvent;
 
 import com.september.tableroids.MainGamePanel;
-import com.september.tableroids.Updater;
 import com.september.tableroids.model.Sprite;
+import com.september.tableroids.utils.Updater;
 
 public class Rocket extends Sprite {
 	
@@ -52,29 +52,29 @@ public class Rocket extends Sprite {
 		bmp.setPixel(0, 0, Color.BLACK);
 		Sprite temp = new Sprite(bmp, (int)event.getX(), (int)event.getY(), 1, 1, 1, 1);
 		if(collide(temp) || ( (int) event.getY() ) > getY()+getSpriteHeight()/3) {
-			android.util.Log.d(TAG, "Collision detected");
-			
-			
-			Shoot left = new Shoot( Updater.getInstance().getResources().get(MainGamePanel.SHOOT), getX()+5, getY(), 10, 1, 1, 1);
-			Shoot right = new Shoot(  Updater.getInstance().getResources().get(MainGamePanel.SHOOT), getX()+getSpriteWidth() -5 , getY(), 10, 1, 1, 1);
-//			panel.getSpritesToAdd().add(left);
-//			panel.getSpritesToAdd().add(right);
-			
-			Updater.getInstance().addSprites(left);
-			Updater.getInstance().addSprites(right);
-			
-			for(Integer collisionId:getCollision()) {
-				Sprite collide = Updater.getInstance().getById(collisionId);
-				if(collide != null && !(collide instanceof Shoot)) {
-					left.addCollision(collide.getId());
-					right.addCollision(collide.getId());
-				}
-				
-			}
-			
-			
-			this.addCollision(left.getId());
-			this.addCollision(right.getId());
+//			android.util.Log.d(TAG, "Collision detected");
+//			
+//			
+////			Shoot left = new Shoot( Updater.getInstance().getResources().get(MainGamePanel.SHOOT), getX()+5, getY(), 10, 1, 1, 1);
+////			Shoot right = new Shoot(  Updater.getInstance().getResources().get(MainGamePanel.SHOOT), getX()+getSpriteWidth() -5 , getY(), 10, 1, 1, 1);
+//////			panel.getSpritesToAdd().add(left);
+////			panel.getSpritesToAdd().add(right);
+//			
+//			Updater.getInstance().addSprites(left);
+//			Updater.getInstance().addSprites(right);
+//			
+//			for(Integer collisionId:getCollision()) {
+//				Sprite collide = Updater.getInstance().getById(collisionId);
+//				if(collide != null && !(collide instanceof Shoot)) {
+//					left.addCollision(collide.getId());
+//					right.addCollision(collide.getId());
+//				}
+//				
+//			}
+//			
+//			
+//			this.addCollision(left.getId());
+//			this.addCollision(right.getId());
 			
 		}
 		else {
@@ -121,10 +121,10 @@ public class Rocket extends Sprite {
 	
 	@Override
 	public void onCollide() {
-		if(getCollider() != null) {
-			getCollider().boom();
-		}
-		boom();
+//		if(getCollider() != null) {
+//			getCollider().boom();
+//		}
+//		boom();
 	}
 
 }

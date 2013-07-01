@@ -27,7 +27,7 @@ public class Asteroid extends SpriteFixedFrame{
 	
 	@Override
 	public void onCollide() {
-		boom();
+
 	}
 
 

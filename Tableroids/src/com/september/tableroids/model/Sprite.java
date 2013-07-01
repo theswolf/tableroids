@@ -17,8 +17,8 @@ import android.util.SparseArray;
 import android.view.MotionEvent;
 
 import com.september.tableroids.MainGamePanel;
-import com.september.tableroids.Updater;
 import com.september.tableroids.model.elements.Boom;
+import com.september.tableroids.utils.Updater;
 
 /**
  * @author impaler
@@ -279,21 +279,6 @@ public class Sprite {
 
 	}
 
-	public void boom() {
-
-		setDirty(true);
-		//		if(collider != null ) {
-		//			collider.setDirty(true);
-		//		}
-
-
-		Boom boom = new Boom(Updater.getInstance().getResources().get(MainGamePanel.EXPLOSION),
-				getX(),getY(),
-				40,5,5,1);
-
-		Updater.getInstance().addSprites( boom);
-
-	}
 
 	public boolean collide(Sprite s) {
 		if (getX()<0 && s.getX()<0 && getY()<0 && s.getY()<0) return false;
