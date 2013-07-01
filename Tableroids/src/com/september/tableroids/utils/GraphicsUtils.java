@@ -15,8 +15,16 @@ public class GraphicsUtils {
 	/**
 	 * @param args
 	 */
+	
+	public static int ONEPERCENTHEIGHT;
+	public static int ONEPERCENTWIDTH;
+	
 	public static int[] getScreenSize(Activity activity) {
 		Display display = activity.getWindowManager().getDefaultDisplay();
+		
+		ONEPERCENTHEIGHT = getOnePInPercent(display.getHeight(),1);
+		ONEPERCENTWIDTH =  getOnePInPercent(display.getWidth(),1);
+		
 		return new int[]{display.getWidth(), display.getHeight()};
 	}
 	
@@ -29,7 +37,7 @@ public class GraphicsUtils {
 
 		AssetManager manager = activity.getAssets();
 
-		Bitmap bitmap = loadImage(manager, "farback.gif", width, height, true,1);
+		Bitmap bitmap = loadImage(manager, resourceName, width, height, true,1);
 		setBitmapResources(resourceName.hashCode(), bitmap);
 
 
@@ -71,6 +79,11 @@ public class GraphicsUtils {
 		} catch (IOException e) {
 			return null;
 		}
+	}
+	
+	public static int getOnePInPercent(int value,int scaleSize) {
+		//1:100=x:380
+		return (value*scaleSize)/100;
 	}
 
 }

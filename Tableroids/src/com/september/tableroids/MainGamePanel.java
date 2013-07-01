@@ -3,6 +3,7 @@
  */
 package com.september.tableroids;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -27,6 +28,7 @@ public class MainGamePanel extends SurfaceView implements
 	private static final String TAG = MainGamePanel.class.getSimpleName();
 	
 	private MainThread thread;
+	private Context context;
 
 	// the fps to be displayed
 	private String avgFps;
@@ -46,7 +48,7 @@ public class MainGamePanel extends SurfaceView implements
 //				, 30, 47	// width and height of sprite
 //				, 5, 5);	// FPS and number of frames in the animation
 		
-		GameBuilder.build();
+		GameBuilder.build((Activity)context);
 		
 		// create the game loop thread
 		thread = new MainThread(getHolder(), this);

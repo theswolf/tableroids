@@ -1,12 +1,11 @@
 package com.september.tableroids.utils;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.util.SparseArray;
 
 import com.september.tableroids.model.Sprite;
@@ -16,6 +15,7 @@ public class Updater {
 	private static  Updater INSTANCE;
 	private List<Sprite> addList;
 	private SparseArray<Bitmap> resources;
+	private Canvas canvas;
 	
 	private Updater() {
 	}
@@ -68,6 +68,14 @@ public class Updater {
 				}
 			}
 		return null;
+	}
+
+	public Canvas getCanvas() {
+		return canvas;
+	}
+
+	public void setCanvas(Canvas canvas) {
+		this.canvas = canvas;
 	}
 	
 //	public Sprite getById(int id,List<Sprite> input) {

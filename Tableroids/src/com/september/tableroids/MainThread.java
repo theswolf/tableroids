@@ -5,6 +5,8 @@ package com.september.tableroids;
 
 import java.text.DecimalFormat;
 
+import com.september.tableroids.utils.Updater;
+
 import android.graphics.Canvas;
 import android.util.Log;
 import android.view.SurfaceHolder;
@@ -89,6 +91,7 @@ public class MainThread extends Thread {
 			// in the surface
 			try {
 				canvas = this.surfaceHolder.lockCanvas();
+				Updater.getInstance().setCanvas(canvas);
 				synchronized (surfaceHolder) {
 					beginTime = System.currentTimeMillis();
 					framesSkipped = 0;	// resetting the frames skipped

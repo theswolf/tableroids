@@ -17,21 +17,20 @@ import android.util.SparseArray;
 import android.view.MotionEvent;
 
 import com.september.tableroids.MainGamePanel;
-import com.september.tableroids.model.elements.Boom;
 import com.september.tableroids.utils.Updater;
 
 /**
  * @author impaler
  *
  */
-public class Sprite {
+public abstract class Sprite {
 
 	private static final String TAG = Sprite.class.getSimpleName();
 
 	private Bitmap bitmap;		// the animation sequence
 	//protected MainGamePanel panel;
 	protected Rect sourceRect;	// the rectangle to be drawn from the animation bitmap
-	protected int[] frameNr;		// number of frames in animation
+	protected int frameNr;		// number of frames in animation
 	protected int currentFrame;	// the current frame
 	protected long frameTicker;	// the time of the last frame update
 	protected int framePeriod;	// milliseconds between each frame (1000/fps)
@@ -47,20 +46,18 @@ public class Sprite {
 	private int id;
 	private Sprite collider;
 
-	public Sprite(Bitmap bitmap, int x, int y, int fps, int horizontalFrameCount,int verticalFrameCount, int scaleSize) {
-		//this.panel = panel;
-		this.bitmap = bitmap;//scaleImage(bitmap, scaleSize);
+	public Sprite(Bitmap bitmap, int x, int y, int width, int height, int fps, int frameCount) {
+		this.bitmap = bitmap;
 		this.x = x;
 		this.y = y;
 		currentFrame = 0;
-		frameNr = new int[2];
-		frameNr[0] = horizontalFrameCount;
-		frameNr[1] = verticalFrameCount;
-		spriteWidth = this.bitmap.getWidth() / horizontalFrameCount;
-		spriteHeight = this.bitmap.getHeight() / verticalFrameCount;
+		frameNr = frameCount;
+		spriteWidth = bitmap.getWidth() / frameCount;
+		spriteHeight = bitmap.getHeight();
 		sourceRect = new Rect(0, 0, spriteWidth, spriteHeight);
 		framePeriod = 1000 / fps;
 		frameTicker = 0l;
+	
 
 		id = (new Random()).nextInt();
 	}
@@ -140,11 +137,11 @@ public class Sprite {
 	public void setSourceRect(Rect sourceRect) {
 		this.sourceRect = sourceRect;
 	}
-	public int[] getFrameNr() {
+	public int getFrameNr() {
 		return frameNr;
 	}
-	public void setFrameNr(int pos, int frameNr) {
-		this.frameNr[pos] = frameNr;
+	public void setFrameNr(int frameNr) {
+		this.frameNr = frameNr;
 	}
 	public int getCurrentFrame() {
 		return currentFrame;
@@ -183,83 +180,31 @@ public class Sprite {
 		this.y = y;
 	}
 
-	protected int[] findInMatrix(int position) {
-		int[] ret = new int[2];
-		int counter = 0;
-		for(int y = 0; y< frameNr[1]; y++) {
-			for(int x = 0; x< frameNr[0]; x++) {
-				counter++;
-				if(counter == position) {
-					ret[0] = x;
-					ret[1] = y;
-				}
-			}
-		}
-		return ret;
-	}
+	protected abstract void doUpdate();
 
-	// the update method for Elaine
 	public void update(long gameTime) {
 
-
-
-		int[] evaluated = findInMatrix(currentFrame);
-
+		
 		if (gameTime > frameTicker + framePeriod) {
 			frameTicker = gameTime;
 			// increment the frame
 			currentFrame++;
-
-			if (currentFrame >= frameNr[0]*frameNr[1]) {
+			if (currentFrame >= frameNr) {
 				currentFrame = 0;
 			}
+			
+			doUpdate();
 		}
-
 		// define the rectangle to cut out sprite
-		this.sourceRect.left = (evaluated[0]) * spriteWidth;
+		this.sourceRect.left = currentFrame * spriteWidth;
 		this.sourceRect.right = this.sourceRect.left + spriteWidth;
-
-		this.sourceRect.top = (evaluated[1]) * spriteHeight;
-		this.sourceRect.bottom = this.sourceRect.top +spriteHeight;
+		
 	}
 
 
-
-	//	private Bitmap scaleImage(Bitmap bitmap, int ratio) 
-	//	{
-	//		Bitmap newBitmap;
-	//
-	//		newBitmap = Bitmap.createScaledBitmap(bitmap, bitmap.getWidth()/ratio, bitmap.getHeight()/ratio, false);
-	//		return newBitmap;
-	//	}
-
-	// the draw method which draws the corresponding frame
 	public void draw(Canvas canvas) {
-		// where to draw the sprite
+		
 		getCollision();
-
-//		for (Iterator<Integer> iterator = getCollision().iterator(); iterator.hasNext();) {
-//				Sprite collide = panel.getById(iterator.next());
-//				if(collide == null) {
-//					iterator.remove();
-//				}
-//				else if(collide(collide))
-//				{
-//					setCollider(collide);
-//					onCollide();
-//				}
-//			}
-			
-
-		//				for(Integer colliderId: getCollision()) {
-		//					Sprite collide = panel.getSprites().get(colliderId);
-		//					if( collide != null && collide(collide))
-		//					{
-		//						onCollide(collide);
-		//					}
-		//					
-		//
-		//			}
 
 		Rect destRect = new Rect(getX(), getY(), getX() + spriteWidth, getY() + spriteHeight);
 		canvas.drawBitmap(bitmap, sourceRect, destRect, null);
@@ -271,13 +216,9 @@ public class Sprite {
 	}
 
 
-	public void onCollide() {
+	public abstract void onCollide();
 
-	}
-
-	public void onTouch(MotionEvent event) {
-
-	}
+	public abstract void onTouch(MotionEvent event);
 
 
 	public boolean collide(Sprite s) {
