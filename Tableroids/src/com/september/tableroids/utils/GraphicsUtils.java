@@ -18,14 +18,22 @@ public class GraphicsUtils {
 	
 	public static int ONEPERCENTHEIGHT;
 	public static int ONEPERCENTWIDTH;
+	private static int[] screenSize;
 	
-	public static int[] getScreenSize(Activity activity) {
-		Display display = activity.getWindowManager().getDefaultDisplay();
+	public static int[] getScreenSize() {
+//		Display display = activity.getWindowManager().getDefaultDisplay();
+//		
+//		ONEPERCENTHEIGHT = getOnePInPercent(display.getHeight(),1);
+//		ONEPERCENTWIDTH =  getOnePInPercent(display.getWidth(),1);
 		
-		ONEPERCENTHEIGHT = getOnePInPercent(display.getHeight(),1);
-		ONEPERCENTWIDTH =  getOnePInPercent(display.getWidth(),1);
-		
-		return new int[]{display.getWidth(), display.getHeight()};
+		return screenSize;
+	}
+	
+	public static void setScreenSize(int w, int h) {
+		screenSize = new int[]{w,h};
+		ONEPERCENTHEIGHT = getOnePInPercent(h,1);
+		ONEPERCENTWIDTH =  getOnePInPercent(w,1);
+		//return screenSize;
 	}
 	
 	public void loadResource(Activity activity,String resourceName,int width,int height) {

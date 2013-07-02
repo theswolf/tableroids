@@ -15,6 +15,7 @@ import android.view.SurfaceView;
 
 import com.september.tableroids.builder.GameBuilder;
 import com.september.tableroids.model.Sprite;
+import com.september.tableroids.utils.GraphicsUtils;
 import com.september.tableroids.utils.Updater;
 
 /**
@@ -35,6 +36,18 @@ public class MainGamePanel extends SurfaceView implements
 	public void setAvgFps(String avgFps) {
 		this.avgFps = avgFps;
 	}
+	
+	 @Override
+	    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+	        super.onSizeChanged(w, h, oldw, oldh);
+	        GraphicsUtils.setScreenSize(w,h);
+	    }
+
+	    @Override
+	    protected void onDraw(Canvas canvas) {
+	       super.onDraw(canvas);
+	       GraphicsUtils.setScreenSize(canvas.getWidth(),canvas.getHeight());
+	    }
 
 	public MainGamePanel(Context context) {
 		super(context);

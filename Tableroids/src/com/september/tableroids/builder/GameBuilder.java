@@ -21,7 +21,7 @@ public class GameBuilder {
 	
 	public static void build(Activity activity) {
 		Updater up = Updater.getInstance();
-		int[] dim = GraphicsUtils.getScreenSize(activity);
+		int[] dim = GraphicsUtils.getScreenSize();
 //		int x = dim[0];
 //		int y = dim[1];
 		
