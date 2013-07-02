@@ -43,7 +43,7 @@ public class GameBuilder {
 		
 		
 		Bitmap smileySprites = GraphicsUtils.getBitmapResources(Constants.SMILE_BITMAP,"smiley_sprites.png", activity);
-		Bitmap sadSprites = GraphicsUtils.getBitmapResources(Constants.SMILE_BITMAP,"smiley_sad_sprites.png", activity);
+		Bitmap sadSprites = GraphicsUtils.getBitmapResources(Constants.SAD_BITMAP,"smiley_sad_sprites.png", activity);
 		
 		for(int x = 0; x< 20; x++) {
 			
