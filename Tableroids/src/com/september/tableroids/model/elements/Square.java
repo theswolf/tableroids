@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Paint.Style;
 import android.view.MotionEvent;
 
 import com.september.tableroids.model.Sprite;
@@ -15,27 +16,63 @@ import com.september.tableroids.utils.Updater;
 public class Square extends Sprite{
 
 	Random r;
+	Integer value;
 	
-	public Square(Bitmap bitmap, int x, int y, int width, int height, int fps, int frameCount) {
-		super(bitmap,  x,  y,  width,  height,  fps,  frameCount);
+	
+	
+	
+	public Random getR() {
+		if(r == null) {
+			setR(new Random());
+		}
+		return r;
+	}
+
+	public void setR(Random r) {
+		this.r = r;
+	}
+
+	public Integer getValue() {
+		if(value == null) {
+			setValue(getR().nextInt(9)+1);
+		}
+		return value;
+	}
+
+	public void setValue(Integer value) {
+		this.value = value;
+	}
+
+	public Square(Bitmap bitmap, int x, int y, int fps, int[] frameCount) {
+		super(bitmap,  x,  y, fps,  frameCount);
 		r = new Random();
 	}
 	
 	private void drawtext(Canvas canvas) {
-		int value = r.nextInt(8)+1;
+		
+		Paint circlePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+		circlePaint.setColor(Color.BLUE);
+		circlePaint.setStyle(Style.STROKE);
+		circlePaint.setStrokeWidth(5L);
+		Updater.getInstance().getCanvas().drawCircle(getX()+(getSpriteWidth()/2), getY()+(getSpriteHeight()/2), getSpriteHeight()/2, circlePaint);
+		
+		circlePaint.setColor(Color.CYAN);
+		circlePaint.setStyle(Style.FILL);
+		Updater.getInstance().getCanvas().drawCircle(getX()+(getSpriteWidth()/2), getY()+(getSpriteHeight()/2), getSpriteHeight()/2, circlePaint);
+		
 		Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
-		paint.setColor(Color.BLACK);
+		paint.setColor(Color.WHITE);
         paint.setTextSize(getSpriteHeight());
-        paint.setShadowLayer(1f, 0f, 1f, Color.DKGRAY);
-        int tW = (int) paint.measureText(""+value);
+        paint.setShadowLayer(1f, 0f, 1f, Color.GRAY);
+        int tW = (int) paint.measureText(""+getValue());
         int spacer = ((getSpriteWidth()-tW)/2);
-		Updater.getInstance().getCanvas().drawText(""+value, getX()+spacer, getY()+getSpriteHeight()-(spacer/2), paint);
+		Updater.getInstance().getCanvas().drawText(""+getValue(), getX()+spacer, getY()+getSpriteHeight()-(spacer/2), paint);
 	}
 
 	@Override
 	protected void doUpdate() {
-		drawtext(Updater.getInstance().getCanvas());
-		
+		//drawtext(Updater.getInstance().getCanvas());
+		setValue(null);
 	}
 	
 	@Override

@@ -12,6 +12,7 @@ import java.util.Random;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.Rect;
 import android.util.SparseArray;
 import android.view.MotionEvent;
@@ -30,7 +31,7 @@ public abstract class Sprite {
 	private Bitmap bitmap;		// the animation sequence
 	//protected MainGamePanel panel;
 	protected Rect sourceRect;	// the rectangle to be drawn from the animation bitmap
-	protected int frameNr;		// number of frames in animation
+	protected int[] frameNr;		// number of frames in animation
 	protected int currentFrame;	// the current frame
 	protected long frameTicker;	// the time of the last frame update
 	protected int framePeriod;	// milliseconds between each frame (1000/fps)
@@ -45,15 +46,19 @@ public abstract class Sprite {
 	private boolean dirty = false;
 	private int id;
 	private Sprite collider;
+	
+	private boolean resized = false;
+	
+	private int scaleWidth;
 
-	public Sprite(Bitmap bitmap, int x, int y, int width, int height, int fps, int frameCount) {
+	public Sprite(Bitmap bitmap, int x, int y, int fps, int[] frameCount) {
 		this.bitmap = bitmap;
 		this.x = x;
 		this.y = y;
 		currentFrame = 0;
 		frameNr = frameCount;
-		spriteWidth = bitmap.getWidth() / frameCount;
-		spriteHeight = bitmap.getHeight();
+		spriteWidth = bitmap.getWidth() / frameCount[0];
+		spriteHeight = bitmap.getHeight() / frameCount[1];
 		sourceRect = new Rect(0, 0, spriteWidth, spriteHeight);
 		framePeriod = 1000 / fps;
 		frameTicker = 0l;
@@ -64,6 +69,17 @@ public abstract class Sprite {
 
 	public int getId() {
 		return id;
+	}
+	
+	
+
+	public int getScaleWidth() {
+		return scaleWidth;
+	}
+
+	public void setScaleWidth(int scaleWidth) {
+		this.resized = true;
+		this.scaleWidth = scaleWidth;
 	}
 
 	public Bitmap getBitmap() {
@@ -137,10 +153,10 @@ public abstract class Sprite {
 	public void setSourceRect(Rect sourceRect) {
 		this.sourceRect = sourceRect;
 	}
-	public int getFrameNr() {
+	public int[] getFrameNr() {
 		return frameNr;
 	}
-	public void setFrameNr(int frameNr) {
+	public void setFrameNr(int[] frameNr) {
 		this.frameNr = frameNr;
 	}
 	public int getCurrentFrame() {
@@ -181,6 +197,25 @@ public abstract class Sprite {
 	}
 
 	protected abstract void doUpdate();
+	
+	private int[] findInMatrix(int currentFrame) {
+		int counterX = 0;
+		int counterY = 0;
+		for(int x = 0; x<currentFrame; x++) {
+			if(x == currentFrame) {
+				return new int[]{counterX,counterY};
+			}
+			else {
+				if(x % frameNr[0] == 0 ) {
+					counterX++;
+				}
+				if(x % frameNr[1] == 0 ) {
+					counterY++;
+				}
+			}
+		}
+		return new int[]{counterX,counterY};
+	}
 
 	public void update(long gameTime) {
 
@@ -189,25 +224,43 @@ public abstract class Sprite {
 			frameTicker = gameTime;
 			// increment the frame
 			currentFrame++;
-			if (currentFrame >= frameNr) {
+			if (currentFrame >= frameNr[0]*frameNr[1]) {
 				currentFrame = 0;
 			}
 			
 			doUpdate();
 		}
-		// define the rectangle to cut out sprite
-		this.sourceRect.left = currentFrame * spriteWidth;
-		this.sourceRect.right = this.sourceRect.left + spriteWidth;
+
+		
+		cutOut();
 		
 	}
 
+	protected void cutOut() {
+		
+		// define the rectangle to cut out sprite
+//		this.sourceRect.left = currentFrame * spriteWidth;
+//		this.sourceRect.right = this.sourceRect.left + spriteWidth;
+		
+		this.sourceRect.left = findInMatrix(currentFrame)[0] * spriteWidth;
+		this.sourceRect.right = this.sourceRect.left + spriteWidth;
+		
+		this.sourceRect.top = findInMatrix(currentFrame)[1] * spriteHeight;
+		this.sourceRect.bottom = this.sourceRect.top + spriteHeight;
+	}
 
 	public void draw(Canvas canvas) {
 		
 		getCollision();
 
-		Rect destRect = new Rect(getX(), getY(), getX() + spriteWidth, getY() + spriteHeight);
-		canvas.drawBitmap(bitmap, sourceRect, destRect, null);
+		int width = resized ? getScaleWidth() : spriteWidth;
+		int height = resized ? (getScaleWidth()*spriteHeight)/spriteWidth : spriteHeight;
+		
+		Rect destRect = new Rect(getX(), getY(), getX() + width, getY() + height);
+		
+		Paint paint = new Paint(Paint.FILTER_BITMAP_FLAG);
+		
+		canvas.drawBitmap(bitmap, sourceRect, destRect, paint);
 		//		canvas.drawBitmap(bitmap, 20, 150, null);
 		//		Paint paint = new Paint();
 		//		paint.setARGB(50, 0, 255, 0);

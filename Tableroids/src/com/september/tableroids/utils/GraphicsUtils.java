@@ -70,15 +70,25 @@ public class GraphicsUtils {
 	public static void setBitmapResources(int id,Bitmap resource) {
 		Updater.getInstance().getResources().append(id, resource);
 	}
+	
 
-
-	public static Bitmap getBitmap(String name, Activity activity) {
-		AssetManager manager = activity.getAssets();
-		try {
-			return BitmapFactory.decodeStream (manager.open(name));
-		} catch (IOException e) {
-			return null;
+	public static Bitmap getBitmapResources(int id,String name, Activity activity) {
+		
+		Bitmap bmp = Updater.getInstance().getResources().get(id);
+		
+		if(bmp == null) {
+			AssetManager manager = activity.getAssets();
+			try {
+				bmp = BitmapFactory.decodeStream (manager.open(name));
+				setBitmapResources(id, bmp);
+				return bmp;
+			} catch (IOException e) {
+				
+			}
 		}
+		
+		return bmp;
+		
 	}
 	
 	public static int getOnePInPercent(int value,int scaleSize) {
