@@ -43,26 +43,40 @@ public class GameBuilder {
 		
 		
 		Bitmap smileySprites = GraphicsUtils.getBitmapResources(Constants.SMILE_BITMAP,"smiley_sprites.png", activity);
+		Bitmap sadSprites = GraphicsUtils.getBitmapResources(Constants.SMILE_BITMAP,"smiley_sprites.png", activity);
 		
-//		for(int x = 0; x< 40; x++) {
-//			
-//			int size = dim[0]/20;
-//			Random r = new Random();
-//			 int rx = r.nextInt(5);
-//			 int ry = r.nextInt(3);
-//			
-//			Smile smile = new Smile(smileySprites,x*size,x/19,1,new int[]{5,3},new int[]{rx,ry});
-//			Updater.getInstance().getSprites().add(smile);
-//		}
+		for(int x = 0; x< 20; x++) {
+			
+			int size = dim[0]/20;
+			Random r = new Random();
+			 int rx = r.nextInt(5);
+			 int ry = r.nextInt(3);
+			
+			Smile smile = new Smile(smileySprites,x*size,0,1,new int[]{5,3},new int[]{rx,ry});
+			smile.setScaleWidth(size);
+			Updater.getInstance().getSprites().add(smile);
+		}
 		
-		int size = dim[0]/10;
-		Smile smile = new Smile(smileySprites,0,0,1,new int[]{5,3},new int[]{0,0});
-		smile.setScaleWidth(size);
-		Updater.getInstance().getSprites().add(smile);
+		for(int x = 0; x< 20; x++) {
+			
+			int size = dim[0]/20;
+			Random r = new Random();
+			 int rx = r.nextInt(5);
+			 int ry = r.nextInt(3);
+			
+			Smile smile = new Smile(sadSprites,x*size,size,1,new int[]{5,3},new int[]{rx,ry});
+			smile.setScaleWidth(size);
+			Updater.getInstance().getSprites().add(smile);
+		}
 		
-		Smile smile2 = new Smile(smileySprites,size,0,1,new int[]{5,3},new int[]{1,0});
-		smile2.setScaleWidth(size);
-		Updater.getInstance().getSprites().add(smile2);
+//		int size = dim[0]/10;
+//		Smile smile = new Smile(smileySprites,0,0,1,new int[]{5,3},new int[]{0,0});
+//		smile.setScaleWidth(size);
+//		Updater.getInstance().getSprites().add(smile);
+//		
+//		Smile smile2 = new Smile(smileySprites,size,0,1,new int[]{5,3},new int[]{1,0});
+//		smile2.setScaleWidth(size);
+//		Updater.getInstance().getSprites().add(smile2);
 		
 		Updater.getInstance().getSprites().add(square);
 		Updater.getInstance().getSprites().add(square2);
