@@ -17,9 +17,22 @@ public class GameBuilder {
 	/**
 	 * @param args
 	 */
+	private static boolean ready = false;
 	
 	
-	public static void build(Activity activity) {
+	
+	public static boolean isReady() {
+		return ready;
+	}
+
+
+
+	public static void setReady(boolean ready) {
+		GameBuilder.ready = ready;
+	}
+
+
+	protected static void threadedBuild(Activity activity) {
 		Updater up = Updater.getInstance();
 		int[] dim = GraphicsUtils.getScreenSize();
 //		int x = dim[0];
@@ -80,6 +93,23 @@ public class GameBuilder {
 		
 		Updater.getInstance().getSprites().add(square);
 		Updater.getInstance().getSprites().add(square2);
+	}
+
+	public static void build(final Activity activity) {
+		
+		new Thread(new Runnable() {
+			
+			@Override
+			public void run() {
+				while(!GameBuilder.isReady()) {}
+				GameBuilder.setReady(false);
+				GameBuilder.threadedBuild(activity);
+				GameBuilder.setReady(true);
+			}
+		}).start();
+		
+		
+		
 	}
 
 

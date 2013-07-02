@@ -2,6 +2,8 @@ package com.september.tableroids.utils;
 
 import java.io.IOException;
 
+import com.september.tableroids.builder.GameBuilder;
+
 import android.app.Activity;
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
@@ -33,6 +35,7 @@ public class GraphicsUtils {
 		screenSize = new int[]{w,h};
 		ONEPERCENTHEIGHT = getOnePInPercent(h,1);
 		ONEPERCENTWIDTH =  getOnePInPercent(w,1);
+		GameBuilder.setReady(true);
 		//return screenSize;
 	}
 	

@@ -47,7 +47,7 @@ public class MainGamePanel extends SurfaceView implements
 	    protected void onDraw(Canvas canvas) {
 	       super.onDraw(canvas);
 	       GraphicsUtils.setScreenSize(canvas.getWidth(),canvas.getHeight());
-	    }
+	   }
 
 	public MainGamePanel(Context context) {
 		super(context);

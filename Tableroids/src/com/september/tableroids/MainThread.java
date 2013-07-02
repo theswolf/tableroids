@@ -5,6 +5,7 @@ package com.september.tableroids;
 
 import java.text.DecimalFormat;
 
+import com.september.tableroids.builder.GameBuilder;
 import com.september.tableroids.utils.Updater;
 
 import android.graphics.Canvas;
@@ -90,42 +91,45 @@ public class MainThread extends Thread {
 			// try locking the canvas for exclusive pixel editing
 			// in the surface
 			try {
-				canvas = this.surfaceHolder.lockCanvas();
-				Updater.getInstance().setCanvas(canvas);
-				synchronized (surfaceHolder) {
-					beginTime = System.currentTimeMillis();
-					framesSkipped = 0;	// resetting the frames skipped
-					// update game state 
-					this.gamePanel.update();
-					// render state to the screen
-					// draws the canvas on the panel
-					this.gamePanel.render(canvas);				
-					// calculate how long did the cycle take
-					timeDiff = System.currentTimeMillis() - beginTime;
-					// calculate sleep time
-					sleepTime = (int)(FRAME_PERIOD - timeDiff);
-					
-					if (sleepTime > 0) {
-						// if sleepTime > 0 we're OK
-						try {
-							// send the thread to sleep for a short period
-							// very useful for battery saving
-							Thread.sleep(sleepTime);	
-						} catch (InterruptedException e) {}
+				if(GameBuilder.isReady()) {
+					canvas = this.surfaceHolder.lockCanvas();
+					Updater.getInstance().setCanvas(canvas);
+					synchronized (surfaceHolder) {
+						beginTime = System.currentTimeMillis();
+						framesSkipped = 0;	// resetting the frames skipped
+						// update game state 
+						this.gamePanel.update();
+						// render state to the screen
+						// draws the canvas on the panel
+						this.gamePanel.render(canvas);				
+						// calculate how long did the cycle take
+						timeDiff = System.currentTimeMillis() - beginTime;
+						// calculate sleep time
+						sleepTime = (int)(FRAME_PERIOD - timeDiff);
+						
+						if (sleepTime > 0) {
+							// if sleepTime > 0 we're OK
+							try {
+								// send the thread to sleep for a short period
+								// very useful for battery saving
+								Thread.sleep(sleepTime);	
+							} catch (InterruptedException e) {}
+						}
+						
+						while (sleepTime < 0 && framesSkipped < MAX_FRAME_SKIPS) {
+							// we need to catch up
+							this.gamePanel.update(); // update without rendering
+							sleepTime += FRAME_PERIOD;	// add frame period to check if in next frame
+							framesSkipped++;
+						}
+						
+						// for statistics
+						framesSkippedPerStatCycle += framesSkipped;
+						// calling the routine to store the gathered statistics
+						storeStats();
 					}
-					
-					while (sleepTime < 0 && framesSkipped < MAX_FRAME_SKIPS) {
-						// we need to catch up
-						this.gamePanel.update(); // update without rendering
-						sleepTime += FRAME_PERIOD;	// add frame period to check if in next frame
-						framesSkipped++;
-					}
-					
-					// for statistics
-					framesSkippedPerStatCycle += framesSkipped;
-					// calling the routine to store the gathered statistics
-					storeStats();
 				}
+				
 			} finally {
 				// in case of an exception the surface is not left in 
 				// an inconsistent state
