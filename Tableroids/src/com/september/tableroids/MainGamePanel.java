@@ -13,8 +13,8 @@ import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
-import com.september.tableroids.builder.GameBuilder;
 import com.september.tableroids.model.Sprite;
+import com.september.tableroids.statics.GameBuilder;
 import com.september.tableroids.utils.GraphicsUtils;
 import com.september.tableroids.utils.Updater;
 

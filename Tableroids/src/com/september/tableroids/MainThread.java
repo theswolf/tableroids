@@ -5,7 +5,7 @@ package com.september.tableroids;
 
 import java.text.DecimalFormat;
 
-import com.september.tableroids.builder.GameBuilder;
+import com.september.tableroids.statics.GameBuilder;
 import com.september.tableroids.utils.Updater;
 
 import android.graphics.Canvas;

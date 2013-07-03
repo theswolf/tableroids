@@ -1,4 +1,4 @@
-package com.september.tableroids.builder;
+package com.september.tableroids.statics;
 
 import java.util.Random;
 
@@ -12,6 +12,7 @@ import com.september.tableroids.consts.Constants;
 import com.september.tableroids.model.Sprite;
 import com.september.tableroids.model.elements.Cloud;
 import com.september.tableroids.model.elements.Cloud.Direction;
+import com.september.tableroids.model.elements.Square.Fattore;
 import com.september.tableroids.model.elements.Smile;
 import com.september.tableroids.model.elements.Square;
 import com.september.tableroids.utils.GraphicsUtils;
@@ -24,7 +25,7 @@ public class GameBuilder {
 	 */
 	private static boolean ready = false;
 	private static Typeface typeFace;
-	
+	public final static String tag = GameBuilder.class.getSimpleName();
 	
 	
 	public static boolean isReady() {
@@ -40,7 +41,7 @@ public class GameBuilder {
 
 	protected static void threadedBuild(Activity activity) {
 		
-		setTypeFace(Typeface.createFromAsset(activity.getAssets(),"fonts/WalterTurncoat.ttf"));
+		
 		
 		Updater up = Updater.getInstance();
 		int[] dim = GraphicsUtils.getScreenSize();
@@ -93,8 +94,9 @@ public class GameBuilder {
 		
 		GraphicsUtils.setBitmapResources(Constants.SQUARED_BITMAP, bmp);
 		Square square = new Square(bmp, (GraphicsUtils.ONEPERCENTWIDTH*30), (GraphicsUtils.ONEPERCENTWIDTH*40), Constants.FPS, new int[]{1,1});
+		square.setFattore(Fattore.MOLTIPLICANDO);
 		Square square2 = new Square(bmp, (GraphicsUtils.ONEPERCENTWIDTH*70), (GraphicsUtils.ONEPERCENTWIDTH*50), Constants.FPS, new int[]{1,1});
-		
+		square2.setFattore(Fattore.MOLTIPLICATORE);
 		
 		Bitmap smileySprites = GraphicsUtils.getBitmapResources(Constants.SMILE_BITMAP,"gfx/smiley_sprites.png", activity);
 		Bitmap sadSprites = GraphicsUtils.getBitmapResources(Constants.SAD_BITMAP,"gfx/smiley_sad_sprites.png", activity);
@@ -176,11 +178,20 @@ public class GameBuilder {
 
 	public static void build(final Activity activity) {
 		
+		setTypeFace(Typeface.createFromAsset(activity.getAssets(),"fonts/WalterTurncoat.ttf"));
+		
 		new Thread(new Runnable() {
 			
 			@Override
 			public void run() {
-				while(!GameBuilder.isReady()) {}
+				while(!GameBuilder.isReady()) {
+					try {
+						Thread.sleep(200);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						android.util.Log.e(GameBuilder.tag, e.getMessage());
+					}
+				}
 				GameBuilder.setReady(false);
 				GameBuilder.threadedBuild(activity);
 				GameBuilder.setReady(true);

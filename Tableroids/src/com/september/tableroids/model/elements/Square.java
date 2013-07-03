@@ -9,17 +9,24 @@ import android.graphics.Paint;
 import android.graphics.Paint.Style;
 import android.view.MotionEvent;
 
-import com.september.tableroids.builder.GameBuilder;
 import com.september.tableroids.model.Sprite;
+import com.september.tableroids.statics.GameBuilder;
+import com.september.tableroids.statics.Scorer;
 import com.september.tableroids.utils.Updater;
 
 
 public class Square extends Sprite{
 
-	Random r;
-	Integer value;
+	private Random r;
+	private Integer value;
+	private Fattore fattore;
+	private static int[] colors = new int[]{Color.DKGRAY,Color.BLUE,Color.CYAN,Color.GREEN,Color.MAGENTA,Color.RED,Color.YELLOW};
+	private static int color=0;
 	
-	
+	public enum Fattore{
+		MOLTIPLICANDO,
+		MOLTIPLICATORE
+	}
 	
 	
 	public Random getR() {
@@ -33,11 +40,28 @@ public class Square extends Sprite{
 		this.r = r;
 	}
 
+	public void changeColor() {
+		color = getR().nextInt(colors.length);
+	}
+	
+	public Fattore getFattore() {
+		return fattore;
+	}
+
+	public void setFattore(Fattore fattore) {
+		this.fattore = fattore;
+	}
+
 	public Integer getValue() {
-		if(value == null) {
-			setValue(getR().nextInt(9)+1);
-		}
-		return value;
+//		if(value == null) {
+//			
+//			int 
+//			
+//			setValue(getR().nextInt(9)+1);
+//		}
+//		return value;
+		int _value = fattore.equals(Fattore.MOLTIPLICANDO) ? Scorer.getMoltiplicando() : Scorer.getMoltiplicatore();
+		return _value;
 	}
 
 	public void setValue(Integer value) {
@@ -51,8 +75,9 @@ public class Square extends Sprite{
 	
 	private void drawtext(Canvas canvas) {
 		
+		
 		Paint circlePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-		circlePaint.setColor(Color.DKGRAY);
+		circlePaint.setColor(colors[color]);
 		circlePaint.setStyle(Style.STROKE);
 		circlePaint.setStrokeWidth(5L);
 		Updater.getInstance().getCanvas().drawCircle(getX()+(getSpriteWidth()/2), getY()+(getSpriteHeight()/2), getSpriteHeight()/2, circlePaint);
@@ -62,7 +87,7 @@ public class Square extends Sprite{
 		Updater.getInstance().getCanvas().drawCircle(getX()+(getSpriteWidth()/2), getY()+(getSpriteHeight()/2), getSpriteHeight()/2, circlePaint);
 		
 		Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
-		paint.setColor(Color.DKGRAY);
+		paint.setColor(colors[color]);
         paint.setTextSize(getSpriteHeight());
         paint.setTypeface(GameBuilder.getTypeFace());
         paint.setShadowLayer(1f, 0f, 1f, Color.GRAY);
@@ -74,7 +99,7 @@ public class Square extends Sprite{
 	@Override
 	protected void doUpdate() {
 		//drawtext(Updater.getInstance().getCanvas());
-		setValue(null);
+		//setValue(null);
 	}
 	
 	@Override

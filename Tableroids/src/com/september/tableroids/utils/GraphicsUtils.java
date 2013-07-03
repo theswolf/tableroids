@@ -2,7 +2,7 @@ package com.september.tableroids.utils;
 
 import java.io.IOException;
 
-import com.september.tableroids.builder.GameBuilder;
+import com.september.tableroids.statics.GameBuilder;
 
 import android.app.Activity;
 import android.content.res.AssetManager;
