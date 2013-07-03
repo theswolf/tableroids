@@ -9,6 +9,8 @@ import com.september.tableroids.builder.GameBuilder;
 import com.september.tableroids.utils.Updater;
 
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.util.Log;
 import android.view.SurfaceHolder;
 

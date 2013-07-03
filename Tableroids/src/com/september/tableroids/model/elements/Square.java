@@ -9,6 +9,7 @@ import android.graphics.Paint;
 import android.graphics.Paint.Style;
 import android.view.MotionEvent;
 
+import com.september.tableroids.builder.GameBuilder;
 import com.september.tableroids.model.Sprite;
 import com.september.tableroids.utils.Updater;
 
@@ -51,18 +52,19 @@ public class Square extends Sprite{
 	private void drawtext(Canvas canvas) {
 		
 		Paint circlePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-		circlePaint.setColor(Color.BLUE);
+		circlePaint.setColor(Color.DKGRAY);
 		circlePaint.setStyle(Style.STROKE);
 		circlePaint.setStrokeWidth(5L);
 		Updater.getInstance().getCanvas().drawCircle(getX()+(getSpriteWidth()/2), getY()+(getSpriteHeight()/2), getSpriteHeight()/2, circlePaint);
 		
-		circlePaint.setColor(Color.CYAN);
+		circlePaint.setColor(Color.WHITE);
 		circlePaint.setStyle(Style.FILL);
 		Updater.getInstance().getCanvas().drawCircle(getX()+(getSpriteWidth()/2), getY()+(getSpriteHeight()/2), getSpriteHeight()/2, circlePaint);
 		
 		Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
-		paint.setColor(Color.WHITE);
+		paint.setColor(Color.DKGRAY);
         paint.setTextSize(getSpriteHeight());
+        paint.setTypeface(GameBuilder.getTypeFace());
         paint.setShadowLayer(1f, 0f, 1f, Color.GRAY);
         int tW = (int) paint.measureText(""+getValue());
         int spacer = ((getSpriteWidth()-tW)/2);
