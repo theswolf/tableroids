@@ -8,10 +8,14 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.view.ViewGroup.LayoutParams;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.september.tableroids.model.Sprite;
 import com.september.tableroids.statics.GameBuilder;
@@ -48,10 +52,36 @@ public class MainGamePanel extends SurfaceView implements
 	       super.onDraw(canvas);
 	       GraphicsUtils.setScreenSize(canvas.getWidth(),canvas.getHeight());
 	   }
+	    
+	public MainGamePanel(Context context, AttributeSet as) {
+		super(context,as);
+		init(context);
+	}
 
 	public MainGamePanel(Context context) {
 		super(context);
 		// adding the callback (this) to the surface holder to intercept events
+//		getHolder().addCallback(this);
+//
+//		// create Elaine and load bitmap
+////		elaine = new ElaineAnimated(
+////				BitmapFactory.decodeResource(getResources(), R.drawable.walk_elaine) 
+////				, 10, 50	// initial position
+////				, 30, 47	// width and height of sprite
+////				, 5, 5);	// FPS and number of frames in the animation
+//		
+//		GameBuilder.build((Activity)context);
+//		
+//		// create the game loop thread
+//		thread = new MainThread(getHolder(), this);
+//		
+//		// make the GamePanel focusable so it can handle events
+//		setFocusable(true);
+		init(context);
+	}
+	
+	
+	private void init(final Context context) {
 		getHolder().addCallback(this);
 
 		// create Elaine and load bitmap
@@ -60,6 +90,34 @@ public class MainGamePanel extends SurfaceView implements
 //				, 10, 50	// initial position
 //				, 30, 47	// width and height of sprite
 //				, 5, 5);	// FPS and number of frames in the animation
+		((Activity)context).runOnUiThread(new Runnable() {
+
+			@Override
+			public void run() {
+				LinearLayout ll = (LinearLayout) ((Activity)context).findViewById(R.id.gamellayout);
+				while (!GameBuilder.isReady() || ll == null) {
+					try {
+						Thread.sleep(200);
+						if (ll == null) {
+							ll = (LinearLayout) ((Activity)context).findViewById(R.id.gamellayout);
+						}
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						android.util.Log.e(TAG,e.getMessage());
+					}
+				}
+				
+				TextView tv = new TextView(context);
+				tv.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, 20));
+				tv.setText("FAKE ADMOB");
+				tv.setBackgroundColor(Color.MAGENTA);
+				tv.setTextColor(Color.WHITE);
+				
+				ll.addView(tv);
+			}
+			
+		});
+		
 		
 		GameBuilder.build((Activity)context);
 		
