@@ -212,30 +212,37 @@ public class GameBuilder {
 		Updater.getInstance().getSprites().add(square);
 		Updater.getInstance().getSprites().add(square2);
 		
+		
+
+//		TextView tv = (TextView) activity.findViewById(R.id.textAdView);
+//		tv.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, 20));
+//		tv.setText("FAKE ADMOB");
+//		tv.setBackgroundColor(Color.MAGENTA);
+//		tv.setTextColor(Color.WHITE);
+		
 		activity.runOnUiThread(new Runnable() {
 
 			@Override
 			public void run() {
-				LinearLayout ll = (LinearLayout) activity.findViewById(R.id.gamellayout);
-				while (!GameBuilder.isReady() || ll == null) {
-					try {
-						Thread.sleep(200);
-						if (ll == null) {
-							ll = (LinearLayout) activity.findViewById(R.id.gamellayout);
-						}
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						android.util.Log.e(tag,e.getMessage());
-					}
-				}
+//				while (!GameBuilder.isReady() || ll == null) {
+//					try {
+//						Thread.sleep(200);
+//						if (ll == null) {
+//							ll = (LinearLayout) activity.findViewById(R.id.gamellayout);
+//						}
+//					} catch (InterruptedException e) {
+//						// TODO Auto-generated catch block
+//						android.util.Log.e(tag,e.getMessage());
+//					}
+//				}
 				
-				TextView tv = new TextView(activity);
-				tv.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, 20));
+				TextView tv = (TextView) activity.findViewById(R.id.textAdView);
+				//tv.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, 20));
+				//tv.setHeight(150);
 				tv.setText("FAKE ADMOB");
 				tv.setBackgroundColor(Color.MAGENTA);
 				tv.setTextColor(Color.WHITE);
-				
-				ll.addView(tv);
+				//activity.findViewById(R.id.gamellayout).postInvalidate();
 			}
 			
 		});
