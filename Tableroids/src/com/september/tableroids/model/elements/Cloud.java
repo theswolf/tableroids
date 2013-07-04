@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.view.MotionEvent;
 
 import com.september.tableroids.model.Sprite;
+import com.september.tableroids.statics.Scorer;
 
 public class Cloud extends Sprite {
 	
@@ -19,7 +20,7 @@ public class Cloud extends Sprite {
 	private int[] sourcedim;
 	private int yRange;
 	private int yValue;
-	private Random r;
+	//private Random r;
 	private Direction direction;
 	
 	
@@ -128,10 +129,10 @@ public class Cloud extends Sprite {
 	}
 	
 	private Random getR() {
-		if(r== null) {
-			r = new Random();
-		}
-		return r;
+//		if(r== null) {
+//			r = new Random();
+//		}
+		return Scorer.getR();
 	}
 	
 

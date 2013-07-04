@@ -17,8 +17,8 @@ import com.september.tableroids.utils.Updater;
 
 public class Square extends Sprite{
 
-	private Random r;
-	private Integer value;
+//	private Random r;
+//	private Integer value;
 	private Fattore fattore;
 	private static int[] colors = new int[]{Color.DKGRAY,Color.BLUE,Color.CYAN,Color.GREEN,Color.MAGENTA,Color.RED,Color.YELLOW};
 	private static int color=0;
@@ -30,15 +30,16 @@ public class Square extends Sprite{
 	
 	
 	public Random getR() {
-		if(r == null) {
-			setR(new Random());
-		}
-		return r;
+//		if(r == null) {
+//			setR(new Random());
+//		}
+//		return r;
+		return Scorer.getR();
 	}
 
-	public void setR(Random r) {
-		this.r = r;
-	}
+//	public void setR(Random r) {
+//		this.r = r;
+//	}
 
 	public void changeColor() {
 		color = getR().nextInt(colors.length);
@@ -64,13 +65,13 @@ public class Square extends Sprite{
 		return _value;
 	}
 
-	public void setValue(Integer value) {
-		this.value = value;
-	}
+//	public void setValue(Integer value) {
+//		this.value = value;
+//	}
 
 	public Square(Bitmap bitmap, int x, int y, int fps, int[] frameCount) {
 		super(bitmap,  x,  y, fps,  frameCount);
-		r = new Random();
+		//r = new Random();
 	}
 	
 	private void drawtext(Canvas canvas) {

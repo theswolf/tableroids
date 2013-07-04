@@ -96,12 +96,14 @@ public class GameBuilder {
 		Bitmap.Config conf = Bitmap.Config.ARGB_8888; // see other conf types
 		Bitmap backBitmap = Bitmap.createBitmap(dim[0], dim[1], conf);
 		int skyColor = Color.parseColor("#ADD8E6");
-		
+//		
 		for(int x = 0; x< dim[0]; x++) {
 			for (int y = 0; y< dim[1]; y++) {
 				backBitmap.setPixel(x, y, skyColor);
 			}
 		}
+		
+	
 		
 //		int x = dim[0];
 //		int y = dim[1];
@@ -128,6 +130,12 @@ public class GameBuilder {
 		};
 		
 		Updater.getInstance().getSprites().add(backGround);
+		
+		GraphicsUtils.setBitmapResources(Constants.MOUNTAINS, getBackground());
+		Sprite mountain = getBackgroundSprite();
+		mountain.setY(dim[1]-mountain.getResizedHeight());
+		
+		Updater.getInstance().getSprites().add(mountain);
 		
 		Bitmap bmp = Bitmap.createBitmap(GraphicsUtils.ONEPERCENTWIDTH*20, GraphicsUtils.ONEPERCENTWIDTH*20, conf);
 //		for(int x = 0; x < bmp.getWidth(); x++) {
