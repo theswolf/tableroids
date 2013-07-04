@@ -248,6 +248,10 @@ public abstract class Sprite {
 		this.sourceRect.top = findInMatrix(currentFrame)[1] * spriteHeight;
 		this.sourceRect.bottom = this.sourceRect.top + spriteHeight;
 	}
+	
+	public int getResizedHeight() {
+		return resized ? (getScaleWidth()*spriteHeight)/spriteWidth : spriteHeight;
+	}
 
 	public void draw(Canvas canvas) {
 		

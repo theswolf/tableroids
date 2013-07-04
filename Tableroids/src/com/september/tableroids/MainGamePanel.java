@@ -140,4 +140,10 @@ public class MainGamePanel extends SurfaceView implements
 		}
 	}
 
+	public void showLoading(Canvas canvas) {
+		Sprite backGround = GameBuilder.getBackgroundSprite();
+		backGround.setY(GameBuilder.getOut().heightPixels-backGround.getResizedHeight());
+		GameBuilder.getBackgroundSprite().draw(canvas);
+	}
+
 }

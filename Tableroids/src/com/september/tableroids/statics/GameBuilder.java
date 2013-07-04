@@ -1,11 +1,15 @@
 package com.september.tableroids.statics;
 
+import java.io.IOException;
 import java.util.Random;
 
 import android.app.Activity;
+import android.content.res.AssetManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.util.DisplayMetrics;
 import android.view.MotionEvent;
 
 import com.september.tableroids.consts.Constants;
@@ -26,6 +30,9 @@ public class GameBuilder {
 	private static boolean ready = false;
 	private static Typeface typeFace;
 	public final static String tag = GameBuilder.class.getSimpleName();
+	private static Bitmap background;
+	private static Sprite backgroundSprite;
+	private static DisplayMetrics out;
 	
 	
 	public static boolean isReady() {
@@ -37,6 +44,47 @@ public class GameBuilder {
 	public static void setReady(boolean ready) {
 		GameBuilder.ready = ready;
 	}
+	
+	
+	
+
+	public static DisplayMetrics getOut() {
+		if(out == null) {
+			out = new DisplayMetrics();
+		}
+		return out;
+	}
+
+
+
+	public static void setOut(DisplayMetrics out) {
+		GameBuilder.out = out;
+	}
+
+
+
+	public static Sprite getBackgroundSprite() {
+		return backgroundSprite;
+	}
+
+
+
+	public static void setBackgroundSprite(Sprite backgroundSprite) {
+		GameBuilder.backgroundSprite = backgroundSprite;
+	}
+
+
+
+	public static Bitmap getBackground() {
+		return background;
+	}
+
+
+
+	public static void setBackground(Bitmap background) {
+		GameBuilder.background = background;
+	}
+
 
 
 	protected static void threadedBuild(Activity activity) {
@@ -179,6 +227,32 @@ public class GameBuilder {
 	public static void build(final Activity activity) {
 		
 		setTypeFace(Typeface.createFromAsset(activity.getAssets(),"fonts/WalterTurncoat.ttf"));
+		AssetManager manager = activity.getAssets();
+		try {
+			setBackground(BitmapFactory.decodeStream (manager.open("gfx/mountain.png")));
+			
+			activity.getWindowManager().getDefaultDisplay().getMetrics(getOut());
+			int w = out.widthPixels;
+			
+			Sprite backGround = new Sprite(getBackground(), 0, 0, 1, new int[]{1,1}) {
+				@Override
+				public void onTouch(MotionEvent event) {
+				}
+				@Override
+				public void onCollide() {
+				}
+				@Override
+				protected void doUpdate() {
+				}
+			};
+			
+			backGround.setScaleWidth(w);
+			setBackgroundSprite(backGround);
+			
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			android.util.Log.e(GameBuilder.tag, e1.getMessage());
+		}
 		
 		new Thread(new Runnable() {
 			
