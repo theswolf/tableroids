@@ -11,14 +11,18 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.util.DisplayMetrics;
 import android.view.MotionEvent;
+import android.view.ViewGroup.LayoutParams;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
+import com.september.tableroids.R;
 import com.september.tableroids.consts.Constants;
 import com.september.tableroids.model.Sprite;
 import com.september.tableroids.model.elements.Cloud;
 import com.september.tableroids.model.elements.Cloud.Direction;
-import com.september.tableroids.model.elements.Square.Fattore;
 import com.september.tableroids.model.elements.Smile;
 import com.september.tableroids.model.elements.Square;
+import com.september.tableroids.model.elements.Square.Fattore;
 import com.september.tableroids.utils.GraphicsUtils;
 import com.september.tableroids.utils.Updater;
 
@@ -87,7 +91,7 @@ public class GameBuilder {
 
 
 
-	protected static void threadedBuild(Activity activity) {
+	protected static void threadedBuild(final Activity activity) {
 		
 		
 		
@@ -207,6 +211,36 @@ public class GameBuilder {
 		
 		Updater.getInstance().getSprites().add(square);
 		Updater.getInstance().getSprites().add(square2);
+		
+		activity.runOnUiThread(new Runnable() {
+
+			@Override
+			public void run() {
+				LinearLayout ll = (LinearLayout) activity.findViewById(R.id.gamellayout);
+				while (!GameBuilder.isReady() || ll == null) {
+					try {
+						Thread.sleep(200);
+						if (ll == null) {
+							ll = (LinearLayout) activity.findViewById(R.id.gamellayout);
+						}
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						android.util.Log.e(tag,e.getMessage());
+					}
+				}
+				
+				TextView tv = new TextView(activity);
+				tv.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, 20));
+				tv.setText("FAKE ADMOB");
+				tv.setBackgroundColor(Color.MAGENTA);
+				tv.setTextColor(Color.WHITE);
+				
+				ll.addView(tv);
+			}
+			
+		});
+		
+		
 	}
 	
 	private static void buildCloud(Cloud cloudSprite,int scaleWidth, Direction direction, int speed, int speedRange, int[] sourceDim, int yRange) {

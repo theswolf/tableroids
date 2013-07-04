@@ -81,7 +81,7 @@ public class MainGamePanel extends SurfaceView implements
 	}
 	
 	
-	private void init(final Context context) {
+	private void init(Context context) {
 		getHolder().addCallback(this);
 
 		// create Elaine and load bitmap
@@ -90,33 +90,33 @@ public class MainGamePanel extends SurfaceView implements
 //				, 10, 50	// initial position
 //				, 30, 47	// width and height of sprite
 //				, 5, 5);	// FPS and number of frames in the animation
-		((Activity)context).runOnUiThread(new Runnable() {
-
-			@Override
-			public void run() {
-				LinearLayout ll = (LinearLayout) ((Activity)context).findViewById(R.id.gamellayout);
-				while (!GameBuilder.isReady() || ll == null) {
-					try {
-						Thread.sleep(200);
-						if (ll == null) {
-							ll = (LinearLayout) ((Activity)context).findViewById(R.id.gamellayout);
-						}
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						android.util.Log.e(TAG,e.getMessage());
-					}
-				}
-				
-				TextView tv = new TextView(context);
-				tv.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, 20));
-				tv.setText("FAKE ADMOB");
-				tv.setBackgroundColor(Color.MAGENTA);
-				tv.setTextColor(Color.WHITE);
-				
-				ll.addView(tv);
-			}
-			
-		});
+//		((Activity)context).runOnUiThread(new Runnable() {
+//
+//			@Override
+//			public void run() {
+//				LinearLayout ll = (LinearLayout) ((Activity)context).findViewById(R.id.gamellayout);
+//				while (!GameBuilder.isReady() || ll == null) {
+//					try {
+//						Thread.sleep(200);
+//						if (ll == null) {
+//							ll = (LinearLayout) ((Activity)context).findViewById(R.id.gamellayout);
+//						}
+//					} catch (InterruptedException e) {
+//						// TODO Auto-generated catch block
+//						android.util.Log.e(TAG,e.getMessage());
+//					}
+//				}
+//				
+//				TextView tv = new TextView(context);
+//				tv.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, 20));
+//				tv.setText("FAKE ADMOB");
+//				tv.setBackgroundColor(Color.MAGENTA);
+//				tv.setTextColor(Color.WHITE);
+//				
+//				ll.addView(tv);
+//			}
+//			
+//		});
 		
 		
 		GameBuilder.build((Activity)context);
