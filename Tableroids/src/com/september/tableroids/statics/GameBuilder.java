@@ -238,7 +238,7 @@ public class GameBuilder {
 				
 				TextView tv = (TextView) activity.findViewById(R.id.textAdView);
 				//tv.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, 20));
-				//tv.setHeight(150);
+				tv.setHeight(150);
 				tv.setText("FAKE ADMOB");
 				tv.setBackgroundColor(Color.MAGENTA);
 				tv.setTextColor(Color.WHITE);

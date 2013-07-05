@@ -9,6 +9,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.PorterDuff.Mode;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -46,6 +47,8 @@ public class MainGamePanel extends SurfaceView implements
 	    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
 	        super.onSizeChanged(w, h, oldw, oldh);
 	        GraphicsUtils.setScreenSize(w,h);
+	        int translation = oldh - h;
+	        GameBuilder.getBackgroundSprite().setY(GameBuilder.getBackgroundSprite().getY() - translation);
 	    }
 
 	    @Override
@@ -228,6 +231,7 @@ public class MainGamePanel extends SurfaceView implements
 //		backGroundSky.draw(canvas);
 		canvas.drawColor(Color.parseColor("#B8DBFF"));
 		GameBuilder.getBackgroundSprite().draw(canvas);
+		canvas.drawColor(Color.DKGRAY,Mode.LIGHTEN);
 //		
 //		Bitmap maskBitmap = Bitmap.createBitmap(GameBuilder.getOut().widthPixels, GameBuilder.getOut().heightPixels, conf);
 //		for(int x = 0; x< GameBuilder.getOut().widthPixels; x++) {
