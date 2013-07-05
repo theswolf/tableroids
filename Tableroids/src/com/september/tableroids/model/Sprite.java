@@ -207,13 +207,15 @@ public abstract class Sprite {
 			}
 			else {
 				if(x % frameNr[0] == 0 ) {
-					counterX++;
+					counterY++;
 				}
 				if(x % frameNr[1] == 0 ) {
-					counterY++;
+					counterX++;
 				}
 			}
 		}
+	
+		
 		return new int[]{counterX,counterY};
 	}
 
