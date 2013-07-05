@@ -229,10 +229,11 @@ public abstract class Sprite {
 			}
 			
 			doUpdate();
+			cutOut();
 		}
 
 		
-		cutOut();
+		
 		
 	}
 

@@ -36,6 +36,10 @@ public class GameBuilder {
 	public final static String tag = GameBuilder.class.getSimpleName();
 	private static Bitmap background;
 	private static Sprite backgroundSprite;
+	
+	private static Bitmap loaderBitmap;
+	private static Sprite loaderSprite;
+	
 	private static DisplayMetrics out;
 	
 	
@@ -63,6 +67,30 @@ public class GameBuilder {
 
 	public static void setOut(DisplayMetrics out) {
 		GameBuilder.out = out;
+	}
+
+
+
+	public static Bitmap getLoaderBitmap() {
+		return loaderBitmap;
+	}
+
+
+
+	public static void setLoaderBitmap(Bitmap loaderBitmap) {
+		GameBuilder.loaderBitmap = loaderBitmap;
+	}
+
+
+
+	public static Sprite getLoaderSprite() {
+		return loaderSprite;
+	}
+
+
+
+	public static void setLoaderSprite(Sprite loaderSprite) {
+		GameBuilder.loaderSprite = loaderSprite;
 	}
 
 
@@ -277,11 +305,15 @@ public class GameBuilder {
 		
 		setTypeFace(Typeface.createFromAsset(activity.getAssets(),"fonts/WalterTurncoat.ttf"));
 		AssetManager manager = activity.getAssets();
+		
+		activity.getWindowManager().getDefaultDisplay().getMetrics(getOut());
+		int w = out.widthPixels;
+		int h = out.heightPixels;
+		
 		try {
 			setBackground(BitmapFactory.decodeStream (manager.open("gfx/mountain.png")));
 			
-			activity.getWindowManager().getDefaultDisplay().getMetrics(getOut());
-			int w = out.widthPixels;
+			
 			
 			Sprite backGround = new Sprite(getBackground(), 0, 0, 1, new int[]{1,1}) {
 				@Override
@@ -297,6 +329,31 @@ public class GameBuilder {
 			
 			backGround.setScaleWidth(w);
 			setBackgroundSprite(backGround);
+			
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			android.util.Log.e(GameBuilder.tag, e1.getMessage());
+		}
+		
+		try {
+			setLoaderBitmap(BitmapFactory.decodeStream (manager.open("gfx/loadSprite.png")));
+			
+			activity.getWindowManager().getDefaultDisplay().getMetrics(getOut());
+			
+			Sprite loaderSprite = new Sprite(getLoaderBitmap(), w/3, h/2, Constants.FPS, new int[]{1,6}) {
+				@Override
+				public void onTouch(MotionEvent event) {
+				}
+				@Override
+				public void onCollide() {
+				}
+				@Override
+				protected void doUpdate() {
+				}
+			};
+			
+			loaderSprite.setScaleWidth(w/3);
+			setLoaderSprite(loaderSprite);
 			
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
