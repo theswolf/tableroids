@@ -5,6 +5,7 @@ package com.september.tableroids;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -201,7 +202,42 @@ public class MainGamePanel extends SurfaceView implements
 	public void showLoading(Canvas canvas) {
 		Sprite backGround = GameBuilder.getBackgroundSprite();
 		backGround.setY(GameBuilder.getOut().heightPixels-backGround.getResizedHeight());
+		
+		Bitmap.Config conf = Bitmap.Config.ARGB_8888; // see other conf types
+		
+//		Bitmap backBitmap = Bitmap.createBitmap(GameBuilder.getOut().widthPixels, GameBuilder.getOut().heightPixels, conf);
+//		int skyColor = Color.parseColor("#B8DBFF");//b8dbff
+////		
+//		for(int x = 0; x< GameBuilder.getOut().widthPixels; x++) {
+//			for (int y = 0; y<GameBuilder.getOut().heightPixels; y++) {
+//				backBitmap.setPixel(x, y, skyColor);
+//			}
+//		}
+//		Sprite backGroundSky = new Sprite(backBitmap, 0, 0, 1, new int[]{1,1}) {
+//			@Override
+//			public void onTouch(MotionEvent event) {
+//			}
+//			@Override
+//			public void onCollide() {
+//			}
+//			@Override
+//			protected void doUpdate() {
+//			}
+//		};
+//		
+//		backGroundSky.draw(canvas);
+		canvas.drawColor(Color.parseColor("#B8DBFF"));
 		GameBuilder.getBackgroundSprite().draw(canvas);
+//		
+//		Bitmap maskBitmap = Bitmap.createBitmap(GameBuilder.getOut().widthPixels, GameBuilder.getOut().heightPixels, conf);
+//		for(int x = 0; x< GameBuilder.getOut().widthPixels; x++) {
+//			for (int y = 0; y<GameBuilder.getOut().heightPixels; y++) {
+//				maskBitmap.setPixel(x, y, Color.DKGRAY);
+//			}
+//		}
+//		Paint transparentpainthack = new Paint();
+//		transparentpainthack.setAlpha(50);
+//		canvas.drawBitmap(maskBitmap, 0, 0, transparentpainthack);
 	}
 
 }

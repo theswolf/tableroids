@@ -99,7 +99,7 @@ public class GameBuilder {
 		int[] dim = GraphicsUtils.getScreenSize();
 		Bitmap.Config conf = Bitmap.Config.ARGB_8888; // see other conf types
 		Bitmap backBitmap = Bitmap.createBitmap(dim[0], dim[1], conf);
-		int skyColor = Color.parseColor("#ADD8E6");
+		int skyColor = Color.parseColor("#B8DBFF");//b8dbff
 //		
 		for(int x = 0; x< dim[0]; x++) {
 			for (int y = 0; y< dim[1]; y++) {
