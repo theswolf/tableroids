@@ -187,11 +187,13 @@ public class MainGamePanel extends SurfaceView implements
 	 */
 	public void update() {
 		//elaine.update(System.currentTimeMillis());
+		Updater.getInstance().clear();
 		Long gameTime = System.currentTimeMillis();
 		for(Sprite s:Updater.getInstance().getSprites()) {
 			s.update(gameTime);
 		}
 	}
+	
 
 
 	private void displayFps(Canvas canvas, String fps) {
@@ -230,6 +232,25 @@ public class MainGamePanel extends SurfaceView implements
 //		
 //		backGroundSky.draw(canvas);
 		canvas.drawColor(Color.parseColor("#B8DBFF"));
+		
+		Paint strokePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+	    strokePaint.setColor(Color.WHITE);
+	    strokePaint.setTextAlign(Paint.Align.CENTER);
+	    strokePaint.setTextSize(GameBuilder.getOut().heightPixels/10);
+	    strokePaint.setTypeface(GameBuilder.getTypeFace());
+	    strokePaint.setStyle(Paint.Style.STROKE);
+	    strokePaint.setStrokeWidth(2);
+
+	    Paint textPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+	    textPaint.setColor(Color.RED);
+	    textPaint.setTextAlign(Paint.Align.CENTER);
+	    textPaint.setTextSize(GameBuilder.getOut().heightPixels/10);
+	    textPaint.setTypeface(GameBuilder.getTypeFace());
+
+	    canvas.drawText("Loading...",  GameBuilder.getOut().widthPixels/2, GameBuilder.getOut().heightPixels/3, strokePaint);
+	    canvas.drawText("Loading...",  GameBuilder.getOut().widthPixels/2, GameBuilder.getOut().heightPixels/3, textPaint);
+		
+		
 		GameBuilder.getBackgroundSprite().draw(canvas);
 		GameBuilder.getLoaderSprite().draw(canvas);
 		

@@ -340,7 +340,7 @@ public class GameBuilder {
 			
 			activity.getWindowManager().getDefaultDisplay().getMetrics(getOut());
 			
-			Sprite loaderSprite = new Sprite(getLoaderBitmap(), w/3, h/2, Constants.FPS, new int[]{1,6}) {
+			Sprite loaderSprite = new Sprite(getLoaderBitmap(), w/3, h/2, Constants.FPS50, new int[]{1,6}) {
 				@Override
 				public void onTouch(MotionEvent event) {
 				}

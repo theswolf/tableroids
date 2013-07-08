@@ -3,6 +3,8 @@ package com.september.tableroids.consts;
 public class Constants {
 
 	public final static int FPS = 2;
+	public final static int FPS20 = 20;
+	public final static int FPS50 = 50;
 	
 	public final static int MOUNTAINS  = 0;
 	public final static int SQUARED_BITMAP = 1;

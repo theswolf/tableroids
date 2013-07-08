@@ -13,7 +13,7 @@ import com.september.tableroids.model.Sprite;
 public class Updater {
 
 	private static  Updater INSTANCE;
-	private List<Sprite> addList;
+	private List<Sprite> sprites;
 	private SparseArray<Bitmap> resources;
 	private Canvas canvas;
 	
@@ -27,27 +27,37 @@ public class Updater {
 		return INSTANCE;
 	}
 	
+//	public Sprite[] getSpritesAsArray() {
+//		Sprite[] spriteArray = new Sprite[getSprites().size()];
+//		for(int x = 0; x < getSprites().size() ; x++) {
+//			spriteArray[x] = getSprites().valueAt(x);
+//		}
+//		return spriteArray;
+//	}
+	
+	public List<Sprite> getSprites() {
+		if(sprites == null) {
+			setSprites(new LinkedList<Sprite>());
+		}
+		return sprites;
+	}
+
+	public void setSprites(List<Sprite> sprites) {
+		this.sprites = sprites;
+	}
+
 	public void addSprite(Sprite s) {
 		getSprites().add(s);
 	}
-
-	public List<Sprite> getSprites() {
-		if(addList == null) {
-			//addList = Collections.synchronizedList(new LinkedList<Sprite>());
-			addList = new LinkedList<Sprite>();
-		}
-		return addList;
-	}
 	
 	public void clear() {
+		//Integer[] removal = new Integer[getSprites().size()];
+		//int limit = getSprites().size();
 		for (Iterator<Sprite> iterator = getSprites().iterator(); iterator.hasNext();) {
-			Sprite s = iterator.next();
-			if(s.isDirty()) {
+			if(iterator.next().isDirty()) {
 				iterator.remove();
-			}
-			
+			}	
 		}
-		//addList = null;
 	}
 
 	public SparseArray<Bitmap> getResources() {
@@ -57,18 +67,7 @@ public class Updater {
 		return resources;
 	}
 
-//	public void setResources(SparseArray<Bitmap> resources) {
-//		this.resources = resources;
-//	}
-	
-	public Sprite getById(int id) {
-			for(Sprite s: getSprites()) {
-				if(s.getId() == id) {
-					return s;
-				}
-			}
-		return null;
-	}
+
 
 	public Canvas getCanvas() {
 		return canvas;
@@ -77,15 +76,6 @@ public class Updater {
 	public void setCanvas(Canvas canvas) {
 		this.canvas = canvas;
 	}
-	
-//	public Sprite getById(int id,List<Sprite> input) {
-//		for(Sprite s: input) {
-//			if(s.getId() == id) {
-//				return s;
-//			}
-//		}
-//	return null;
-//}
 	
 	
 	

@@ -3,11 +3,9 @@
  */
 package com.september.tableroids.model;
 
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Random;
+import java.util.UUID;
+
+import com.september.tableroids.utils.Updater;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -16,9 +14,6 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.util.SparseArray;
 import android.view.MotionEvent;
-
-import com.september.tableroids.MainGamePanel;
-import com.september.tableroids.utils.Updater;
 
 /**
  * @author impaler
@@ -41,11 +36,10 @@ public abstract class Sprite {
 
 	private int x;				// the X coordinate of the object (top left of the image)
 	private int y;				// the Y coordinate of the object (top left of the image)
-	private List<Integer> collision;
+	private SparseArray<Sprite> collisions;
 	private boolean ruledByGarbage = true;
 	private boolean dirty = false;
 	private int id;
-	private Sprite collider;
 	
 	private boolean resized = false;
 	
@@ -64,7 +58,7 @@ public abstract class Sprite {
 		frameTicker = 0l;
 	
 
-		id = (new Random()).nextInt();
+		id = Updater.getInstance().getSprites().size();
 	}
 
 	public int getId() {
@@ -91,19 +85,12 @@ public abstract class Sprite {
 	
 	
 
-	public Sprite getCollider() {
-		return collider;
-	}
-
-	public void setCollider(Sprite collider) {
-		this.collider = collider;
-	}
-
-	public synchronized List<Integer> getCollision() {
-		if(collision == null) {
-			setCollision(new LinkedList<Integer>());
+	
+	public SparseArray<Sprite> getCollisions() {
+		if(collisions == null) {
+			setCollisions(new SparseArray<Sprite>());
 		}
-		return collision;
+		return collisions;
 	}
 
 
@@ -118,21 +105,21 @@ public abstract class Sprite {
 	}
 
 
-	public void setCollision(List<Integer> collision) {
-		this.collision = collision;
+	public void setCollisions(SparseArray<Sprite> collision) {
+		this.collisions = collisions;
 	}
 
-	public void addCollision(Integer spriteId) {
-		if(!getCollision().contains(spriteId)) {
-			getCollision().add(spriteId);
-			if(spriteId != getId()) {
-				Sprite ref = Updater.getInstance().getById(spriteId);
-				if(ref != null) {
-					Updater.getInstance().getById(spriteId).addCollision(getId());
-				}
-			}
-		}
+	public void addCollisionFrom(Sprite collider, boolean from) {
+		addCollisionTo(collider);
+		collider.addCollisionTo(this);
 			
+	}
+	
+	public void addCollisionTo(Sprite collider) {
+		if(getCollisions().get(collider.getId()) == null) {
+			getCollisions().append(collider.getId(), collider);
+		}
+		
 	}
 
 
@@ -199,24 +186,18 @@ public abstract class Sprite {
 	protected abstract void doUpdate();
 	
 	private int[] findInMatrix(int currentFrame) {
-		int counterX = 0;
-		int counterY = 0;
-		for(int x = 0; x<currentFrame; x++) {
-			if(x == currentFrame) {
-				return new int[]{counterX,counterY};
-			}
-			else {
-				if(x % frameNr[0] == 0 ) {
-					counterY++;
-				}
-				if(x % frameNr[1] == 0 ) {
-					counterX++;
-				}
-			}
-		}
-	
+		int counter = 0;
+		//int counterY = 0;
 		
-		return new int[]{counterX,counterY};
+		for(int x = 0; x<frameNr[0]; x++) {
+			for(int y = 0; y<frameNr[1]; y++) {
+				if(counter == currentFrame) {
+					return new int[]{x,y};
+				}
+				counter ++;
+			}
+		}	
+		return null;
 	}
 
 	public void update(long gameTime) {
@@ -245,10 +226,12 @@ public abstract class Sprite {
 //		this.sourceRect.left = currentFrame * spriteWidth;
 //		this.sourceRect.right = this.sourceRect.left + spriteWidth;
 		
-		this.sourceRect.left = findInMatrix(currentFrame)[0] * spriteWidth;
+		int currentFramePos[] = findInMatrix(currentFrame);
+		
+		this.sourceRect.left = currentFramePos[0] * spriteWidth;
 		this.sourceRect.right = this.sourceRect.left + spriteWidth;
 		
-		this.sourceRect.top = findInMatrix(currentFrame)[1] * spriteHeight;
+		this.sourceRect.top = currentFramePos[1] * spriteHeight;
 		this.sourceRect.bottom = this.sourceRect.top + spriteHeight;
 	}
 	
@@ -258,8 +241,6 @@ public abstract class Sprite {
 
 	public void draw(Canvas canvas) {
 		
-		getCollision();
-
 		int width = resized ? getScaleWidth() : spriteWidth;
 		int height = resized ? (getScaleWidth()*spriteHeight)/spriteWidth : spriteHeight;
 		
