@@ -164,14 +164,43 @@ public class MainGamePanel extends SurfaceView implements
 	
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
-		if (event.getAction() == MotionEvent.ACTION_DOWN) {
-			// handle touch
+		if (event.getAction() == MotionEvent.ACTION_UP) {
+			Bitmap bmp = Bitmap.createBitmap(1,1,Bitmap.Config.RGB_565);
+			bmp.setPixel(0, 0, Color.BLACK);
+			
+			Sprite collider = new Sprite(bmp, (int) event.getX(), (int) event.getY(), 1, new int[]{1,1}) {
+				
+				@Override
+				public void onTouch(MotionEvent event) {
+					// TODO Auto-generated method stub
+					
+				}
+				
+				@Override
+				public void onCollide() {
+					// TODO Auto-generated method stub
+					
+				}
+				
+				@Override
+				protected void doUpdate() {
+					// TODO Auto-generated method stub
+					
+				}
+			};
+			
+			for(Sprite s:Updater.getInstance().getSprites()) {
+				if(s.isTouchable() && s.collide(collider)) {
+					s.onTouch(event);
+				}
+				
+			}
 		}
 		return true;
 	}
 
 	public void render(Canvas canvas) {
-		canvas.drawColor(Color.BLACK);
+		canvas.drawColor(Color.parseColor("#B8DBFF"));
 		//elaine.draw(canvas);
 		for(Sprite s:Updater.getInstance().getSprites()) {
 			s.draw(canvas);

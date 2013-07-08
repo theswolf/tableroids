@@ -95,6 +95,7 @@ public class MainThread extends Thread {
 			try {
 				canvas = this.surfaceHolder.lockCanvas();
 				Updater.getInstance().setCanvas(canvas);
+				
 				synchronized (surfaceHolder) {
 					if(GameBuilder.isReady()) {
 						beginTime = System.currentTimeMillis();

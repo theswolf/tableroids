@@ -20,9 +20,11 @@ import com.september.tableroids.consts.Constants;
 import com.september.tableroids.model.Sprite;
 import com.september.tableroids.model.elements.Cloud;
 import com.september.tableroids.model.elements.Cloud.Direction;
+import com.september.tableroids.model.elements.ResponseCointaner;
 import com.september.tableroids.model.elements.Smile;
 import com.september.tableroids.model.elements.Square;
 import com.september.tableroids.model.elements.Square.Fattore;
+import com.september.tableroids.model.elements.SquareResponse;
 import com.september.tableroids.utils.GraphicsUtils;
 import com.september.tableroids.utils.Updater;
 
@@ -126,42 +128,47 @@ public class GameBuilder {
 		Updater up = Updater.getInstance();
 		int[] dim = GraphicsUtils.getScreenSize();
 		Bitmap.Config conf = Bitmap.Config.ARGB_8888; // see other conf types
-		Bitmap backBitmap = Bitmap.createBitmap(dim[0], dim[1], conf);
-		int skyColor = Color.parseColor("#B8DBFF");//b8dbff
+//		Bitmap backBitmap = Bitmap.createBitmap(1, 1, conf);
+//		backBitmap.setPixel(0, 0,  Color.parseColor("#B8DBFF"));
+//		//int skyColor = Color.parseColor("#B8DBFF");//b8dbff
+////		
+////		for(int x = 0; x< dim[0]; x++) {
+////			for (int y = 0; y< dim[1]; y++) {
+////				backBitmap.setPixel(x, y, skyColor);
+////			}
+////		}
 //		
-		for(int x = 0; x< dim[0]; x++) {
-			for (int y = 0; y< dim[1]; y++) {
-				backBitmap.setPixel(x, y, skyColor);
-			}
-		}
+//	
+//		
+////		int x = dim[0];
+////		int y = dim[1];
+//		
+//		Sprite backGround = new Sprite(backBitmap, 0, 0, 1, new int[]{1,1}) {
+//			
+//			@Override
+//			public void onTouch(MotionEvent event) {
+//				// TODO Auto-generated method stub
+//				
+//			}
+//			
+//			@Override
+//			public void onCollide() {
+//				// TODO Auto-generated method stub
+//				
+//			}
+//			
+//			@Override
+//			protected void doUpdate() {
+//				// TODO Auto-generated method stub
+//				
+//			}
+//		};
+//		
+//		backGround.setScaleWidth(dim[0]);
 		
-	
+		//Updater.getInstance().getCanvas().drawColor(Color.parseColor("#B8DBFF"));
 		
-//		int x = dim[0];
-//		int y = dim[1];
-		
-		Sprite backGround = new Sprite(backBitmap, 0, 0, 1, new int[]{1,1}) {
-			
-			@Override
-			public void onTouch(MotionEvent event) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void onCollide() {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			protected void doUpdate() {
-				// TODO Auto-generated method stub
-				
-			}
-		};
-		
-		Updater.getInstance().getSprites().add(backGround);
+		//Updater.getInstance().getSprites().add(backGround);
 		
 		GraphicsUtils.setBitmapResources(Constants.MOUNTAINS, getBackground());
 		Sprite mountain = getBackgroundSprite();
@@ -181,9 +188,9 @@ public class GameBuilder {
 //		}
 		
 		GraphicsUtils.setBitmapResources(Constants.SQUARED_BITMAP, bmp);
-		Square square = new Square(bmp, (GraphicsUtils.ONEPERCENTWIDTH*30), (GraphicsUtils.ONEPERCENTWIDTH*40), Constants.FPS, new int[]{1,1});
+		Square square = new Square(bmp, (GraphicsUtils.ONEPERCENTWIDTH*30), (GraphicsUtils.ONEPERCENTHEIGHT*20), Constants.FPS, new int[]{1,1});
 		square.setFattore(Fattore.MOLTIPLICANDO);
-		Square square2 = new Square(bmp, (GraphicsUtils.ONEPERCENTWIDTH*70), (GraphicsUtils.ONEPERCENTWIDTH*50), Constants.FPS, new int[]{1,1});
+		Square square2 = new Square(bmp, (GraphicsUtils.ONEPERCENTWIDTH*70), (GraphicsUtils.ONEPERCENTHEIGHT*30), Constants.FPS, new int[]{1,1});
 		square2.setFattore(Fattore.MOLTIPLICATORE);
 		
 		Bitmap smileySprites = GraphicsUtils.getBitmapResources(Constants.SMILE_BITMAP,"gfx/smiley_sprites.png", activity);
@@ -191,13 +198,13 @@ public class GameBuilder {
 		
 		Bitmap cloud = GraphicsUtils.getBitmapResources(Constants.CLOUD,"gfx/cloud.png", activity);
 		
-		Cloud cloud1 = new Cloud(cloud, -20, (GraphicsUtils.ONEPERCENTWIDTH*40), 20, new int[]{1,1});
+		Cloud cloud1 = new Cloud(cloud, -20, (GraphicsUtils.ONEPERCENTHEIGHT*30), 20, new int[]{1,1});
 		buildCloud(cloud1, dim[0]/5, Direction.RIGHT, 5, 10, dim, 30);
 	
-		Cloud cloud2 = new Cloud(cloud, dim[0], (GraphicsUtils.ONEPERCENTWIDTH*42), 20, new int[]{1,1});
+		Cloud cloud2 = new Cloud(cloud, dim[0], (GraphicsUtils.ONEPERCENTHEIGHT*32), 20, new int[]{1,1});
 		buildCloud(cloud2, dim[0]/7, Direction.LEFT, 7, 10, dim, 30);
 		
-		Cloud cloud3 = new Cloud(cloud, -20, (GraphicsUtils.ONEPERCENTWIDTH*38), 20, new int[]{1,1});
+		Cloud cloud3 = new Cloud(cloud, -20, (GraphicsUtils.ONEPERCENTHEIGHT*28), 20, new int[]{1,1});
 		buildCloud(cloud3, dim[0]/10, Direction.RIGHT, 7, 10, dim, 30);
 		
 		Updater.getInstance().getSprites().add(cloud1);
@@ -241,6 +248,41 @@ public class GameBuilder {
 		Updater.getInstance().getSprites().add(square2);
 		
 		
+		Bitmap resBmp = Bitmap.createBitmap(GraphicsUtils.getScreenSize()[0], GraphicsUtils.ONEPERCENTHEIGHT*20, conf);
+//		for(int x = 0; x< resBmp.getWidth(); x++) {
+//			for(int y = 0; y < resBmp.getHeight(); y++) {
+//				resBmp.setPixel(x, y, Color.BLACK);
+//			}
+//		}
+		
+		ResponseCointaner resContainer = new ResponseCointaner(resBmp, 0, GraphicsUtils.ONEPERCENTHEIGHT*50, Constants.FPS, new int[]{1,1});
+		
+		
+		Bitmap response = Bitmap.createBitmap(GraphicsUtils.ONEPERCENTWIDTH*15, GraphicsUtils.ONEPERCENTWIDTH*15, conf);
+		
+		
+		int fraction = GraphicsUtils.getScreenSize()[0] /6;
+		
+		int correctResponse = Scorer.getR().nextInt(3);
+		
+		SquareResponse response1 = new SquareResponse(response, fraction, 10, Constants.FPS, new int[]{1,1});
+		response1.changeColor();
+		response1.setyRange(15);
+		response1.setValue(correctResponse == 0 ? Scorer.getMoltiplicando() * Scorer.getMoltiplicatore() : Scorer.getR().nextInt(100)+1);
+		SquareResponse response2 = new SquareResponse(response,fraction * 3,18, Constants.FPS, new int[]{1,1});
+		response2.changeColor();
+		response2.setyRange(15);
+		response2.setValue(correctResponse == 1 ? Scorer.getMoltiplicando() * Scorer.getMoltiplicatore() : Scorer.getR().nextInt(100)+1);
+		SquareResponse response3 = new SquareResponse(response,fraction * 5, 15, Constants.FPS, new int[]{1,1});
+		response3.changeColor();
+		response3.setyRange(15);
+		response3.setValue(correctResponse == 3 ? Scorer.getMoltiplicando() * Scorer.getMoltiplicatore() : Scorer.getR().nextInt(100)+1);
+		
+		resContainer.appendChildren(response1);
+		resContainer.appendChildren(response2);
+		resContainer.appendChildren(response3);
+		
+		Updater.getInstance().getSprites().add(resContainer);
 
 //		TextView tv = (TextView) activity.findViewById(R.id.textAdView);
 //		tv.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, 20));

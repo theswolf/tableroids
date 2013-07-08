@@ -3,13 +3,8 @@
  */
 package com.september.tableroids.model;
 
-import java.util.UUID;
-
-import com.september.tableroids.utils.Updater;
-
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.util.SparseArray;
@@ -21,11 +16,12 @@ import android.view.MotionEvent;
  */
 public abstract class Sprite {
 
-	private static final String TAG = Sprite.class.getSimpleName();
+	public static final String TAG = Sprite.class.getSimpleName();
 
 	private Bitmap bitmap;		// the animation sequence
 	//protected MainGamePanel panel;
 	protected Rect sourceRect;	// the rectangle to be drawn from the animation bitmap
+	protected Rect destRect;
 	protected int[] frameNr;		// number of frames in animation
 	protected int currentFrame;	// the current frame
 	protected long frameTicker;	// the time of the last frame update
@@ -39,6 +35,10 @@ public abstract class Sprite {
 	private SparseArray<Sprite> collisions;
 	private boolean ruledByGarbage = true;
 	private boolean dirty = false;
+	private boolean isTouchable;
+	
+
+
 	private int id;
 	
 	private boolean resized = false;
@@ -56,16 +56,22 @@ public abstract class Sprite {
 		sourceRect = new Rect(0, 0, spriteWidth, spriteHeight);
 		framePeriod = 1000 / fps;
 		frameTicker = 0l;
-	
+		setTouchable(false);
 
-		id = Updater.getInstance().getSprites().size();
+		id = TAG.hashCode();
 	}
 
 	public int getId() {
 		return id;
 	}
 	
-	
+	public boolean isTouchable() {
+		return isTouchable;
+	}
+
+	public void setTouchable(boolean isTouchable) {
+		this.isTouchable = isTouchable;
+	}
 
 	public int getScaleWidth() {
 		return scaleWidth;
@@ -244,7 +250,7 @@ public abstract class Sprite {
 		int width = resized ? getScaleWidth() : spriteWidth;
 		int height = resized ? (getScaleWidth()*spriteHeight)/spriteWidth : spriteHeight;
 		
-		Rect destRect = new Rect(getX(), getY(), getX() + width, getY() + height);
+		destRect = new Rect(getX(), getY(), getX() + width, getY() + height);
 		
 		Paint paint = new Paint(Paint.FILTER_BITMAP_FLAG);
 		
@@ -263,34 +269,8 @@ public abstract class Sprite {
 
 
 	public boolean collide(Sprite s) {
-		if (getX()<0 && s.getX()<0 && getY()<0 && s.getY()<0) return false;
-
-		Rect myRect = new Rect(getX(), getY(), getX() + spriteWidth, getY() + spriteHeight);
-		Rect colliderRect = new Rect(s.getX(), s.getY(), s.getX() + s.getSpriteWidth(), s.getY() + s.getSpriteHeight());
-
-		if(myRect.intersect(colliderRect)) {
-			for(int i = getX(); i < getX() + spriteWidth ; i++) {
-				for(int j = getY(); j < getY() + spriteHeight ; j++) {
-					int x1 = i - getX();
-					int y1 = j-getY();
-					if(x1 >= 0 && y1>= 0 && x1<bitmap.getWidth() && y1 < bitmap.getHeight()) {
-						if(bitmap.getPixel(x1, y1) != Color.TRANSPARENT) {
-							Bitmap colliderBitmap = s.getBitmap();
-							int x2= i-s.getX();
-							int y2 = j-s.getY();
-
-							if(x2 >= 0 && y2>=0 && x2<colliderBitmap.getWidth() && y2 < colliderBitmap.getHeight()) {
-								if(colliderBitmap.getPixel(x2,y2) != Color.TRANSPARENT) {
-									return true;
-								}
-							}
-						}
-					}
-				}
-			}
-		}
-
-		return false;
+		Rect collider = new Rect(s.getX(), s.getY(), s.getX()+s.getSpriteWidth(), s.getY()+s.getSpriteHeight());
+		return destRect.intersect(collider);
 	}
 
 }

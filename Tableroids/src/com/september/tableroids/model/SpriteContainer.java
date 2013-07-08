@@ -1,24 +1,27 @@
 package com.september.tableroids.model;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.util.SparseArray;
+import android.graphics.Color;
 import android.view.MotionEvent;
 
 public class SpriteContainer extends Sprite{
 	
-	private SparseArray<Sprite> children;
+	private List<Sprite> children;
 	
 	
 
-	public SparseArray<Sprite> getChildren() {
+	public List<Sprite> getChildren() {
 		if(children==null) {
-			setChildren(new SparseArray<Sprite>());
+			setChildren(new LinkedList<Sprite>());
 		}
 		return children;
 	}
 
-	public void setChildren(SparseArray<Sprite> children) {
+	public void setChildren(List<Sprite> children) {
 		this.children = children;
 	}
 
@@ -41,32 +44,40 @@ public class SpriteContainer extends Sprite{
 	}
 
 	@Override
-	public void onTouch(MotionEvent event) {
-		// TODO Auto-generated method stub
-		
-	}
-	
-	@Override
 	public void draw(Canvas canvas) {
-		for(int z = 0; z < getChildren().size(); z++) {
-			Sprite s = getChildren().valueAt(z);
-			s.setX(s.getX()+getX());
-			s.setY(s.getY()+getY());
+		super.draw(canvas);
+		for(Sprite s: getChildren()) {
 			s.draw(canvas);
 		}
 	}
 	
 	@Override
+	public boolean collide(Sprite s) {
+		return true;
+	}
+	
+	@Override
 	public void update(long gameTime) {
-		for(int z = 0; z < getChildren().size(); z++) {
-			Sprite s = getChildren().valueAt(z);
+		super.update(gameTime);
+		for(Sprite s: getChildren()) {
 			s.update(gameTime);
 		}
 		
 	}
 	
 	public void appendChildren(Sprite child) {
-		getChildren().put(child.getId(), child);
+		if(!getChildren().contains(child)) {
+			getChildren().add(child);
+		}
+	
+		child.setX(getX()+child.getX());
+		child.setY(getY()+child.getY());
+	}
+
+	@Override
+	public void onTouch(MotionEvent event) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

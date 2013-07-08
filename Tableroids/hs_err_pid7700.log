@@ -1,0 +1,88 @@
+#
+# A fatal error has been detected by the Java Runtime Environment:
+#
+#  Internal Error (classFileParser.cpp:3470), pid=7700, tid=7864
+#  Error: ShouldNotReachHere()
+#
+# JRE version: 7.0-b147
+# Java VM: Java HotSpot(TM) 64-Bit Server VM (21.0-b17 mixed mode windows-amd64 compressed oops)
+# Failed to write core dump. Minidumps are not enabled by default on client versions of Windows
+#
+# If you would like to submit a bug report, please visit:
+#   http://bugreport.sun.com/bugreport/crash.jsp
+#
+
+---------------  T H R E A D  ---------------
+
+Current thread (0x000000000255b000):  JavaThread "Unknown thread" [_thread_in_vm, id=7864, stack(0x0000000002780000,0x0000000002880000)]
+
+Stack: [0x0000000002780000,0x0000000002880000]
+
+---------------  P R O C E S S  ---------------
+
+Java Threads: ( => current thread )
+
+Other Threads:
+
+=>0x000000000255b000 (exited) JavaThread "Unknown thread" [_thread_in_vm, id=7864, stack(0x0000000002780000,0x0000000002880000)]
+
+VM state:not at safepoint (not fully initialized)
+
+VM Mutex/Monitor currently owned by a thread: None
+
+Dynamic libraries:
+0x000000013fa60000 - 0x000000013fa93000 	C:\Program Files\Java\jdk1.7.0\bin\javaw.exe
+0x00000000772d0000 - 0x0000000077479000 	C:\Windows\SYSTEM32\ntdll.dll
+0x00000000771b0000 - 0x00000000772cf000 	C:\Windows\system32\kernel32.dll
+0x000007fefd480000 - 0x000007fefd4eb000 	C:\Windows\system32\KERNELBASE.dll
+0x000007feff3d0000 - 0x000007feff4ab000 	C:\Windows\system32\ADVAPI32.dll
+0x000007fefefb0000 - 0x000007feff04f000 	C:\Windows\system32\msvcrt.dll
+0x000007fefd660000 - 0x000007fefd67f000 	C:\Windows\SYSTEM32\sechost.dll
+0x000007feff4b0000 - 0x000007feff5dd000 	C:\Windows\system32\RPCRT4.dll
+0x00000000770b0000 - 0x00000000771aa000 	C:\Windows\system32\USER32.dll
+0x000007fefd5f0000 - 0x000007fefd657000 	C:\Windows\system32\GDI32.dll
+0x000007fefd6a0000 - 0x000007fefd6ae000 	C:\Windows\system32\LPK.dll
+0x000007feff050000 - 0x000007feff119000 	C:\Windows\system32\USP10.dll
+0x000007fefbbc0000 - 0x000007fefbdb4000 	C:\Windows\WinSxS\amd64_microsoft.windows.common-controls_6595b64144ccf1df_6.0.7601.17514_none_fa396087175ac9ac\COMCTL32.dll
+0x000007fefd750000 - 0x000007fefd7c1000 	C:\Windows\system32\SHLWAPI.dll
+0x000007fefd8b0000 - 0x000007fefd8de000 	C:\Windows\system32\IMM32.DLL
+0x000007fefe680000 - 0x000007fefe789000 	C:\Windows\system32\MSCTF.dll
+0x0000000074fc0000 - 0x0000000074ff8000 	C:\PROGRA~2\Sophos\SOPHOS~1\SOPHOS~2.DLL
+0x0000000077490000 - 0x0000000077497000 	C:\Windows\system32\PSAPI.DLL
+0x0000000061aa0000 - 0x0000000061b71000 	C:\Program Files\Java\jdk1.7.0\jre\bin\msvcr100.dll
+0x0000000060740000 - 0x0000000060e0e000 	C:\Program Files\Java\jdk1.7.0\jre\bin\server\jvm.dll
+0x000007fef9620000 - 0x000007fef9629000 	C:\Windows\system32\WSOCK32.dll
+0x000007fefeaf0000 - 0x000007fefeb3d000 	C:\Windows\system32\WS2_32.dll
+0x000007fefe670000 - 0x000007fefe678000 	C:\Windows\system32\NSI.dll
+0x000007fefa650000 - 0x000007fefa68b000 	C:\Windows\system32\WINMM.dll
+0x000000006b3c0000 - 0x000000006b3cf000 	C:\Program Files\Java\jdk1.7.0\jre\bin\verify.dll
+0x000000006b330000 - 0x000000006b358000 	C:\Program Files\Java\jdk1.7.0\jre\bin\java.dll
+0x000000006b310000 - 0x000000006b325000 	C:\Program Files\Java\jdk1.7.0\jre\bin\zip.dll
+
+VM Arguments:
+jvm_args: -Dfile.encoding=Cp1252 -Xbootclasspath:D:\users\cgeymonat\Desktop\adt-bundle-windows-x86_64-20130219\sdk\platforms\android-17\android.jar 
+java_command: com.september.tableroids.utils.Updater
+Launcher Type: SUN_STANDARD
+
+Environment Variables:
+JAVA_HOME=C:\Program Files\Java\jdk1.7.0
+PATH=C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;c:\Program Files (x86)\Hewlett-Packard\HP ProtectTools Security Manager\Bin\;c:\Program Files\Intel\DMIX;C:\Program Files (x86)\Intel\Services\IPT\;d:\subversion\bin\
+USERNAME=cgeymonat
+OS=Windows_NT
+PROCESSOR_IDENTIFIER=Intel64 Family 6 Model 42 Stepping 7, GenuineIntel
+
+
+
+---------------  S Y S T E M  ---------------
+
+OS: Windows 7 , 64 bit Build 7601 Service Pack 1
+
+CPU:total 4 (4 cores per cpu, 1 threads per core) family 6 model 42 stepping 7, cmov, cx8, fxsr, mmx, sse, sse2, sse3, ssse3, sse4.1, sse4.2, popcnt
+
+Memory: 4k page, physical 4151292k(941848k free), swap 8300724k(3687488k free)
+
+vm_info: Java HotSpot(TM) 64-Bit Server VM (21.0-b17) for windows-amd64 JRE (1.7.0-b147), built on Jun 27 2011 02:19:45 by "java_re" with unknown MS VC++:1600
+
+time: Mon Jul 08 12:26:41 2013
+elapsed time: 0 seconds
+
