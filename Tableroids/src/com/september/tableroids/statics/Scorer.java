@@ -105,7 +105,7 @@ public class Scorer {
 		response.setResponseNumber(getResponseCounter());
 		response.setResponse(value);
 		response.setMoltiplicando(getMoltiplicando());
-		response.getMoltiplicatore();
+		response.setMoltiplicatore(getMoltiplicatore());
 		getResponses().append(getResponseCounter(), response);
 		setMoltiplicando(null);
 		setMoltiplicatore(null);

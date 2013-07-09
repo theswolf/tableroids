@@ -82,10 +82,14 @@ public class GraphicsUtils {
 		Updater.getInstance().getResources().append(id, resource);
 	}
 	
+	
+	public static Bitmap  getBitmapResources(int id) {
+		return Updater.getInstance().getResources().get(id);
+	}
 
 	public static Bitmap getBitmapResources(int id,String name, Activity activity) {
 		
-		Bitmap bmp = Updater.getInstance().getResources().get(id);
+		Bitmap bmp = getBitmapResources(id);//Updater.getInstance().getResources().get(id);
 		
 		if(bmp == null) {
 			AssetManager manager = activity.getAssets();

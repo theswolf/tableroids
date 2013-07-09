@@ -20,7 +20,7 @@ public class Square extends Sprite{
 //	private Random r;
 //	private Integer value;
 	private Fattore fattore;
-	private static int[] colors = new int[]{Color.DKGRAY,Color.BLUE,Color.CYAN,Color.GREEN,Color.MAGENTA,Color.RED,Color.YELLOW};
+	private static int[] colors = new int[]{Color.BLUE,Color.CYAN,Color.GREEN,Color.MAGENTA,Color.RED};
 	private int color=0;
 	private int lastValue;
 	

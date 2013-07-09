@@ -22,6 +22,7 @@ import com.september.tableroids.model.elements.Cloud;
 import com.september.tableroids.model.elements.Cloud.Direction;
 import com.september.tableroids.model.elements.ResponseCointaner;
 import com.september.tableroids.model.elements.Smile;
+import com.september.tableroids.model.elements.SmileContainer;
 import com.september.tableroids.model.elements.Square;
 import com.september.tableroids.model.elements.Square.Fattore;
 import com.september.tableroids.model.elements.SquareResponse;
@@ -124,77 +125,34 @@ public class GameBuilder {
 	protected static void threadedBuild(final Activity activity) {
 		
 		
+		//MOUNTAIN BACK
 		
-		Updater up = Updater.getInstance();
 		int[] dim = GraphicsUtils.getScreenSize();
 		Bitmap.Config conf = Bitmap.Config.ARGB_8888; // see other conf types
-//		Bitmap backBitmap = Bitmap.createBitmap(1, 1, conf);
-//		backBitmap.setPixel(0, 0,  Color.parseColor("#B8DBFF"));
-//		//int skyColor = Color.parseColor("#B8DBFF");//b8dbff
-////		
-////		for(int x = 0; x< dim[0]; x++) {
-////			for (int y = 0; y< dim[1]; y++) {
-////				backBitmap.setPixel(x, y, skyColor);
-////			}
-////		}
-//		
-//	
-//		
-////		int x = dim[0];
-////		int y = dim[1];
-//		
-//		Sprite backGround = new Sprite(backBitmap, 0, 0, 1, new int[]{1,1}) {
-//			
-//			@Override
-//			public void onTouch(MotionEvent event) {
-//				// TODO Auto-generated method stub
-//				
-//			}
-//			
-//			@Override
-//			public void onCollide() {
-//				// TODO Auto-generated method stub
-//				
-//			}
-//			
-//			@Override
-//			protected void doUpdate() {
-//				// TODO Auto-generated method stub
-//				
-//			}
-//		};
-//		
-//		backGround.setScaleWidth(dim[0]);
-		
-		//Updater.getInstance().getCanvas().drawColor(Color.parseColor("#B8DBFF"));
-		
-		//Updater.getInstance().getSprites().add(backGround);
-		
 		GraphicsUtils.setBitmapResources(Constants.MOUNTAINS, getBackground());
 		Sprite mountain = getBackgroundSprite();
 		mountain.setY(dim[1]-mountain.getResizedHeight());
-		
 		Updater.getInstance().getSprites().add(mountain);
 		
-		Bitmap bmp = Bitmap.createBitmap(GraphicsUtils.ONEPERCENTWIDTH*20, GraphicsUtils.ONEPERCENTWIDTH*20, conf);
-//		for(int x = 0; x < bmp.getWidth(); x++) {
-//			for(int y = 0; y < bmp.getHeight(); y++){
-//				int color = Color.parseColor("#ADD8E6");//Color.TRANSPARENT;
-////				if(x == 0 || y == 0 || x == bmp.getWidth() -1 || y == bmp.getHeight() -1) {
-////					color = Color.TRANSPARENT;
-////				}
-//				bmp.setPixel(x, y, color);
-//			}
-//		}
+		//SQUARE
 		
+		Bitmap bmp = Bitmap.createBitmap(GraphicsUtils.ONEPERCENTWIDTH*20, GraphicsUtils.ONEPERCENTWIDTH*20, conf);
 		GraphicsUtils.setBitmapResources(Constants.SQUARED_BITMAP, bmp);
 		Square square = new Square(bmp, (GraphicsUtils.ONEPERCENTWIDTH*30), (GraphicsUtils.ONEPERCENTHEIGHT*20), Constants.FPS, new int[]{1,1});
 		square.setFattore(Fattore.MOLTIPLICANDO);
 		Square square2 = new Square(bmp, (GraphicsUtils.ONEPERCENTWIDTH*70), (GraphicsUtils.ONEPERCENTHEIGHT*30), Constants.FPS, new int[]{1,1});
 		square2.setFattore(Fattore.MOLTIPLICATORE);
 		
+		//SMILECONTAINER
+		
+		Bitmap smileConatinerBmp = Bitmap.createBitmap(dim[0], GraphicsUtils.ONEPERCENTWIDTH*20, conf);
+		
 		Bitmap smileySprites = GraphicsUtils.getBitmapResources(Constants.SMILE_BITMAP,"gfx/smiley_sprites.png", activity);
 		Bitmap sadSprites = GraphicsUtils.getBitmapResources(Constants.SAD_BITMAP,"gfx/smiley_sad_sprites.png", activity);
+		
+		SmileContainer smileContainer = new SmileContainer(smileConatinerBmp, 0, 0, Constants.FPS, new int[]{1,1});
+		Updater.getInstance().getSprites().add(smileContainer);
+		//CLOUD
 		
 		Bitmap cloud = GraphicsUtils.getBitmapResources(Constants.CLOUD,"gfx/cloud.png", activity);
 		
@@ -211,58 +169,41 @@ public class GameBuilder {
 		Updater.getInstance().getSprites().add(cloud2);
 		Updater.getInstance().getSprites().add(cloud3);
 		
-		for(int x = 0; x< 20; x++) {
-			
-			int size = dim[0]/20;
-			Random r = new Random();
-			 int rx = r.nextInt(5);
-			 int ry = r.nextInt(3);
-			
-			Smile smile = new Smile(smileySprites,x*size,0,1,new int[]{5,3},new int[]{rx,ry});
-			smile.setScaleWidth(size);
-			Updater.getInstance().getSprites().add(smile);
-		}
-		
-		for(int x = 0; x< 20; x++) {
-			
-			int size = dim[0]/20;
-			Random r = new Random();
-			 int rx = r.nextInt(5);
-			 int ry = r.nextInt(3);
-			
-			Smile smile = new Smile(sadSprites,x*size,size,1,new int[]{5,3},new int[]{rx,ry});
-			smile.setScaleWidth(size);
-			Updater.getInstance().getSprites().add(smile);
-		}
-		
-//		int size = dim[0]/10;
-//		Smile smile = new Smile(smileySprites,0,0,1,new int[]{5,3},new int[]{0,0});
-//		smile.setScaleWidth(size);
-//		Updater.getInstance().getSprites().add(smile);
+//		for(int x = 0; x< 20; x++) {
+//			
+//			int size = dim[0]/20;
+//			Random r = new Random();
+//			 int rx = r.nextInt(5);
+//			 int ry = r.nextInt(3);
+//			
+//			Smile smile = new Smile(smileySprites,x*size,0,1,new int[]{5,3},new int[]{rx,ry});
+//			smile.setScaleWidth(size);
+//			Updater.getInstance().getSprites().add(smile);
+//		}
 //		
-//		Smile smile2 = new Smile(smileySprites,size,0,1,new int[]{5,3},new int[]{1,0});
-//		smile2.setScaleWidth(size);
-//		Updater.getInstance().getSprites().add(smile2);
+//		for(int x = 0; x< 20; x++) {
+//			
+//			int size = dim[0]/20;
+//			Random r = new Random();
+//			 int rx = r.nextInt(5);
+//			 int ry = r.nextInt(3);
+//			
+//			Smile smile = new Smile(sadSprites,x*size,size,1,new int[]{5,3},new int[]{rx,ry});
+//			smile.setScaleWidth(size);
+//			Updater.getInstance().getSprites().add(smile);
+//		}
+
 		
 		Updater.getInstance().getSprites().add(square);
 		Updater.getInstance().getSprites().add(square2);
 		
 		
+		//RESPONSE
+		
 		Bitmap resBmp = Bitmap.createBitmap(GraphicsUtils.getScreenSize()[0], GraphicsUtils.ONEPERCENTHEIGHT*20, conf);
-//		for(int x = 0; x< resBmp.getWidth(); x++) {
-//			for(int y = 0; y < resBmp.getHeight(); y++) {
-//				resBmp.setPixel(x, y, Color.BLACK);
-//			}
-//		}
-		
 		ResponseCointaner resContainer = new ResponseCointaner(resBmp, 0, GraphicsUtils.ONEPERCENTHEIGHT*50, Constants.FPS, new int[]{1,1});
-		
-		
 		Bitmap response = Bitmap.createBitmap(GraphicsUtils.ONEPERCENTWIDTH*15, GraphicsUtils.ONEPERCENTWIDTH*15, conf);
-		
-		
 		int fraction = GraphicsUtils.getScreenSize()[0] /6;
-		
 		int correctResponse = Scorer.getR().nextInt(3);
 		
 		SquareResponse response1 = new SquareResponse(response, fraction, 10, Constants.FPS, new int[]{1,1});

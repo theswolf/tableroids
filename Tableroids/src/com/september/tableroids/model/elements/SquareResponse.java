@@ -16,7 +16,7 @@ import com.september.tableroids.utils.Updater;
 public class SquareResponse extends Sprite{
 	
 	private int color = 0;
-	private static int[] colors = new int[]{Color.DKGRAY,Color.BLUE,Color.CYAN,Color.GREEN,Color.MAGENTA,Color.RED,Color.YELLOW};
+	private static int[] colors = new int[]{Color.BLUE,Color.CYAN,Color.GREEN,Color.MAGENTA,Color.RED,Color.YELLOW};
 	private int value;
 	
 	private int yRange;
@@ -123,7 +123,7 @@ private void drawtext(Canvas canvas) {
 		paint.setColor(Color.WHITE);
         paint.setTextSize(getSpriteHeight()-(getSpriteHeight()/4));
         paint.setTypeface(GameBuilder.getTypeFace());
-        paint.setShadowLayer(1f, 0f, 1f, Color.GRAY);
+        //paint.setShadowLayer(1f, 0f, 1f, Color.GRAY);
         int tW = (int) paint.measureText(""+getValue());
         int spacerX = ((getSpriteWidth()-tW)/2);
         int spacerY = (int) ((getSpriteHeight()/2) + (paint.getTextSize()/3));
