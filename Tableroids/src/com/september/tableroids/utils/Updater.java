@@ -3,6 +3,7 @@ package com.september.tableroids.utils;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -37,7 +38,7 @@ public class Updater {
 	
 	public List<Sprite> getSprites() {
 		if(sprites == null) {
-			setSprites(new LinkedList<Sprite>());
+			setSprites(new CopyOnWriteArrayList<Sprite>());
 		}
 		return sprites;
 	}

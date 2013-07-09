@@ -21,8 +21,8 @@ public class Square extends Sprite{
 //	private Integer value;
 	private Fattore fattore;
 	private static int[] colors = new int[]{Color.DKGRAY,Color.BLUE,Color.CYAN,Color.GREEN,Color.MAGENTA,Color.RED,Color.YELLOW};
-	private static int color=0;
-	private static int lastValue;
+	private int color=0;
+	private int lastValue;
 	
 	public enum Fattore{
 		MOLTIPLICANDO,
@@ -94,16 +94,19 @@ public class Square extends Sprite{
         paint.setTypeface(GameBuilder.getTypeFace());
         paint.setShadowLayer(1f, 0f, 1f, Color.GRAY);
         int tW = (int) paint.measureText(""+getValue());
-        int spacer = ((getSpriteWidth()-tW)/2);
-		Updater.getInstance().getCanvas().drawText(""+getValue(), getX()+spacer, getY()+getSpriteHeight(), paint);
+        int spacerX = ((getSpriteWidth()-tW)/2);
+        int spacerY = (int) ((getSpriteHeight()/2) + (paint.getTextSize()/3));
+		//Updater.getInstance().getCanvas().drawText(""+getValue(), getX()+spacer, getY()+getSpriteHeight(), paint);
+        Updater.getInstance().getCanvas().drawText(""+getValue(), getX()+spacerX, getY()+spacerY, paint);
 	}
 
 	@Override
 	protected void doUpdate() {
-		if(lastValue != getValue()) {
-			lastValue = getValue();
-			changeColor();
-		}
+//		if(lastValue != getValue()) {
+//			lastValue = getValue();
+//			changeColor();
+//		}
+		changeColor();
 	}
 	
 	@Override

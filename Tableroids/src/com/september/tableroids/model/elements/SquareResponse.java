@@ -124,9 +124,11 @@ private void drawtext(Canvas canvas) {
         paint.setTextSize(getSpriteHeight()-(getSpriteHeight()/4));
         paint.setTypeface(GameBuilder.getTypeFace());
         paint.setShadowLayer(1f, 0f, 1f, Color.GRAY);
-        int tW = (int) paint.measureText(value);
-        int spacer = ((getSpriteWidth()-tW)/2);
-		Updater.getInstance().getCanvas().drawText(""+getValue(), getX()+spacer, getY()+(getSpriteHeight()/2)+(spacer*(value.length())), paint);
+        int tW = (int) paint.measureText(""+getValue());
+        int spacerX = ((getSpriteWidth()-tW)/2);
+        int spacerY = (int) ((getSpriteHeight()/2) + (paint.getTextSize()/3));
+		//Updater.getInstance().getCanvas().drawText(""+getValue(), getX()+spacer, getY()+getSpriteHeight(), paint);
+        Updater.getInstance().getCanvas().drawText(""+getValue(), getX()+spacerX, getY()+spacerY, paint);
 	}
 
 }

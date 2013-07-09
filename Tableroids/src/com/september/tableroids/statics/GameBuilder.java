@@ -402,6 +402,7 @@ public class GameBuilder {
 			android.util.Log.e(GameBuilder.tag, e1.getMessage());
 		}
 		
+		
 		new Thread(new Runnable() {
 			
 			@Override
