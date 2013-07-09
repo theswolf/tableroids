@@ -21,7 +21,7 @@ public class SquareResponse extends Sprite{
 	
 	private int yRange;
 	private int yValue;
-	
+
 	
 
 	public SquareResponse(Bitmap bitmap, int x, int y, int fps, int[] frameCount) {

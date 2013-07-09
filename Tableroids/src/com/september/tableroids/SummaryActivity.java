@@ -1,10 +1,12 @@
 package com.september.tableroids;
 
 import android.app.ListActivity;
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
 
+import com.september.tableroids.statics.GameBuilder;
 import com.september.tableroids.statics.Scorer;
 import com.september.tableroids.statics.Scorer.Response;
 
@@ -24,6 +26,15 @@ public class SummaryActivity extends ListActivity  {
 	    SummaryAdapter adapter = new SummaryAdapter(this, Scorer.getResponses(),tf);
 	    setListAdapter(adapter);
 		
+	}
+	
+	@Override
+	public void onBackPressed() {
+		Scorer.reset();
+		GameBuilder.setReady(false);
+		Scorer.setReadyToPlay(false);
+		Intent intent = new Intent(this,MainActivity.class);
+		startActivity(intent);
 	}
 
 //	@Override

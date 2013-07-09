@@ -18,6 +18,8 @@ import android.view.SurfaceView;
 
 import com.september.tableroids.consts.Constants;
 import com.september.tableroids.model.Sprite;
+import com.september.tableroids.model.elements.ResponseCointaner;
+import com.september.tableroids.model.elements.SquareResponse;
 import com.september.tableroids.statics.GameBuilder;
 import com.september.tableroids.statics.Scorer;
 import com.september.tableroids.utils.GraphicsUtils;
@@ -269,6 +271,24 @@ public class MainGamePanel extends SurfaceView implements
 			
 			@Override
 			public void onTouch(MotionEvent event) {
+				
+				int correctHolder = Scorer.getR().nextInt(3);
+				int x = 0;
+				for(Sprite s: Updater.getInstance().getSprites())  {
+					
+					if(s instanceof ResponseCointaner) {
+						for(Sprite response: ((ResponseCointaner) s).getChildren()) {
+							SquareResponse sr = (SquareResponse) response;
+							int value = x == correctHolder ? Scorer.getMoltiplicando() * Scorer.getMoltiplicatore() : Scorer.getR().nextInt(99)+1;
+							sr.setValue(value);
+							sr.changeColor();
+							x++;
+						}
+					}
+					
+					
+				}
+				
 				Scorer.setReadyToPlay(true);
 			}
 			
