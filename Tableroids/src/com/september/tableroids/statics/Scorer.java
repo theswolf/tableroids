@@ -12,6 +12,7 @@ public class Scorer {
 	private static Random r;
 	private static SparseArray<Response> responses;
 	
+	
 	public static class Response {
 		private  Integer moltiplicando;
 		private  Integer moltiplicatore;
@@ -46,6 +47,15 @@ public class Scorer {
 		
 		
 	}
+	
+	public static void reset() {
+		moltiplicando = null;
+		moltiplicatore = null;
+		responseCounter = 0;
+		r = null;
+		responses = null;
+	}
+	
 
 	public static Integer getMoltiplicando() {
 		if(moltiplicando == null) {

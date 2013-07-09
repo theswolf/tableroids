@@ -286,6 +286,7 @@ public class GameBuilder {
 
 	public static void build(final Activity activity) {
 		
+		Scorer.reset();
 		setTypeFace(Typeface.createFromAsset(activity.getAssets(),"fonts/WalterTurncoat.ttf"));
 		AssetManager manager = activity.getAssets();
 		
