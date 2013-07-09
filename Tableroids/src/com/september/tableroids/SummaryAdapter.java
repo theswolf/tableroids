@@ -23,6 +23,7 @@ public class SummaryAdapter extends ArrayAdapter<Response>{
 
 	  static class ViewHolder {
 	    public TextView responseNo;
+	    public TextView question;
 	    public TextView yourResponse;
 	    public TextView correctResponse;
 	  }
@@ -42,6 +43,7 @@ public class SummaryAdapter extends ArrayAdapter<Response>{
 	      rowView = inflater.inflate(R.layout.summaryrow, null);
 	      ViewHolder viewHolder = new ViewHolder();
 	      viewHolder.responseNo = (TextView) rowView.findViewById(R.id.responseNo);
+	      viewHolder.question = (TextView) rowView.findViewById(R.id.question);
 	      viewHolder.yourResponse = (TextView) rowView.findViewById(R.id.yourResponse);
 	      viewHolder.correctResponse = (TextView) rowView.findViewById(R.id.correctResponse);
 	      rowView.setTag(viewHolder);
@@ -52,6 +54,9 @@ public class SummaryAdapter extends ArrayAdapter<Response>{
 	    Response response = responses.get(position);
 	    holder.responseNo.setTypeface(tf);
 	    holder.responseNo.setText(response.getResponseNumber() + ")");
+	    
+	    holder.question.setTypeface(tf);
+	    holder.question.setText(response.getMoltiplicando()+" x "+response.getMoltiplicatore());
 	    
 	    holder.yourResponse.setTypeface(tf);
 	    
