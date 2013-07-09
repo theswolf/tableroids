@@ -124,6 +124,8 @@ public class GameBuilder {
 
 	protected static void threadedBuild(final Activity activity) {
 		
+		Scorer.reset();
+		Updater.getInstance().setSprites(null);
 		
 		//MOUNTAIN BACK
 		
@@ -218,15 +220,15 @@ public class GameBuilder {
 		SquareResponse response1 = new SquareResponse(response, fraction, 10, Constants.FPS, new int[]{1,1});
 		//response1.changeColor();
 		response1.setyRange(15);
-		//response1.setValue(correctResponse == 0 ? Scorer.getMoltiplicando() * Scorer.getMoltiplicatore() : Scorer.getR().nextInt(100)+1);
+		response1.setValue(correctResponse == 0 ? Scorer.getMoltiplicando() * Scorer.getMoltiplicatore() : Scorer.getR().nextInt(99)+1);
 		SquareResponse response2 = new SquareResponse(response,fraction * 3,18, Constants.FPS, new int[]{1,1});
 		//response2.changeColor();
 		response2.setyRange(15);
-		//response2.setValue(correctResponse == 1 ? Scorer.getMoltiplicando() * Scorer.getMoltiplicatore() : Scorer.getR().nextInt(100)+1);
+		response2.setValue(correctResponse == 1 ? Scorer.getMoltiplicando() * Scorer.getMoltiplicatore() : Scorer.getR().nextInt(99)+1);
 		SquareResponse response3 = new SquareResponse(response,fraction * 5, 15, Constants.FPS, new int[]{1,1});
 		//response3.changeColor();
 		response3.setyRange(15);
-		//response3.setValue(correctResponse == 3 ? Scorer.getMoltiplicando() * Scorer.getMoltiplicatore() : Scorer.getR().nextInt(100)+1);
+		response3.setValue(correctResponse == 3 ? Scorer.getMoltiplicando() * Scorer.getMoltiplicatore() : Scorer.getR().nextInt(99)+1);
 		
 		resContainer.appendChildren(response1);
 		resContainer.appendChildren(response2);
@@ -299,7 +301,6 @@ public class GameBuilder {
 
 	public static void build(final Activity activity) {
 		
-		Scorer.reset();
 		setTypeFace(Typeface.createFromAsset(activity.getAssets(),"fonts/WalterTurncoat.ttf"));
 		AssetManager manager = activity.getAssets();
 		

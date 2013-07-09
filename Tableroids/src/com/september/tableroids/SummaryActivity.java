@@ -22,8 +22,8 @@ public class SummaryActivity extends ListActivity  {
 //	        "Blackberry", "WebOS", "Ubuntu", "Windows7", "Max OS X",
 //	        "Linux", "OS/2" };
 		setContentView(R.layout.summarylayout);
-		Typeface tf = Typeface.createFromAsset(getAssets(),"fonts/WalterTurncoat.ttf");
-	    SummaryAdapter adapter = new SummaryAdapter(this, Scorer.getResponses(),tf);
+		//Typeface tf = Typeface.createFromAsset(getAssets(),"fonts/WalterTurncoat.ttf");
+	    SummaryAdapter adapter = new SummaryAdapter(this, Scorer.getResponses(),GameBuilder.getTypeFace());
 	    setListAdapter(adapter);
 		
 	}
