@@ -201,6 +201,15 @@ public class GameBuilder {
 		//RESPONSE
 		
 		Bitmap resBmp = Bitmap.createBitmap(GraphicsUtils.getScreenSize()[0], GraphicsUtils.ONEPERCENTHEIGHT*20, conf);
+		
+		for(int x = 0; x< resBmp.getWidth(); x++) {
+	    	for(int y = 0; y < resBmp.getHeight(); y++) {
+	    		if(x%2==0) {
+	    			resBmp.setPixel(x, y, Color.BLUE);
+	    		}
+	    	}
+	    }
+		
 		ResponseCointaner resContainer = new ResponseCointaner(resBmp, 0, GraphicsUtils.ONEPERCENTHEIGHT*50, Constants.FPS, new int[]{1,1});
 		Bitmap response = Bitmap.createBitmap(GraphicsUtils.ONEPERCENTWIDTH*15, GraphicsUtils.ONEPERCENTWIDTH*15, conf);
 		int fraction = GraphicsUtils.getScreenSize()[0] /6;
@@ -231,33 +240,37 @@ public class GameBuilder {
 //		tv.setBackgroundColor(Color.MAGENTA);
 //		tv.setTextColor(Color.WHITE);
 		
-		activity.runOnUiThread(new Runnable() {
-
+		new Thread(new Runnable() {
+			
 			@Override
 			public void run() {
-//				while (!GameBuilder.isReady() || ll == null) {
-//					try {
-//						Thread.sleep(200);
-//						if (ll == null) {
-//							ll = (LinearLayout) activity.findViewById(R.id.gamellayout);
-//						}
-//					} catch (InterruptedException e) {
-//						// TODO Auto-generated catch block
-//						android.util.Log.e(tag,e.getMessage());
-//					}
-//				}
+				while(!Scorer.isReadyToPlay()) {
+					try {
+						Thread.sleep(200);
+					}
+					catch(Exception e) {
+						android.util.Log.e(GameBuilder.class.getSimpleName(), e.getMessage());
+					}
+				};
 				
-				TextView tv = (TextView) activity.findViewById(R.id.textAdView);
-				//tv.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, 20));
-				tv.setHeight(150);
-				tv.setText("FAKE ADMOB");
-				tv.setBackgroundColor(Color.MAGENTA);
-				tv.setTextColor(Color.WHITE);
-				//activity.findViewById(R.id.gamellayout).postInvalidate();
+				activity.runOnUiThread(new Runnable() {
+
+					@Override
+					public void run() {
+						
+						TextView tv = (TextView) activity.findViewById(R.id.textAdView);
+						//tv.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, 20));
+						tv.setHeight(150);
+						tv.setText("FAKE ADMOB");
+						tv.setBackgroundColor(Color.MAGENTA);
+						tv.setTextColor(Color.WHITE);
+						//activity.findViewById(R.id.gamellayout).postInvalidate();
+					}
+					
+				});
+				
 			}
-			
-		});
-		
+		}).start();
 		
 	}
 	

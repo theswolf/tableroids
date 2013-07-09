@@ -51,22 +51,26 @@ public class ResponseCointaner extends SpriteContainer{
 			}
 		};
 		
-		
+		boolean touched = false;
 		for(Sprite s: getChildren()) {
 			if(s.collide(collider)) {
 				s.onTouch(event);
+				touched = true;
 			}
 			
 		}
 		
-		int correctHolder = Scorer.getR().nextInt(3);
-		int x = 0;
-		for(Sprite s: getChildren())  {
-			SquareResponse sr = (SquareResponse) s;
-			int value = x == correctHolder ? Scorer.getMoltiplicando() * Scorer.getMoltiplicatore() : Scorer.getR().nextInt(100)+1;
-			sr.setValue(value);
-			sr.changeColor();
-			x++;
+		if(touched) {
+			int correctHolder = Scorer.getR().nextInt(3);
+			int x = 0;
+			for(Sprite s: getChildren())  {
+				SquareResponse sr = (SquareResponse) s;
+				int value = x == correctHolder ? Scorer.getMoltiplicando() * Scorer.getMoltiplicatore() : Scorer.getR().nextInt(99)+1;
+				sr.setValue(value);
+				sr.changeColor();
+				x++;
+			}
 		}
+		
 	}
 }

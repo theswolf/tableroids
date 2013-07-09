@@ -16,7 +16,7 @@ import com.september.tableroids.utils.Updater;
 public class SquareResponse extends Sprite{
 	
 	private int color = 0;
-	private static int[] colors = new int[]{Color.BLUE,Color.CYAN,Color.GREEN,Color.MAGENTA,Color.RED,Color.YELLOW};
+	private static int[] colors = new int[]{Color.BLUE,Color.CYAN,Color.GREEN,Color.MAGENTA,Color.RED};
 	private int value;
 	
 	private int yRange;

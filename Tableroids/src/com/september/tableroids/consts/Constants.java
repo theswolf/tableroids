@@ -13,5 +13,7 @@ public class Constants {
 	public final static int SMILE_BITMAP = 2;
 	public final static int SAD_BITMAP = 3;
 	public static final int CLOUD = 4;
+	
+	public static final int NEW_GAME_BUTTON_ID = "NEW_GAME_BUTTON_ID".hashCode();
 
 }

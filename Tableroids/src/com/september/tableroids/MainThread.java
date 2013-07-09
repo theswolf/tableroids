@@ -5,7 +5,9 @@ package com.september.tableroids;
 
 import java.text.DecimalFormat;
 
+import com.september.tableroids.consts.Constants;
 import com.september.tableroids.statics.GameBuilder;
+import com.september.tableroids.statics.Scorer;
 import com.september.tableroids.utils.Updater;
 
 import android.graphics.Canvas;
@@ -97,10 +99,14 @@ public class MainThread extends Thread {
 				Updater.getInstance().setCanvas(canvas);
 				
 				synchronized (surfaceHolder) {
-					if(GameBuilder.isReady()) {
+					if(GameBuilder.isReady() && Scorer.isReadyToPlay()) {
 						beginTime = System.currentTimeMillis();
 						framesSkipped = 0;	// resetting the frames skipped
 						// update game state 
+						if(Updater.getInstance().getById(Constants.NEW_GAME_BUTTON_ID) != null) {
+							Updater.getInstance().getById(Constants.NEW_GAME_BUTTON_ID).setDirty(true);
+						}
+						
 						this.gamePanel.update();
 						// render state to the screen
 						// draws the canvas on the panel

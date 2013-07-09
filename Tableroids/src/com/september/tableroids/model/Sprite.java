@@ -65,6 +65,10 @@ public abstract class Sprite {
 		return id;
 	}
 	
+	public void setId(int id) {
+		this.id = id;
+	}
+	
 	public boolean isTouchable() {
 		return isTouchable;
 	}
@@ -191,6 +195,10 @@ public abstract class Sprite {
 
 	protected abstract void doUpdate();
 	
+	public boolean isDrawn() {
+		return destRect != null;
+	}
+	
 	private int[] findInMatrix(int currentFrame) {
 		int counter = 0;
 		//int counterY = 0;
@@ -267,9 +275,11 @@ public abstract class Sprite {
 
 	public abstract void onTouch(MotionEvent event);
 
+	
 
 	public boolean collide(Sprite s) {
 		Rect collider = new Rect(s.getX(), s.getY(), s.getX()+s.getSpriteWidth(), s.getY()+s.getSpriteHeight());
+		//destRect = destRect == null ? new Rect(getX(), getY(), getX() + width, getY() + height)
 		return destRect.intersect(collider);
 	}
 

@@ -19,8 +19,10 @@ import android.view.ViewGroup.LayoutParams;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.september.tableroids.consts.Constants;
 import com.september.tableroids.model.Sprite;
 import com.september.tableroids.statics.GameBuilder;
+import com.september.tableroids.statics.Scorer;
 import com.september.tableroids.utils.GraphicsUtils;
 import com.september.tableroids.utils.Updater;
 
@@ -190,7 +192,7 @@ public class MainGamePanel extends SurfaceView implements
 			};
 			
 			for(Sprite s:Updater.getInstance().getSprites()) {
-				if(s.isTouchable() && s.collide(collider)) {
+				if(s.isDrawn() && s.isTouchable() && s.collide(collider)) {
 					s.onTouch(event);
 				}
 				
@@ -234,54 +236,78 @@ public class MainGamePanel extends SurfaceView implements
 	}
 
 	public void showLoading(Canvas canvas) {
+		
+		Bitmap.Config conf = Bitmap.Config.ARGB_8888;
+		
 		Sprite backGround = GameBuilder.getBackgroundSprite();
 		backGround.setY(GameBuilder.getOut().heightPixels-backGround.getResizedHeight());
-		
-		Bitmap.Config conf = Bitmap.Config.ARGB_8888; // see other conf types
-		
-//		Bitmap backBitmap = Bitmap.createBitmap(GameBuilder.getOut().widthPixels, GameBuilder.getOut().heightPixels, conf);
-//		int skyColor = Color.parseColor("#B8DBFF");//b8dbff
-////		
-//		for(int x = 0; x< GameBuilder.getOut().widthPixels; x++) {
-//			for (int y = 0; y<GameBuilder.getOut().heightPixels; y++) {
-//				backBitmap.setPixel(x, y, skyColor);
-//			}
-//		}
-//		Sprite backGroundSky = new Sprite(backBitmap, 0, 0, 1, new int[]{1,1}) {
-//			@Override
-//			public void onTouch(MotionEvent event) {
-//			}
-//			@Override
-//			public void onCollide() {
-//			}
-//			@Override
-//			protected void doUpdate() {
-//			}
-//		};
-//		
-//		backGroundSky.draw(canvas);
-		canvas.drawColor(Color.parseColor("#B8DBFF"));
-		
+		Paint textPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
 		Paint strokePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+		
+		Sprite button = Updater.getInstance().getById(Constants.NEW_GAME_BUTTON_ID);
+		if(button == null) {		
+		
+
+	    
+	    Bitmap newGameBitmap = Bitmap.createBitmap(GameBuilder.getOut().widthPixels, GameBuilder.getOut().heightPixels/10, Bitmap.Config.ARGB_8888);
+	    
+	    for(int x = 0; x< newGameBitmap.getWidth(); x++) {
+	    	for(int y = 0; y < newGameBitmap.getHeight(); y++) {
+	    		if(x%2==0) {
+	    			newGameBitmap.setPixel(x, y, Color.RED);
+	    		}
+	    	}
+	    }
+	    
+	    button = new Sprite(newGameBitmap, 0, GameBuilder.getOut().heightPixels/3 - (GameBuilder.getOut().heightPixels/10), 1, new int[]{1,1}) {
+			
+			@Override
+			public void onTouch(MotionEvent event) {
+				Scorer.setReadyToPlay(true);
+			}
+			
+			@Override
+			public void onCollide() {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			protected void doUpdate() {
+				// TODO Auto-generated method stub
+				
+			}
+		};
+		
+		button.setTouchable(true);
+		button.setId(Constants.NEW_GAME_BUTTON_ID);
+		Updater.getInstance().addSprite(button);
+		}
+		canvas.drawColor(Color.parseColor("#B8DBFF"));
+		GameBuilder.getBackgroundSprite().draw(canvas);
+		
+		
 	    strokePaint.setColor(Color.WHITE);
 	    strokePaint.setTextAlign(Paint.Align.CENTER);
 	    strokePaint.setTextSize(GameBuilder.getOut().heightPixels/10);
 	    strokePaint.setTypeface(GameBuilder.getTypeFace());
 	    strokePaint.setStyle(Paint.Style.STROKE);
-	    strokePaint.setStrokeWidth(2);
+	    strokePaint.setStrokeWidth(10);
 
-	    Paint textPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-	    textPaint.setColor(Color.RED);
+	   
+	    textPaint.setColor(Color.BLUE);
 	    textPaint.setTextAlign(Paint.Align.CENTER);
 	    textPaint.setTextSize(GameBuilder.getOut().heightPixels/10);
 	    textPaint.setTypeface(GameBuilder.getTypeFace());
+	    
+	    
 
-	    canvas.drawText("Loading...",  GameBuilder.getOut().widthPixels/2, GameBuilder.getOut().heightPixels/3, strokePaint);
-	    canvas.drawText("Loading...",  GameBuilder.getOut().widthPixels/2, GameBuilder.getOut().heightPixels/3, textPaint);
+	    canvas.drawText("New Game",  GameBuilder.getOut().widthPixels/2, GameBuilder.getOut().heightPixels/3, strokePaint);
+	    canvas.drawText("New Game",  GameBuilder.getOut().widthPixels/2, GameBuilder.getOut().heightPixels/3, textPaint);
 		
+		button.draw(canvas);
 		
-		GameBuilder.getBackgroundSprite().draw(canvas);
-		GameBuilder.getLoaderSprite().draw(canvas);
+		//GameBuilder.getLoaderSprite().draw(canvas);
 		
 //		
 //		Bitmap maskBitmap = Bitmap.createBitmap(GameBuilder.getOut().widthPixels, GameBuilder.getOut().heightPixels, conf);

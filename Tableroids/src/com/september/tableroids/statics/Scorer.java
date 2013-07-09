@@ -11,6 +11,7 @@ public class Scorer {
 	private static int responseCounter=0;
 	private static Random r;
 	private static SparseArray<Response> responses;
+	private static boolean readyToPlay = false;
 	
 	
 	public static class Response {
@@ -54,6 +55,7 @@ public class Scorer {
 		responseCounter = 0;
 		r = null;
 		responses = null;
+		readyToPlay = false;
 	}
 	
 
@@ -109,6 +111,18 @@ public class Scorer {
 		Scorer.responses = responses;
 	}
 	
+	
+	
+	public static boolean isReadyToPlay() {
+		return readyToPlay;
+	}
+
+
+	public static void setReadyToPlay(boolean readyToPlay) {
+		Scorer.readyToPlay = readyToPlay;
+	}
+
+
 	public static void putResponse(Integer value) {
 		increaseResponseCounter();
 		Response response = new Response();

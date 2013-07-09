@@ -36,6 +36,15 @@ public class Updater {
 //		return spriteArray;
 //	}
 	
+	public Sprite getById(int id) {
+		for(Sprite s: getSprites()) {
+			if(s.getId() == id) {
+				return s;
+			}
+		}
+		return null;
+	}
+	
 	public List<Sprite> getSprites() {
 		if(sprites == null) {
 			setSprites(new CopyOnWriteArrayList<Sprite>());
@@ -54,11 +63,20 @@ public class Updater {
 	public void clear() {
 		//Integer[] removal = new Integer[getSprites().size()];
 		//int limit = getSprites().size();
-		for (Iterator<Sprite> iterator = getSprites().iterator(); iterator.hasNext();) {
-			if(iterator.next().isDirty()) {
-				iterator.remove();
-			}	
+		List<Sprite> maintain = new CopyOnWriteArrayList<Sprite>();
+		for(Sprite s: getSprites()) {
+			if (!s.isDirty()) {
+				maintain.add(s);
+			}
 		}
+		
+		setSprites(maintain);
+		//getSprites().removeAll(remove);
+//		for (Iterator<Sprite> iterator = getSprites().iterator(); iterator.hasNext();) {
+//			if(iterator.next().isDirty()) {
+//				iterator.remove();
+//			}	
+//		}
 	}
 
 	public SparseArray<Bitmap> getResources() {

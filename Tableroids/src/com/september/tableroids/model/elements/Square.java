@@ -21,7 +21,7 @@ public class Square extends Sprite{
 //	private Integer value;
 	private Fattore fattore;
 	private static int[] colors = new int[]{Color.BLUE,Color.CYAN,Color.GREEN,Color.MAGENTA,Color.RED};
-	private int color=0;
+	private static int color=0;
 	private int lastValue;
 	
 	public enum Fattore{
