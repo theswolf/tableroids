@@ -1,5 +1,7 @@
 package com.september.tableroids.statics;
 
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Random;
 
 import android.util.SparseArray;
@@ -10,7 +12,7 @@ public class Scorer {
 	private static Integer moltiplicatore;
 	private static int responseCounter=0;
 	private static Random r;
-	private static SparseArray<Response> responses;
+	private static List<Response> responses;
 	private static boolean readyToPlay = false;
 	
 	
@@ -100,14 +102,14 @@ public class Scorer {
 		Scorer.r = r;
 	}
 
-	public static SparseArray<Response> getResponses() {
+	public static List<Response> getResponses() {
 		if(responses == null) {
-			setResponses(new SparseArray<Scorer.Response>());
+			setResponses(new LinkedList<Scorer.Response>());
 		}
 		return responses;
 	}
 
-	private static void setResponses(SparseArray<Response> responses) {
+	private static void setResponses(List<Response> responses) {
 		Scorer.responses = responses;
 	}
 	
@@ -130,7 +132,7 @@ public class Scorer {
 		response.setResponse(value);
 		response.setMoltiplicando(getMoltiplicando());
 		response.setMoltiplicatore(getMoltiplicatore());
-		getResponses().append(getResponseCounter(), response);
+		getResponses().add(response);
 		setMoltiplicando(null);
 		setMoltiplicatore(null);
 	}

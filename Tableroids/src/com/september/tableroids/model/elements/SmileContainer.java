@@ -22,7 +22,7 @@ public class SmileContainer extends SpriteContainer{
 		super.update(gameTime);
 		if(Scorer.getResponses().size() > getChildren().size()) {
 			responseGiven++;
-			Response lastResponse = Scorer.getResponses().valueAt(Scorer.getResponses().size()-1);
+			Response lastResponse = Scorer.getResponses().get(Scorer.getResponses().size()-1);
 			int correctValue = lastResponse.getResponse();
 			int myValue = lastResponse.getMoltiplicando()*lastResponse.getMoltiplicatore();
 			

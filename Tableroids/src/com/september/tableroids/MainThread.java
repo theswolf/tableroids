@@ -100,6 +100,11 @@ public class MainThread extends Thread {
 				
 				synchronized (surfaceHolder) {
 					if(GameBuilder.isReady() && Scorer.isReadyToPlay()) {
+						
+						if(Scorer.getResponses().size() == Constants.QUESTION_NO) {
+							this.gamePanel.summary();
+						}
+						
 						beginTime = System.currentTimeMillis();
 						framesSkipped = 0;	// resetting the frames skipped
 						// update game state 

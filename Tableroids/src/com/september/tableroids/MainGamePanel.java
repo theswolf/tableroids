@@ -5,19 +5,16 @@ package com.september.tableroids;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.PorterDuff.Mode;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-import android.view.ViewGroup.LayoutParams;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.september.tableroids.consts.Constants;
 import com.september.tableroids.model.Sprite;
@@ -86,8 +83,17 @@ public class MainGamePanel extends SurfaceView implements
 		init(context);
 	}
 	
+	public void summary() {
+		Scorer.setMoltiplicando(null);
+		Scorer.setMoltiplicatore(null);
+		GameBuilder.setReady(false);
+		thread.setRunning(false);
+		Intent intent = new Intent(((Activity)context), SummaryActivity.class);
+		((Activity)context).startActivity(intent);
+	}
 	
 	private void init(Context context) {
+		this.context = context;
 		getHolder().addCallback(this);
 
 		// create Elaine and load bitmap
