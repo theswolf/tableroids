@@ -7,7 +7,11 @@
     <uses-sdk
         android:minSdkVersion="8"
         android:targetSdkVersion="17" />
-
+    
+    <uses-permission android:name="android.permission.INTERNET" />
+  	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>	
+	<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+	
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
@@ -26,6 +30,10 @@
             android:name="com.september.tableroids.SummaryActivity"
             android:label="@string/title_activity_summary" >
         </activity>
+        <activity android:name="com.google.ads.AdActivity"
+              android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"/>
+        <meta-data android:value="a151dd328171ec6" android:name="ADMOB_ALLOW_LOCATION_FOR_ADS"/>
+        <meta-data android:value="true" android:name="ADMOB_ALLOW_LOCATION_FOR_AD"/>
     </application>
 
 </manifest>

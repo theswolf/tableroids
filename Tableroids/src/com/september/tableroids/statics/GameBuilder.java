@@ -1,7 +1,6 @@
 package com.september.tableroids.statics;
 
 import java.io.IOException;
-import java.util.Random;
 
 import android.app.Activity;
 import android.content.res.AssetManager;
@@ -11,17 +10,19 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.util.DisplayMetrics;
 import android.view.MotionEvent;
-import android.view.ViewGroup.LayoutParams;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.ads.AdRequest;
+import com.google.ads.AdSize;
+import com.google.ads.AdView;
+import com.september.tableroids.MainActivity;
 import com.september.tableroids.R;
 import com.september.tableroids.consts.Constants;
 import com.september.tableroids.model.Sprite;
 import com.september.tableroids.model.elements.Cloud;
 import com.september.tableroids.model.elements.Cloud.Direction;
 import com.september.tableroids.model.elements.ResponseCointaner;
-import com.september.tableroids.model.elements.Smile;
 import com.september.tableroids.model.elements.SmileContainer;
 import com.september.tableroids.model.elements.Square;
 import com.september.tableroids.model.elements.Square.Fattore;
@@ -260,12 +261,12 @@ public class GameBuilder {
 					@Override
 					public void run() {
 						
-						TextView tv = (TextView) activity.findViewById(R.id.textAdView);
-						//tv.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, 20));
-						tv.setHeight(150);
-						tv.setText("FAKE ADMOB");
-						tv.setBackgroundColor(Color.MAGENTA);
-						tv.setTextColor(Color.WHITE);
+						
+						((MainActivity)activity).setAdView(new AdView(activity, AdSize.BANNER, "a151dd328171ec6"));
+						LinearLayout layout = (LinearLayout)activity.findViewById(R.id.adViewHolder);
+						layout.addView(((MainActivity)activity).getAdView());
+						((MainActivity)activity).getAdView().loadAd(new AdRequest());
+						
 						//activity.findViewById(R.id.gamellayout).postInvalidate();
 					}
 					
