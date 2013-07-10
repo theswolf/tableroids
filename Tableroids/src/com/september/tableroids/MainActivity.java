@@ -43,10 +43,11 @@ public class MainActivity extends Activity {
 	@Override
     protected void onStop() 
     {
-        super.onStop();
+       
         Scorer.reset();
 		GameBuilder.setReady(false);
 		Scorer.setReadyToPlay(false);
+		super.onStop();
         //this.finish();
         //Log.d(tag, "MYonStop is called");
         // insert here your instructions
