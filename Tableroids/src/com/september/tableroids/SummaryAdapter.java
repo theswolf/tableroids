@@ -56,13 +56,14 @@ public class SummaryAdapter extends ArrayAdapter<Response>{
 	    holder.responseNo.setText(response.getResponseNumber() + ")");
 	    
 	    holder.question.setTypeface(tf);
-	    holder.question.setText(response.getMoltiplicando()+" x "+response.getMoltiplicatore());
+	    holder.question.setText(response.getMoltiplicando()+" x "+response.getMoltiplicatore()+" = ");
 	    
 	    holder.yourResponse.setTypeface(tf);
 	    
 	    if(response.getResponse() == response.getMoltiplicando()*response.getMoltiplicatore()) {
 	    	holder.yourResponse.setTextColor(Color.BLUE);
 	    	holder.yourResponse.setText(""+response.getResponse());
+	    	holder.correctResponse.setText("");
 	    }
 	    else {
 	    	holder.yourResponse.setTextColor(Color.RED);

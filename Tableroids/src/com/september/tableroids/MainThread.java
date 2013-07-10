@@ -108,9 +108,13 @@ public class MainThread extends Thread {
 						beginTime = System.currentTimeMillis();
 						framesSkipped = 0;	// resetting the frames skipped
 						// update game state 
-						if(Updater.getInstance().getById(Constants.NEW_GAME_BUTTON_ID) != null) {
-							Updater.getInstance().getById(Constants.NEW_GAME_BUTTON_ID).setDirty(true);
+						int[] removal = new int[]{Constants.NEW_GAME_BUTTON_ID_10,Constants.NEW_GAME_BUTTON_ID_20,Constants.NEW_GAME_BUTTON_ID_30};
+						for(int remove: removal) {
+							if(Updater.getInstance().getById(remove) != null) {
+								Updater.getInstance().getById(remove).setDirty(true);
+							}
 						}
+						
 						
 						this.gamePanel.update();
 						// render state to the screen

@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/paper_tile"
-    android:paddingLeft="10dp"
+    android:paddingLeft="15dp"
     android:orientation="horizontal" >
 
     <TextView
@@ -17,6 +17,7 @@
         android:id="@+id/question"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:paddingLeft="15dp"
         android:textSize="30sp"
         android:text="" />
     
@@ -24,6 +25,7 @@
         android:id="@+id/yourResponse"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:paddingLeft="15dp"
         android:textSize="30sp"
         android:text="" />
      
@@ -31,6 +33,7 @@
         android:id="@+id/correctResponse"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:paddingLeft="15dp"
         android:textSize="30sp"
         android:text="" />
 
