@@ -148,11 +148,12 @@ public class MainThread extends Thread {
 					}
 					
 					else {
+						try {
 						this.gamePanel.showLoading(canvas);
 						GameBuilder.getLoaderSprite().update(System.currentTimeMillis());
-						try {
+						
 							Thread.sleep(200);
-						} catch (InterruptedException e) {
+						} catch (Exception e) {
 							android.util.Log.e(TAG, e.getMessage());
 						}
 					}
