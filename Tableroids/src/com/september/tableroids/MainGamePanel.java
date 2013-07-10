@@ -265,11 +265,11 @@ public class MainGamePanel extends SurfaceView implements
 		int width = GameBuilder.getOut().widthPixels;
 		int height = GameBuilder.getOut().heightPixels/15;
 		
-		UIWidgtesManager.getInstance().paintStartButton(Constants.NEW_GAME_BUTTON_ID_10, Constants.QUESTION_NO_10, canvas, x, y, width, height, "Easy Game");
+		UIWidgtesManager.getInstance().paintStartButton(Constants.NEW_GAME_BUTTON_ID_10, Constants.QUESTION_NO_10, canvas, x, y, width, height, getResources().getString(R.string.easy));
 		
-		UIWidgtesManager.getInstance().paintStartButton(Constants.NEW_GAME_BUTTON_ID_20, Constants.QUESTION_NO_20, canvas, x, y+height*2, width, height, "Medium Game");
+		UIWidgtesManager.getInstance().paintStartButton(Constants.NEW_GAME_BUTTON_ID_20, Constants.QUESTION_NO_20, canvas, x, y+height*2, width, height,getResources().getString(R.string.medium));
 		
-		UIWidgtesManager.getInstance().paintStartButton(Constants.NEW_GAME_BUTTON_ID_30, Constants.QUESTION_NO_30, canvas, x, y+height*4, width, height, "Hard Game");
+		UIWidgtesManager.getInstance().paintStartButton(Constants.NEW_GAME_BUTTON_ID_30, Constants.QUESTION_NO_30, canvas, x, y+height*4, width, height, getResources().getString(R.string.hard));
 		
 //		Sprite button = Updater.getInstance().getById(Constants.NEW_GAME_BUTTON_ID);
 //		if(button == null) {		

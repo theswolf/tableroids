@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Tabelline</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="title_activity_summary">Risultati</string>
+	<string name="easy">Facile</string>
+	<string name="medium">Medio</string>
+	<string name="hard">Difficile</string>
+</resources>
