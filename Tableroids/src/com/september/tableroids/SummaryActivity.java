@@ -2,13 +2,13 @@ package com.september.tableroids;
 
 import android.app.ListActivity;
 import android.content.Intent;
-import android.graphics.Typeface;
 import android.os.Bundle;
-import android.widget.ArrayAdapter;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 
 import com.september.tableroids.statics.GameBuilder;
 import com.september.tableroids.statics.Scorer;
-import com.september.tableroids.statics.Scorer.Response;
 
 public class SummaryActivity extends ListActivity  {
 
@@ -18,11 +18,25 @@ public class SummaryActivity extends ListActivity  {
 //		setContentView(R.layout.summarylayout);
 		
 		super.onCreate(savedInstanceState);
+		
+		
 		setTitle(getResources().getString(R.string.title_activity_summary));
 //	    String[] values = new String[] { "Android", "iPhone", "WindowsMobile",
 //	        "Blackberry", "WebOS", "Ubuntu", "Windows7", "Max OS X",
 //	        "Linux", "OS/2" };
 		setContentView(R.layout.summarylayout);
+		
+		Button playAgain = (Button) findViewById(R.id.button1);
+		
+		playAgain.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				SummaryActivity.this.onBackPressed();
+				
+			}
+		});
+		
 		//Typeface tf = Typeface.createFromAsset(getAssets(),"fonts/WalterTurncoat.ttf");
 	    SummaryAdapter adapter = new SummaryAdapter(this, Scorer.getResponses(),GameBuilder.getTypeFace());
 	    setListAdapter(adapter);
@@ -41,10 +55,10 @@ public class SummaryActivity extends ListActivity  {
 	@Override
     protected void onStop() 
     {
-        
-        Scorer.reset();
-		GameBuilder.setReady(false);
-		Scorer.setReadyToPlay(false);
+//        
+//        Scorer.reset();
+//		GameBuilder.setReady(false);
+//		Scorer.setReadyToPlay(false);
 		this.finish();
 		super.onStop();
        

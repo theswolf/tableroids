@@ -8,4 +8,5 @@
 	<string name="easy">Facile</string>
 	<string name="medium">Medio</string>
 	<string name="hard">Difficile</string>
+	<string name="play_again">Gioca ancora</string>
 </resources>

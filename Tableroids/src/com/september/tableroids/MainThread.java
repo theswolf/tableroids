@@ -149,10 +149,13 @@ public class MainThread extends Thread {
 					
 					else {
 						try {
-						this.gamePanel.showLoading(canvas);
-						GameBuilder.getLoaderSprite().update(System.currentTimeMillis());
-						
-							Thread.sleep(200);
+							if(canvas != null) {
+								this.gamePanel.showLoading(canvas);
+								GameBuilder.getLoaderSprite().update(System.currentTimeMillis());
+								Thread.sleep(200);
+							} else {
+								running = false;
+							}
 						} catch (Exception e) {
 							android.util.Log.e(TAG, e.getMessage());
 						}

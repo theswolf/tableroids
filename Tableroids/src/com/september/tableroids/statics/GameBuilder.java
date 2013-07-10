@@ -372,9 +372,18 @@ public class GameBuilder {
 						android.util.Log.e(GameBuilder.tag, e.getMessage());
 					}
 				}
-				GameBuilder.setReady(false);
-				GameBuilder.threadedBuild(activity);
-				GameBuilder.setReady(true);
+				
+				activity.runOnUiThread(new Runnable() {
+
+					@Override
+					public void run() {
+						GameBuilder.setReady(false);
+						GameBuilder.threadedBuild(activity);
+						GameBuilder.setReady(true);
+						
+					} });
+				
+				
 			}
 		}).start();
 		
