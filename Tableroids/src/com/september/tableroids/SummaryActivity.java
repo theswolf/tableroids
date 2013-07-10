@@ -41,11 +41,13 @@ public class SummaryActivity extends ListActivity  {
 	@Override
     protected void onStop() 
     {
-        super.onStop();
+        
         Scorer.reset();
 		GameBuilder.setReady(false);
 		Scorer.setReadyToPlay(false);
-        this.finish();
+		this.finish();
+		super.onStop();
+       
         //Log.d(tag, "MYonStop is called");
         // insert here your instructions
     }
