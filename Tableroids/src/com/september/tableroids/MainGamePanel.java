@@ -154,8 +154,12 @@ public class MainGamePanel extends SurfaceView implements
 	public void surfaceCreated(SurfaceHolder holder) {
 		// at this point the surface is created and
 		// we can safely start the game loop
+		if(thread == null) {
+			thread = new MainThread(getHolder(), this);
+		}
 		thread.setRunning(true);
 		thread.start();
+		
 	}
 
 	@Override
@@ -166,8 +170,12 @@ public class MainGamePanel extends SurfaceView implements
 		boolean retry = true;
 		while (retry) {
 			try {
+				Scorer.reset();
+				GameBuilder.setReady(false);
+				Scorer.setReadyToPlay(false);
 				thread.setRunning(false);
 				thread.join();
+				thread = null;
 				retry = false;
 			} catch (Exception e) {
 				// try again shutting down the thread

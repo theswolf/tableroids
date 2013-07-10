@@ -48,7 +48,7 @@ public class MainActivity extends Activity {
 		GameBuilder.setReady(false);
 		Scorer.setReadyToPlay(false);
 		super.onStop();
-        //this.finish();
+        this.finish();
         //Log.d(tag, "MYonStop is called");
         // insert here your instructions
     }
