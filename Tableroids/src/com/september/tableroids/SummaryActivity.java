@@ -18,7 +18,7 @@ public class SummaryActivity extends ListActivity  {
 //		setContentView(R.layout.summarylayout);
 		
 		super.onCreate(savedInstanceState);
-		setTitle("Summary");
+		setTitle(getResources().getString(R.string.title_activity_summary));
 //	    String[] values = new String[] { "Android", "iPhone", "WindowsMobile",
 //	        "Blackberry", "WebOS", "Ubuntu", "Windows7", "Max OS X",
 //	        "Linux", "OS/2" };
