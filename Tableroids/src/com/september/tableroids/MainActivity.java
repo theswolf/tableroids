@@ -1,11 +1,16 @@
 package com.september.tableroids;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
+import android.view.SurfaceView;
 import android.view.Window;
 import android.view.WindowManager;
 
 import com.google.ads.AdView;
+import com.september.tableroids.statics.GameBuilder;
+import com.september.tableroids.statics.Scorer;
 
 public class MainActivity extends Activity {
     /** Called when the activity is first created. */
@@ -29,6 +34,23 @@ public class MainActivity extends Activity {
 	    }
 	    super.onDestroy();
 	  }
+	
+	@Override
+	public void onResume() {
+		super.onResume();
+	}
+
+	@Override
+    protected void onStop() 
+    {
+        super.onStop();
+        Scorer.reset();
+		GameBuilder.setReady(false);
+		Scorer.setReadyToPlay(false);
+        this.finish();
+        //Log.d(tag, "MYonStop is called");
+        // insert here your instructions
+    }
 
 
 
@@ -46,5 +68,15 @@ public class MainActivity extends Activity {
 
       
     }
+	
+	
+	@Override
+	public void onBackPressed() {
+//		Scorer.reset();
+//		GameBuilder.setReady(false);
+//		Scorer.setReadyToPlay(false);
+//		Intent intent = new Intent(this,MainActivity.class);
+//		startActivity(intent);
+	}
  
 }

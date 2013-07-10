@@ -18,6 +18,7 @@ public class SummaryActivity extends ListActivity  {
 //		setContentView(R.layout.summarylayout);
 		
 		super.onCreate(savedInstanceState);
+		setTitle("Summary");
 //	    String[] values = new String[] { "Android", "iPhone", "WindowsMobile",
 //	        "Blackberry", "WebOS", "Ubuntu", "Windows7", "Max OS X",
 //	        "Linux", "OS/2" };
@@ -36,6 +37,18 @@ public class SummaryActivity extends ListActivity  {
 		Intent intent = new Intent(this,MainActivity.class);
 		startActivity(intent);
 	}
+	
+	@Override
+    protected void onStop() 
+    {
+        super.onStop();
+        Scorer.reset();
+		GameBuilder.setReady(false);
+		Scorer.setReadyToPlay(false);
+        this.finish();
+        //Log.d(tag, "MYonStop is called");
+        // insert here your instructions
+    }
 
 //	@Override
 //	public boolean onCreateOptionsMenu(Menu menu) {

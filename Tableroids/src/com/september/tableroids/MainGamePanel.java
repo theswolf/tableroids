@@ -59,6 +59,8 @@ public class MainGamePanel extends SurfaceView implements
 	       GraphicsUtils.setScreenSize(canvas.getWidth(),canvas.getHeight());
 	   }
 	    
+	   
+	    
 	public MainGamePanel(Context context, AttributeSet as) {
 		super(context,as);
 		init(context);
@@ -164,9 +166,10 @@ public class MainGamePanel extends SurfaceView implements
 		boolean retry = true;
 		while (retry) {
 			try {
+				thread.setRunning(false);
 				thread.join();
 				retry = false;
-			} catch (InterruptedException e) {
+			} catch (Exception e) {
 				// try again shutting down the thread
 			}
 		}
