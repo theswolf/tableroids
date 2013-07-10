@@ -217,7 +217,7 @@ public class MainGamePanel extends SurfaceView implements
 			s.draw(canvas);
 		}
 		// display fps
-		displayFps(canvas, avgFps);
+		//displayFps(canvas, avgFps);
 	}
 
 	/**

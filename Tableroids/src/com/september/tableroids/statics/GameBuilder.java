@@ -205,13 +205,13 @@ public class GameBuilder {
 		
 		Bitmap resBmp = Bitmap.createBitmap(GraphicsUtils.getScreenSize()[0], GraphicsUtils.ONEPERCENTWIDTH*15, conf);
 		
-		for(int x = 0; x< resBmp.getWidth(); x++) {
-	    	for(int y = 0; y < resBmp.getHeight(); y++) {
-	    		if(x%2==0) {
-	    			resBmp.setPixel(x, y, Color.BLUE);
-	    		}
-	    	}
-	    }
+//		for(int x = 0; x< resBmp.getWidth(); x++) {
+//	    	for(int y = 0; y < resBmp.getHeight(); y++) {
+//	    		if(x%2==0) {
+//	    			resBmp.setPixel(x, y, Color.BLUE);
+//	    		}
+//	    	}
+//	    }
 		
 		ResponseCointaner resContainer = new ResponseCointaner(resBmp, 0, GraphicsUtils.ONEPERCENTHEIGHT*50, Constants.FPS, new int[]{1,1});
 		Bitmap response = Bitmap.createBitmap(GraphicsUtils.ONEPERCENTWIDTH*15, GraphicsUtils.ONEPERCENTWIDTH*15, conf);

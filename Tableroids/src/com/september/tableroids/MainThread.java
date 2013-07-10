@@ -144,7 +144,7 @@ public class MainThread extends Thread {
 						// for statistics
 						framesSkippedPerStatCycle += framesSkipped;
 						// calling the routine to store the gathered statistics
-						storeStats();
+						//storeStats();
 					}
 					
 					else {
@@ -177,46 +177,46 @@ public class MainThread extends Thread {
 	 *  the start of the period are summed up and the calculation takes part
 	 *  only if the next period and the frame count is reset to 0.
 	 */
-	private void storeStats() {
-		frameCountPerStatCycle++;
-		totalFrameCount++;
-		// assuming that the sleep works each call to storeStats
-		// happens at 1000/FPS so we just add it up
-		statusIntervalTimer += FRAME_PERIOD;
-
-		if (statusIntervalTimer >= STAT_INTERVAL) {
-			// calculate the actual frames pers status check interval
-			double actualFps = (double)(frameCountPerStatCycle / (STAT_INTERVAL / 1000));
-
-			//stores the latest fps in the array
-			fpsStore[(int) statsCount % FPS_HISTORY_NR] = actualFps;
-
-			// increase the number of times statistics was calculated
-			statsCount++;
-
-			double totalFps = 0.0;
-			// sum up the stored fps values
-			for (int i = 0; i < FPS_HISTORY_NR; i++) {
-				totalFps += fpsStore[i];
-			}
-
-			// obtain the average
-			if (statsCount < FPS_HISTORY_NR) {
-				// in case of the first 10 triggers
-				averageFps = totalFps / statsCount;
-			} else {
-				averageFps = totalFps / FPS_HISTORY_NR;
-			}
-			// saving the number of total frames skipped
-			totalFramesSkipped += framesSkippedPerStatCycle;
-			// resetting the counters after a status record (1 sec)
-			framesSkippedPerStatCycle = 0;
-			statusIntervalTimer = 0;
-			frameCountPerStatCycle = 0;
-			//			Log.d(TAG, "Average FPS:" + df.format(averageFps));
-			gamePanel.setAvgFps("FPS: " + df.format(averageFps));
-		}
-	}
+//	private void storeStats() {
+//		frameCountPerStatCycle++;
+//		totalFrameCount++;
+//		// assuming that the sleep works each call to storeStats
+//		// happens at 1000/FPS so we just add it up
+//		statusIntervalTimer += FRAME_PERIOD;
+//
+//		if (statusIntervalTimer >= STAT_INTERVAL) {
+//			// calculate the actual frames pers status check interval
+//			double actualFps = (double)(frameCountPerStatCycle / (STAT_INTERVAL / 1000));
+//
+//			//stores the latest fps in the array
+//			fpsStore[(int) statsCount % FPS_HISTORY_NR] = actualFps;
+//
+//			// increase the number of times statistics was calculated
+//			statsCount++;
+//
+//			double totalFps = 0.0;
+//			// sum up the stored fps values
+//			for (int i = 0; i < FPS_HISTORY_NR; i++) {
+//				totalFps += fpsStore[i];
+//			}
+//
+//			// obtain the average
+//			if (statsCount < FPS_HISTORY_NR) {
+//				// in case of the first 10 triggers
+//				averageFps = totalFps / statsCount;
+//			} else {
+//				averageFps = totalFps / FPS_HISTORY_NR;
+//			}
+//			// saving the number of total frames skipped
+//			totalFramesSkipped += framesSkippedPerStatCycle;
+//			// resetting the counters after a status record (1 sec)
+//			framesSkippedPerStatCycle = 0;
+//			statusIntervalTimer = 0;
+//			frameCountPerStatCycle = 0;
+//			//			Log.d(TAG, "Average FPS:" + df.format(averageFps));
+//			gamePanel.setAvgFps("FPS: " + df.format(averageFps));
+//		}
+//	}
 
 	private void initTimingElements() {
 		// initialise timing elements
