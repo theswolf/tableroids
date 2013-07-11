@@ -7,11 +7,11 @@
     <uses-sdk
         android:minSdkVersion="8"
         android:targetSdkVersion="17" />
-    
+
     <uses-permission android:name="android.permission.INTERNET" />
-  	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>	
-	<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-	
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
@@ -19,25 +19,40 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name="com.september.tableroids.MainActivity"
-            android:screenOrientation="portrait"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
-            android:label="@string/app_name" >
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" 
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.september.tableroids.SummaryActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
+            android:label="@string/title_activity_summary"
+            android:screenOrientation="portrait" >
+        </activity>
+        
+        <activity
+            android:name="com.google.ads.AdActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize" />
+
+        <meta-data
+            android:name="ADMOB_ALLOW_LOCATION_FOR_ADS"
+            android:value="a151dd328171ec6" />
+        <meta-data
+            android:name="ADMOB_ALLOW_LOCATION_FOR_AD"
+            android:value="true" />
+
+        <activity
+            android:name="com.september.tableroids.SplashActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" 
+            android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name="com.september.tableroids.SummaryActivity"
-            android:screenOrientation="portrait"
-            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
-            android:label="@string/title_activity_summary" >
-        </activity>
-        <activity android:name="com.google.ads.AdActivity"
-              android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"/>
-        <meta-data android:value="a151dd328171ec6" android:name="ADMOB_ALLOW_LOCATION_FOR_ADS"/>
-        <meta-data android:value="true" android:name="ADMOB_ALLOW_LOCATION_FOR_AD"/>
     </application>
 
 </manifest>

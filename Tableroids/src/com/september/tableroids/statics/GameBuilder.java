@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.os.Handler;
 import android.util.DisplayMetrics;
 import android.view.MotionEvent;
 import android.widget.LinearLayout;
@@ -360,7 +361,8 @@ public class GameBuilder {
 		}
 		
 		
-		new Thread(new Runnable() {
+		
+		new Handler().postDelayed((new Runnable() {
 			
 			@Override
 			public void run() {
@@ -376,7 +378,7 @@ public class GameBuilder {
 				GameBuilder.threadedBuild(activity);
 				GameBuilder.setReady(true);
 			}
-		}).start();
+		}),200);
 		
 		
 		
