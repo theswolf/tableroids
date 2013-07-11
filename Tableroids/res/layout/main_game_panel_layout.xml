@@ -2,7 +2,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background"
     android:orientation="vertical" >
 
     <LinearLayout
@@ -13,7 +12,6 @@
         <com.september.tableroids.MainGamePanel
             android:id="@+id/mainGamePanel1"
             android:layout_width="match_parent"
-            android:background="@drawable/background"
             android:layout_height="match_parent" />
 
     </LinearLayout>
